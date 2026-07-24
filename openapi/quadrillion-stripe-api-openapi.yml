@@ -1,0 +1,237 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account stripe API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: stripe
+paths:
+  /api/stripe/checkout-session:
+    post:
+      tags:
+      - stripe
+      summary: Create Checkout
+      description: "Create a Stripe Checkout Session for individual subscription.\n\nMonthly billing only. Rejects org members.\nAccepts optional success_url/cancel_url from the frontend and requires an\nexplicit validated frontend origin for default billing redirects.\n\nReturns:\n    Checkout session URL to redirect the user."
+      operationId: create_checkout_api_stripe_checkout_session_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutSessionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSessionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/stripe/portal-session:
+    post:
+      tags:
+      - stripe
+      summary: Create Portal
+      description: "Create a Stripe Billing Portal session.\n\nErrors if user is in an org (admin-managed billing).\n\nReturns:\n    Portal session URL to redirect the user."
+      operationId: create_portal_api_stripe_portal_session_post
+      parameters:
+      - name: frontend_origin
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalSessionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/stripe/overage:
+    post:
+      tags:
+      - stripe
+      summary: Toggle Overage
+      description: "Toggle overage billing on or off.\n\nOnly available for Max plan. Rejects org members.\n\nArgs:\n    body: Overage toggle request.\n\nReturns:\n    Status message."
+      operationId: toggle_overage_api_stripe_overage_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverageRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Toggle Overage Api Stripe Overage Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/stripe/overage/ceiling:
+    put:
+      tags:
+      - stripe
+      summary: Update Ceiling
+      description: "Update the overage spending ceiling.\n\nMust have overage already enabled.\n\nArgs:\n    body: New ceiling value.\n\nReturns:\n    Updated ceiling value."
+      operationId: update_ceiling_api_stripe_overage_ceiling_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverageCeilingRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Update Ceiling Api Stripe Overage Ceiling Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/stripe/webhook:
+    post:
+      tags:
+      - stripe
+      summary: Stripe Webhook
+      description: "Handle incoming Stripe webhook events.\n\nVerifies the Stripe signature, parses the event, and dispatches\nto the appropriate handler. No auth required -- secured by signature.\n\nReturns:\n    Acknowledgment response."
+      operationId: stripe_webhook_api_stripe_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Stripe Webhook Api Stripe Webhook Post
+components:
+  schemas:
+    CheckoutSessionRequest:
+      properties:
+        plan:
+          type: string
+          title: Plan
+        frontend_origin:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+        success_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Url
+        cancel_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cancel Url
+      type: object
+      required:
+      - plan
+      title: CheckoutSessionRequest
+      description: Request body for creating a checkout session.
+    OverageRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Overage Limit Usd
+      type: object
+      required:
+      - enabled
+      title: OverageRequest
+      description: Request body for toggling overage.
+    CheckoutSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: CheckoutSessionResponse
+      description: Response with checkout session URL.
+    PortalSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: PortalSessionResponse
+      description: Response with portal session URL.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OverageCeilingRequest:
+      properties:
+        overage_limit_usd:
+          type: integer
+          title: Overage Limit Usd
+      type: object
+      required:
+      - overage_limit_usd
+      title: OverageCeilingRequest
+      description: Request body for updating overage ceiling.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

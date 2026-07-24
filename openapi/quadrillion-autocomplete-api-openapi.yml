@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account autocomplete API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: autocomplete
+paths:
+  /autocomplete/models:
+    get:
+      tags:
+      - autocomplete
+      summary: Get Autocomplete Models Endpoint
+      description: Get list of available models for autocomplete.
+      operationId: get_autocomplete_models_endpoint_autocomplete_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutocompleteModelsResponse'
+  /api/autocomplete:
+    post:
+      tags:
+      - autocomplete
+      summary: Autocomplete
+      description: Start LM autocomplete generation.
+      operationId: autocomplete_api_autocomplete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutocompleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AutocompleteModelsResponse:
+      properties:
+        models:
+          items:
+            $ref: '#/components/schemas/AutocompleteModelInfo'
+          type: array
+          title: Models
+      type: object
+      required:
+      - models
+      title: AutocompleteModelsResponse
+    Cell:
+      properties:
+        type:
+          $ref: '#/components/schemas/CellType'
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        outputs:
+          items:
+            $ref: '#/components/schemas/SerializedOutput'
+          type: array
+          title: Outputs
+        cellId:
+          type: string
+          title: Cellid
+        executionCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executioncount
+        executionTimeMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executiontimems
+        executedAtMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executedatms
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      title: Cell
+      description: Strongly typed representation of a notebook cell.
+    AutocompleteRequest:
+      properties:
+        notebook_id:
+          type: string
+          minLength: 1
+          title: Notebook Id
+        notebook_path:
+          type: string
+          minLength: 1
+          title: Notebook Path
+        cursor_position:
+          type: integer
+          minimum: 0.0
+          title: Cursor Position
+        current_cell_content:
+          type: string
+          title: Current Cell Content
+        current_cell_id:
+          type: string
+          minLength: 1
+          title: Current Cell Id
+        language:
+          type: string
+          minLength: 1
+          title: Language
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cursor_position
+      - current_cell_content
+      - current_cell_id
+      - language
+      title: AutocompleteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AutocompleteModelInfo:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - key
+      - name
+      title: AutocompleteModelInfo
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
+      type: object
+      required:
+      - type
+      - content
+      title: SerializedOutput

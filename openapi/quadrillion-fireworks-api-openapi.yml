@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Fireworks API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Fireworks
+paths:
+  /fireworks/chat/completions:
+    post:
+      summary: Proxy Response Fireworks
+      description: 'Proxy Fireworks AI inference requests (BMT-291).
+
+
+        Targets RFT-trained models served on Fireworks via OpenAI-compatible
+
+        /inference/v1/chat/completions. The ``model`` field in the request body
+
+        is a full deployment resource name like
+
+        ``accounts/<acct>/deployments/<deployment-id>``.'
+      operationId: proxy_response_fireworks_fireworks_chat_completions_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Fireworks

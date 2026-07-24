@@ -1,0 +1,1307 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account notebook API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: notebook
+paths:
+  /notebook:
+    post:
+      tags:
+      - notebook
+      summary: Read Notebook
+      description: "Load a file by path, checking for a session draft first.\n\nIf a session draft exists for this notebook:\n- Returns the draft state instead of the canonical file.\n- If the draft's canonical base revision has drifted, includes a\n  ``draft_conflict`` field so the frontend can prompt the user.\n\nNon-notebook files bypass draft logic entirely.\n\nReturns:\n- .ipynb  -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }\n- text    -> raw UTF-8 text (text/plain or application/json)\n- binary  -> raw bytes (image/*, application/pdf, etc.)"
+      operationId: read_notebook_notebook_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_NotebookReadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - notebook
+      summary: Read Notebook Get
+      description: GET version of /notebook endpoint for serving files in markdown img tags.
+      operationId: read_notebook_get_notebook_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/manifest:
+    post:
+      tags:
+      - notebook
+      summary: Get Draft Manifest
+      operationId: get_draft_manifest_notebook_beta_draft_manifest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftManifestRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/manifest:
+    post:
+      tags:
+      - notebook
+      summary: Get Draft Manifest
+      operationId: get_draft_manifest_notebook_draft_manifest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftManifestRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/cells:
+    post:
+      tags:
+      - notebook
+      summary: Get Draft Cells
+      operationId: get_draft_cells_notebook_beta_draft_cells_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftCellsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/cells:
+    post:
+      tags:
+      - notebook
+      summary: Get Draft Cells
+      operationId: get_draft_cells_notebook_draft_cells_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftCellsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/operations:
+    post:
+      tags:
+      - notebook
+      summary: Submit Draft Operations
+      operationId: submit_draft_operations_notebook_beta_draft_operations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftOperationsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/operations:
+    post:
+      tags:
+      - notebook
+      summary: Submit Draft Operations
+      operationId: submit_draft_operations_notebook_draft_operations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftOperationsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/cell:
+    post:
+      tags:
+      - notebook
+      summary: Patch Notebook Cell
+      description: 'Apply a user cell-content edit to draft + live notebook state.
+
+
+        Synchronous HTTP equivalent of the ``notebook_cell_user_edit``
+
+        socket event. Used by the frontend to flush a pending edit before
+
+        invoking ``/execute`` so cell-id execution sees the user''s latest
+
+        content. A missed patch is a failed precondition for execution because
+
+        continuing would run stale backend state.'
+      operationId: patch_notebook_cell_notebook_cell_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CellPatchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/cell/add:
+    post:
+      tags:
+      - notebook
+      summary: Add Notebook Cell
+      description: 'Insert a new user-authored cell into the draft + live notebook state.
+
+
+        Used by the frontend so that subsequent same-session HTTP writes
+
+        (``/notebook/cell``, ``/execute``) are guaranteed to see the cell.
+
+
+        Idempotent: re-adding an existing ``cell_id`` returns success
+
+        without mutating the draft.'
+      operationId: add_notebook_cell_notebook_cell_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CellAddRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft:
+    post:
+      tags:
+      - notebook
+      summary: Save Draft
+      description: 'Create or update a session draft (debounced autosave path).
+
+
+        No-ops when a generation is active: the agent''s turn notebook is
+
+        the sole draft writer, and user edits flow over the
+
+        ``notebook_cell_user_*`` socket events.'
+      operationId: save_draft_notebook_draft_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/reset-to-canonical:
+    post:
+      tags:
+      - notebook
+      summary: Reset Draft To Canonical
+      description: Reset a live session draft to canonical file state without deleting it.
+      operationId: reset_draft_to_canonical_notebook_draft_reset_to_canonical_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftResetRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/save-to-canonical:
+    post:
+      tags:
+      - notebook
+      summary: Save Draft To Canonical
+      description: 'Promote a session draft to canonical.
+
+
+        Outside generation: CAS conflict detection (or ``force=True``). During
+
+        generation, ``save_to_canonical`` force-writes the live draft because the
+
+        draft store is the notebook source of truth for user and agent edits. Either
+
+        way the draft is preserved on success with a refreshed
+
+        ``canonical_base_revision``.
+
+
+        Any ``pending_user_edits`` are applied first via the same per-cell write
+
+        path the ``notebook_cell_user_edit`` socket handler uses, so an explicit
+
+        save inside the user edit debounce window is atomic with respect to the
+
+        user''s latest typing.'
+      operationId: save_draft_to_canonical_notebook_draft_save_to_canonical_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftSaveToCanonicalRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/save:
+    post:
+      tags:
+      - notebook
+      summary: Save Or Export Notebook Route
+      description: 'Save handler for notebooks and text files.
+
+
+        For notebooks, this now saves to the session draft store first, then
+
+        promotes to canonical with CAS conflict detection.'
+      operationId: save_or_export_notebook_route_notebook_save_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/create:
+    post:
+      tags:
+      - notebook
+      summary: Create File Route
+      description: 'Create a new notebook or text file, failing if the path already exists.
+
+
+        Unlike ``/notebook/save`` (an upsert), this endpoint refuses to overwrite
+
+        an existing file and returns ``409 Conflict`` when ``path`` is taken.
+
+
+        For ``.ipynb`` files this writes a starter notebook containing one empty
+
+        code cell whose ``cell_id`` is minted on the backend. That avoids the
+
+        frontend (``useNotebookLoader.makeEmptyCell``) fabricating a phantom cell
+
+        with a client-side id when it loads a zero-cell notebook.'
+      operationId: create_file_route_notebook_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/delete:
+    post:
+      tags:
+      - notebook
+      summary: Delete Path Route
+      description: Delete a file or folder under NOTEBOOK_BASE_PATH.
+      operationId: delete_path_route_notebook_delete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebooks:
+    get:
+      tags:
+      - notebook
+      summary: List Notebooks
+      description: Lists all files in a given path relative to BASE_PATH.
+      operationId: list_notebooks_notebooks_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - notebook
+      summary: Create Folder
+      description: Create a folder under the given relative 'path' within BASE_PATH.
+      operationId: create_folder_notebooks_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FolderCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebooks/recent:
+    get:
+      tags:
+      - notebook
+      summary: List Recent Notebooks
+      description: Lists the most recently modified notebooks.
+      operationId: list_recent_notebooks_notebooks_recent_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 5
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/check-path:
+    get:
+      tags:
+      - notebook
+      summary: Check Path Exists
+      description: Check if a file path exists.
+      operationId: check_path_exists_notebook_check_path_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /list-files:
+    get:
+      tags:
+      - notebook
+      summary: List Files
+      description: Unified endpoint for listing files and folders in a directory.
+      operationId: list_files_list_files_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /list-all-files:
+    get:
+      tags:
+      - notebook
+      summary: List All Files
+      description: 'Return a flat, sorted list of workspace-relative file paths.
+
+
+        Used by the chat composer''s ``@path:`` autocomplete. Local mode only
+
+        for now; remote/cloud flavors return an empty list until they grow a
+
+        proper implementation.'
+      operationId: list_all_files_list_all_files_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /fs/rename:
+    post:
+      tags:
+      - notebook
+      summary: Rename Path Route
+      description: Rename/move a file or folder.
+      operationId: rename_path_route_fs_rename_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileRenameRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/id:
+    get:
+      tags:
+      - notebook
+      summary: Get Notebook Id
+      description: GET /notebook/id?path=<relative_path_to_ipynb>
+      operationId: get_notebook_id_notebook_id_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/duplicate:
+    post:
+      tags:
+      - notebook
+      summary: Duplicate Path Route
+      description: Duplicate a file or folder.
+      operationId: duplicate_path_route_fs_duplicate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DuplicatePathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/reveal:
+    post:
+      tags:
+      - notebook
+      summary: Reveal Path Route
+      description: Reveal a file or folder in the system file manager (Finder/Explorer).
+      operationId: reveal_path_route_fs_reveal_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_RevealPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/open-with-default:
+    post:
+      tags:
+      - notebook
+      summary: Open With Default Route
+      description: Open a file with the system's default application.
+      operationId: open_with_default_route_fs_open_with_default_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_OpenWithDefaultRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/session/{session_id}/required_variables:
+    get:
+      tags:
+      - notebook
+      summary: Get Session Required Variables Endpoint
+      description: Get required variables for a session from Task DAG state.
+      operationId: get_session_required_variables_endpoint_api_session__session_id__required_variables_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_standalone:
+    post:
+      tags:
+      - notebook
+      summary: Export Notebook Standalone Endpoint
+      description: 'Export a notebook with qualia.get(...) calls inlined for standalone use.
+
+
+        TODO: Because notebooks can be attached/detached across sessions,
+
+        a notebook may reference variables from arbitrary projects/tasks.
+
+        Right now we call ``query_all_task_variables()`` which fetches
+
+        *every* variable in the database rather than scoping to the
+
+        variables relevant to this notebook.  Revisit once we can
+
+        efficiently resolve notebook_id -> relevant task variable set.'
+      operationId: export_notebook_standalone_endpoint_api_notebook_export_standalone_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportStandaloneRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_content:
+    post:
+      tags:
+      - notebook
+      summary: Export Notebook Content Endpoint
+      description: Export notebook content with qualia.get(...) calls inlined for standalone use.
+      operationId: export_notebook_content_endpoint_api_notebook_export_content_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportNotebookContentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_folder:
+    post:
+      tags:
+      - notebook
+      summary: Export Folder Notebooks Endpoint
+      description: Export all notebooks in a folder with qualia.get(...) calls inlined.
+      operationId: export_folder_notebooks_endpoint_api_notebook_export_folder_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportFolderRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    _CellPatchRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      - content
+      title: _CellPatchRequest
+    _RevealPathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _RevealPathRequest
+    _DraftSaveToCanonicalRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        force:
+          type: boolean
+          title: Force
+          default: false
+        pending_user_edits:
+          items:
+            $ref: '#/components/schemas/_PendingUserEdit'
+          type: array
+          title: Pending User Edits
+      type: object
+      required:
+      - notebook_id
+      title: _DraftSaveToCanonicalRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _DraftOperationsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+        operations:
+          items:
+            $ref: '#/components/schemas/_DraftOperation'
+          type: array
+          title: Operations
+      type: object
+      required:
+      - notebook_id
+      title: _DraftOperationsRequest
+    _DraftSaveRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      - path
+      title: _DraftSaveRequest
+    _FileDeleteRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        recursive:
+          type: boolean
+          title: Recursive
+          default: true
+      type: object
+      required:
+      - path
+      title: _FileDeleteRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _FileSaveRequest:
+      properties:
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      required:
+      - path
+      title: _FileSaveRequest
+    _DraftOperation:
+      properties:
+        base_backend_checkpoint:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Backend Checkpoint
+        base_cell_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Cell Token
+        base_structure_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Structure Token
+        operation_id:
+          type: string
+          title: Operation Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        scope:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Scope
+      type: object
+      required:
+      - operation_id
+      - kind
+      title: _DraftOperation
+    _DraftCellsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cell_ids:
+          items:
+            type: string
+          type: array
+          title: Cell Ids
+      type: object
+      required:
+      - notebook_id
+      title: _DraftCellsRequest
+    _DraftManifestRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+      type: object
+      required:
+      - notebook_id
+      title: _DraftManifestRequest
+    _ExportStandaloneRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the notebook to export
+      type: object
+      required:
+      - path
+      title: _ExportStandaloneRequest
+    _NotebookReadRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _NotebookReadRequest
+    _CellAddRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        cell_type:
+          type: string
+          title: Cell Type
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        after_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: After Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _CellAddRequest
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    Cell:
+      properties:
+        type:
+          $ref: '#/components/schemas/CellType'
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        outputs:
+          items:
+            $ref: '#/components/schemas/SerializedOutput'
+          type: array
+          title: Outputs
+        cellId:
+          type: string
+          title: Cellid
+        executionCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executioncount
+        executionTimeMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executiontimems
+        executedAtMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executedatms
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      title: Cell
+      description: Strongly typed representation of a notebook cell.
+    _FolderCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - path
+      - name
+      title: _FolderCreateRequest
+    _DraftResetRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      title: _DraftResetRequest
+    _FileCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - path
+      title: _FileCreateRequest
+    _PendingUserEdit:
+      properties:
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - cell_id
+      - content
+      title: _PendingUserEdit
+      description: A debounced user content edit not yet emitted via socket.
+    _DuplicatePathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _DuplicatePathRequest
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
+      type: object
+      required:
+      - type
+      - content
+      title: SerializedOutput
+    _ExportFolderRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the folder containing notebooks to export
+      type: object
+      required:
+      - path
+      title: _ExportFolderRequest
+    _FileRenameRequest:
+      properties:
+        old_path:
+          type: string
+          title: Old Path
+        new_path:
+          type: string
+          title: New Path
+      type: object
+      required:
+      - old_path
+      - new_path
+      title: _FileRenameRequest
+    _OpenWithDefaultRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _OpenWithDefaultRequest
+    _ExportNotebookContentRequest:
+      properties:
+        notebook:
+          additionalProperties: true
+          type: object
+          title: Notebook
+          description: The notebook JSON content to export
+      type: object
+      required:
+      - notebook
+      title: _ExportNotebookContentRequest

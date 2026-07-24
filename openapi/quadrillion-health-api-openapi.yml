@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Health API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Health
+paths:
+  /health:
+    get:
+      summary: Health Check
+      description: are we alive?
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Health
+  /health/ready:
+    get:
+      summary: Readiness Check
+      description: 'Readiness probe: 200 only when critical deps answer, else 503.
+
+
+        Distinct from ``/health`` (liveness): the ALB target group points at
+
+        this route so a task whose Postgres or Redis is unreachable is pulled
+
+        from rotation instead of serving 5xx to clients.'
+      operationId: readiness_check_health_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Health
+  /api/health:
+    get:
+      tags:
+      - Health
+      summary: Backend Health Alias
+      description: Compatibility alias for clients expecting /api/health.
+      operationId: backend_health_alias_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}

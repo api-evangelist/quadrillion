@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account execution API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: execution
+paths:
+  /execute/{execution_id}/replay:
+    get:
+      tags:
+      - execution
+      summary: Replay Execution Output
+      description: 'Return buffered ``execution_output`` chunks for a live cell run.
+
+
+        Used by the frontend on reconnect/reload to recover any chunks it
+
+        missed while disconnected from the notebook socket room. Authorized
+
+        by the same notebook-lock check as ``/execute``: the caller must
+
+        own the lock on the handle''s notebook.
+
+
+        ``after_seq`` lets clients page incrementally — pass the highest
+
+        ``seq`` they''ve already rendered (live or replayed) and only newer
+
+        chunks are returned. Returns ``404`` when the per-cell replay record
+
+        has been pruned; the cell''s final ``cell.outputs`` is then the source
+
+        of truth.'
+      operationId: replay_execution_output_execute__execution_id__replay_get
+      parameters:
+      - name: execution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Execution Id
+      - name: after_seq
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: After Seq
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /execute:
+    post:
+      tags:
+      - execution
+      summary: Execute
+      operationId: execute_execute_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _ExecuteRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        execution_id:
+          type: string
+          title: Execution Id
+          default: default
+        cell_id:
+          type: string
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _ExecuteRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

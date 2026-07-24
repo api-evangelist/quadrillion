@@ -1,0 +1,576 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account org API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: org
+paths:
+  /api/org/me:
+    get:
+      tags:
+      - org
+      summary: Get My Org
+      description: Get the current user's org (if they are an admin/owner).
+      operationId: get_my_org_api_org_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailResponse'
+  /api/org/{org_id}:
+    get:
+      tags:
+      - org
+      summary: Get Org
+      description: Get organization details with members and subscription.
+      operationId: get_org_api_org__org_id__get
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/members:
+    post:
+      tags:
+      - org
+      summary: Add Member
+      description: Add a member to an org by email, or create an invitation.
+      operationId: add_member_api_org__org_id__members_post
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMemberRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgMemberResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/members/{user_id}:
+    put:
+      tags:
+      - org
+      summary: Update Member
+      description: 'Update member role or cap overrides.
+
+
+        Set overrides to null to revert to org defaults.'
+      operationId: update_member_api_org__org_id__members__user_id__put
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemberRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgMemberResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - org
+      summary: Remove Member
+      description: Remove a member from an org.
+      operationId: remove_member_api_org__org_id__members__user_id__delete
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/invitations/{invitation_id}:
+    delete:
+      tags:
+      - org
+      summary: Revoke Invitation
+      description: Revoke a pending invitation.
+      operationId: revoke_invitation_api_org__org_id__invitations__invitation_id__delete
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      - name: invitation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Invitation Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/invitations/{invitation_id}/resend:
+    post:
+      tags:
+      - org
+      summary: Resend Invitation
+      description: Re-send the invitation email for an existing pending invitation.
+      operationId: resend_invitation_api_org__org_id__invitations__invitation_id__resend_post
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      - name: invitation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Invitation Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/setup-link:
+    post:
+      tags:
+      - org
+      summary: Regenerate Setup Link
+      description: Regenerate the Stripe payment setup link for an org.
+      operationId: regenerate_setup_link_api_org__org_id__setup_link_post
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      - name: frontend_origin
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetupLinkResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/org/{org_id}/workos-portal-link:
+    post:
+      tags:
+      - org
+      summary: Get Workos Portal Link
+      description: 'Self-service WorkOS Admin Portal link for the org''s owner or admin.
+
+
+        The ``intent`` selects which Admin Portal section the customer lands on
+
+        (``sso``, ``dsync``, ``domain_verification``, ``audit_logs``). The
+
+        WorkOS portal does not expose cross-intent navigation, so each section
+
+        needs a separately generated link.
+
+
+        On first call for an unlinked org, this creates a WorkOS Organization
+
+        named after the local org and links it. Subsequent calls just return
+
+        fresh portal links — same shape as ``POST /api/stripe/portal-session``.
+
+        Links expire in ~5 minutes; the frontend redirects immediately.'
+      operationId: get_workos_portal_link_api_org__org_id__workos_portal_link_post
+      parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Org Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkosPortalLinkRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkosPortalLinkResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    WorkosPortalLinkRequest:
+      properties:
+        intent:
+          type: string
+          title: Intent
+          default: sso
+      type: object
+      title: WorkosPortalLinkRequest
+    OrgMemberResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        email:
+          type: string
+          title: Email
+        name:
+          type: string
+          title: Name
+        role:
+          type: string
+          title: Role
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Override Usd
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - user_id
+      - email
+      - name
+      - role
+      - usage_limit_override_usd
+      - overage_limit_override_usd
+      - created_at
+      title: OrgMemberResponse
+    WorkosPortalLinkResponse:
+      properties:
+        portal_link:
+          type: string
+          title: Portal Link
+        workos_organization_id:
+          type: string
+          title: Workos Organization Id
+      type: object
+      required:
+      - portal_link
+      - workos_organization_id
+      title: WorkosPortalLinkResponse
+    OrgInvitationResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        email:
+          type: string
+          title: Email
+        role:
+          type: string
+          title: Role
+        token:
+          type: string
+          title: Token
+        expires_at:
+          type: string
+          title: Expires At
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - email
+      - role
+      - token
+      - expires_at
+      - created_at
+      title: OrgInvitationResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrgSubscriptionResponse:
+      properties:
+        plan:
+          type: string
+          title: Plan
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        seat_price_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seat Price Cents
+        billing_interval:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Billing Interval
+      type: object
+      required:
+      - plan
+      - usage_limit_override_usd
+      - overage_enabled
+      - overage_limit_usd
+      title: OrgSubscriptionResponse
+    SetupLinkResponse:
+      properties:
+        setup_url:
+          type: string
+          title: Setup Url
+      type: object
+      required:
+      - setup_url
+      title: SetupLinkResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AddMemberRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+        role:
+          type: string
+          title: Role
+          default: member
+      type: object
+      required:
+      - email
+      title: AddMemberRequest
+    UpdateMemberRequest:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_limit_override_usd:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Overage Limit Override Usd
+      type: object
+      title: UpdateMemberRequest
+    OrgDetailResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        stripe_customer_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Customer Id
+        billing_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Billing Email
+        api_markup_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Api Markup Rate
+        archived_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Archived At
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        member_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Member Count
+        payment_method_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Status
+        subscription:
+          anyOf:
+          - $ref: '#/components/schemas/OrgSubscriptionResponse'
+          - type: 'null'
+        next_steps:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Steps
+        members:
+          items:
+            $ref: '#/components/schemas/OrgMemberResponse'
+          type: array
+          title: Members
+        invitations:
+          items:
+            $ref: '#/components/schemas/OrgInvitationResponse'
+          type: array
+          title: Invitations
+          default: []
+        sso_configured:
+          type: boolean
+          title: Sso Configured
+          default: false
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - stripe_customer_id
+      - billing_email
+      - api_markup_rate
+      - archived_at
+      - created_at
+      - updated_at
+      - subscription
+      - members
+      title: OrgDetailResponse

@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account onboarding API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: onboarding
+paths:
+  /api/onboarding/status:
+    get:
+      tags:
+      - onboarding
+      summary: Get Onboarding Status
+      description: "Get the current user's onboarding status.\n\nReturns:\n    {\n        \"onboarding_completed\": false\n    }"
+      operationId: get_onboarding_status_api_onboarding_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingStatusResponse'
+  /api/onboarding/complete:
+    post:
+      tags:
+      - onboarding
+      summary: Complete Onboarding
+      description: "Complete the onboarding process for a new user.\n\nUpdates user profile with name, job type, and company name.\n\nArgs:\n    request: {name, job_type, company_name}\n\nReturns:\n    {\"success\": true, \"message\": \"Onboarding completed\"}"
+      operationId: complete_onboarding_api_onboarding_complete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingCompleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingCompleteResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    OnboardingStatusResponse:
+      properties:
+        onboarding_completed:
+          type: boolean
+          title: Onboarding Completed
+      type: object
+      required:
+      - onboarding_completed
+      title: OnboardingStatusResponse
+      description: Response for onboarding status check.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OnboardingCompleteRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        job_types:
+          items:
+            type: string
+          type: array
+          title: Job Types
+        company_name:
+          type: string
+          title: Company Name
+      type: object
+      required:
+      - name
+      - job_types
+      - company_name
+      title: OnboardingCompleteRequest
+      description: Request body for completing onboarding.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OnboardingCompleteResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: OnboardingCompleteResponse
+      description: Response after completing onboarding.

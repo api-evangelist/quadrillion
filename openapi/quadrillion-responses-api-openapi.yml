@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Responses API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Responses
+paths:
+  /responses:
+    post:
+      summary: Proxy Response Openai
+      description: Proxy OpenAI Responses API requests. Requires valid Quadrillion API key.
+      operationId: proxy_response_openai_responses_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Responses

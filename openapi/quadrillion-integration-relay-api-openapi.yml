@@ -1,0 +1,181 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account integration-relay API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: integration-relay
+paths:
+  /api/integrations/relay/bootstrap:
+    get:
+      tags:
+      - integration-relay
+      summary: Relay Bootstrap
+      description: Report whether the desktop should relay, and hand it the bot token.
+      operationId: relay_bootstrap_api_integrations_relay_bootstrap_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BootstrapResponse'
+  /api/integrations/relay/poll:
+    get:
+      tags:
+      - integration-relay
+      summary: Relay Poll
+      description: Long-poll for the next resolved event relayed to this user.
+      operationId: relay_poll_api_integrations_relay_poll_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/integrations/relay/route:
+    post:
+      tags:
+      - integration-relay
+      summary: Relay Route
+      description: 'Record a thread→owner route created by a relay (local) mention.
+
+
+        When a mention runs on the desktop, cloud never sees the project, so the
+
+        desktop reports the thread mapping here; without it, later replies in the
+
+        thread have no route and cloud would drop them. First writer wins.
+
+
+        The caller may only record routes for a workspace it has a live Slack
+
+        install in. The route is keyed on Slack coordinates alone, so without this
+
+        check any authenticated API key could squat or mis-route another tenant''s
+
+        threads.'
+      operationId: relay_route_api_integrations_relay_route_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RouteBody'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/integrations/relay/ack:
+    post:
+      tags:
+      - integration-relay
+      summary: Relay Ack
+      description: Confirm receipt of a relayed event (resolves the webhook's handoff).
+      operationId: relay_ack_api_integrations_relay_ack_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AckBody'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AckBody:
+      properties:
+        relay_id:
+          type: string
+          title: Relay Id
+      type: object
+      required:
+      - relay_id
+      title: AckBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BootstrapResponse:
+      properties:
+        active:
+          type: boolean
+          title: Active
+        bot_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bot Token
+        bot_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bot User Id
+        team_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Id
+      type: object
+      required:
+      - active
+      title: BootstrapResponse
+    RouteBody:
+      properties:
+        team_id:
+          type: string
+          title: Team Id
+        channel_id:
+          type: string
+          title: Channel Id
+        thread_ts:
+          type: string
+          title: Thread Ts
+        project_id:
+          type: string
+          title: Project Id
+      type: object
+      required:
+      - team_id
+      - channel_id
+      - thread_ts
+      - project_id
+      title: RouteBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

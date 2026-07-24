@@ -1,0 +1,5355 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account runtime_mutations API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: runtime_mutations
+paths:
+  /api/projects/{project_id}/knowledge-summary:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Project Knowledge Summary
+      operationId: get_project_knowledge_summary_api_projects__project_id__knowledge_summary_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: recent_limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 0
+          default: 30
+          title: Recent Limit
+      - name: refresh
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Refresh
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeSummaryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/evidence:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Add Evidence Endpoint
+      description: 'Add a notebook-captured evidence claim for an untracked variable.
+
+
+        Kernel-only on both mounts: this local route requires the kernel API
+
+        bearer token; the cloud mirror requires an internal principal.
+
+
+        Rejections (unsupported value type, no session for the notebook,
+
+        bad variable name) come back in ``rejected_reason`` rather than
+
+        via HTTP error so the client can surface them in-cell without
+
+        raising.'
+      operationId: add_evidence_endpoint_api_evidence_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEvidenceRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddEvidenceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /models:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Available Models
+      operationId: get_available_models_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /sessions:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Sessions
+      operationId: list_sessions_sessions_get
+      parameters:
+      - name: project_path
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /sessions/{chat_session_id}:
+    patch:
+      tags:
+      - runtime_mutations
+      summary: Update Session
+      operationId: update_session_sessions__chat_session_id__patch
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat/{chat_session_id}/stop:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Stop Chat Session
+      operationId: stop_chat_session_chat__chat_session_id__stop_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat/{chat_session_id}/resume:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Resume Chat Session
+      operationId: resume_chat_session_chat__chat_session_id__resume_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat-sessions/{chat_session_id}/info:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Get Chat Session Info
+      operationId: get_chat_session_info_chat_sessions__chat_session_id__info_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat-sessions/{chat_session_id}/replay:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Replay Chat History
+      operationId: replay_chat_history_chat_sessions__chat_session_id__replay_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat-sessions/{chat_session_id}/pending-user-inputs:
+    post:
+      tags:
+      - runtime_mutations
+      summary: List Pending User Inputs For Session
+      operationId: list_pending_user_inputs_for_session_chat_sessions__chat_session_id__pending_user_inputs_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat-sessions/delete:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Delete Chat Sessions
+      operationId: delete_chat_sessions_chat_sessions_delete_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /chat/{chat_session_id}/attach:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Attach Notebook To Chat
+      operationId: attach_notebook_to_chat_chat__chat_session_id__attach_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chat/{chat_session_id}/detach:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Detach Notebook From Chat
+      operationId: detach_notebook_from_chat_chat__chat_session_id__detach_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebooks/{notebook_id}/active-session-id:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Active Session Id
+      operationId: get_active_session_id_notebooks__notebook_id__active_session_id_get
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Skills
+      operationId: get_skills_api_skills_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /notebook:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Read Notebook
+      description: "Load a file by path, checking for a session draft first.\n\nIf a session draft exists for this notebook:\n- Returns the draft state instead of the canonical file.\n- If the draft's canonical base revision has drifted, includes a\n  ``draft_conflict`` field so the frontend can prompt the user.\n\nNon-notebook files bypass draft logic entirely.\n\nReturns:\n- .ipynb  -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }\n- text    -> raw UTF-8 text (text/plain or application/json)\n- binary  -> raw bytes (image/*, application/pdf, etc.)"
+      operationId: read_notebook_notebook_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_NotebookReadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - runtime_mutations
+      summary: Read Notebook Get
+      description: GET version of /notebook endpoint for serving files in markdown img tags.
+      operationId: read_notebook_get_notebook_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/manifest:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Get Draft Manifest
+      operationId: get_draft_manifest_notebook_beta_draft_manifest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftManifestRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/manifest:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Get Draft Manifest
+      operationId: get_draft_manifest_notebook_draft_manifest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftManifestRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/cells:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Get Draft Cells
+      operationId: get_draft_cells_notebook_beta_draft_cells_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftCellsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/cells:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Get Draft Cells
+      operationId: get_draft_cells_notebook_draft_cells_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftCellsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/beta/draft/operations:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Submit Draft Operations
+      operationId: submit_draft_operations_notebook_beta_draft_operations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftOperationsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/operations:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Submit Draft Operations
+      operationId: submit_draft_operations_notebook_draft_operations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftOperationsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/cell:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Patch Notebook Cell
+      description: 'Apply a user cell-content edit to draft + live notebook state.
+
+
+        Synchronous HTTP equivalent of the ``notebook_cell_user_edit``
+
+        socket event. Used by the frontend to flush a pending edit before
+
+        invoking ``/execute`` so cell-id execution sees the user''s latest
+
+        content. A missed patch is a failed precondition for execution because
+
+        continuing would run stale backend state.'
+      operationId: patch_notebook_cell_notebook_cell_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CellPatchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/cell/add:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Add Notebook Cell
+      description: 'Insert a new user-authored cell into the draft + live notebook state.
+
+
+        Used by the frontend so that subsequent same-session HTTP writes
+
+        (``/notebook/cell``, ``/execute``) are guaranteed to see the cell.
+
+
+        Idempotent: re-adding an existing ``cell_id`` returns success
+
+        without mutating the draft.'
+      operationId: add_notebook_cell_notebook_cell_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CellAddRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Draft
+      description: 'Create or update a session draft (debounced autosave path).
+
+
+        No-ops when a generation is active: the agent''s turn notebook is
+
+        the sole draft writer, and user edits flow over the
+
+        ``notebook_cell_user_*`` socket events.'
+      operationId: save_draft_notebook_draft_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/reset-to-canonical:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Reset Draft To Canonical
+      description: Reset a live session draft to canonical file state without deleting it.
+      operationId: reset_draft_to_canonical_notebook_draft_reset_to_canonical_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftResetRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/draft/save-to-canonical:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Draft To Canonical
+      description: 'Promote a session draft to canonical.
+
+
+        Outside generation: CAS conflict detection (or ``force=True``). During
+
+        generation, ``save_to_canonical`` force-writes the live draft because the
+
+        draft store is the notebook source of truth for user and agent edits. Either
+
+        way the draft is preserved on success with a refreshed
+
+        ``canonical_base_revision``.
+
+
+        Any ``pending_user_edits`` are applied first via the same per-cell write
+
+        path the ``notebook_cell_user_edit`` socket handler uses, so an explicit
+
+        save inside the user edit debounce window is atomic with respect to the
+
+        user''s latest typing.'
+      operationId: save_draft_to_canonical_notebook_draft_save_to_canonical_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DraftSaveToCanonicalRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/save:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Or Export Notebook Route
+      description: 'Save handler for notebooks and text files.
+
+
+        For notebooks, this now saves to the session draft store first, then
+
+        promotes to canonical with CAS conflict detection.'
+      operationId: save_or_export_notebook_route_notebook_save_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/create:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create File Route
+      description: 'Create a new notebook or text file, failing if the path already exists.
+
+
+        Unlike ``/notebook/save`` (an upsert), this endpoint refuses to overwrite
+
+        an existing file and returns ``409 Conflict`` when ``path`` is taken.
+
+
+        For ``.ipynb`` files this writes a starter notebook containing one empty
+
+        code cell whose ``cell_id`` is minted on the backend. That avoids the
+
+        frontend (``useNotebookLoader.makeEmptyCell``) fabricating a phantom cell
+
+        with a client-side id when it loads a zero-cell notebook.'
+      operationId: create_file_route_notebook_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/delete:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Delete Path Route
+      description: Delete a file or folder under NOTEBOOK_BASE_PATH.
+      operationId: delete_path_route_notebook_delete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebooks:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Notebooks
+      description: Lists all files in a given path relative to BASE_PATH.
+      operationId: list_notebooks_notebooks_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create Folder
+      description: Create a folder under the given relative 'path' within BASE_PATH.
+      operationId: create_folder_notebooks_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FolderCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebooks/recent:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Recent Notebooks
+      description: Lists the most recently modified notebooks.
+      operationId: list_recent_notebooks_notebooks_recent_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 5
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/check-path:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Check Path Exists
+      description: Check if a file path exists.
+      operationId: check_path_exists_notebook_check_path_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /list-files:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Files
+      description: Unified endpoint for listing files and folders in a directory.
+      operationId: list_files_list_files_get
+      parameters:
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /list-all-files:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List All Files
+      description: 'Return a flat, sorted list of workspace-relative file paths.
+
+
+        Used by the chat composer''s ``@path:`` autocomplete. Local mode only
+
+        for now; remote/cloud flavors return an empty list until they grow a
+
+        proper implementation.'
+      operationId: list_all_files_list_all_files_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /fs/rename:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Rename Path Route
+      description: Rename/move a file or folder.
+      operationId: rename_path_route_fs_rename_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_FileRenameRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notebook/id:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Notebook Id
+      description: GET /notebook/id?path=<relative_path_to_ipynb>
+      operationId: get_notebook_id_notebook_id_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/duplicate:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Duplicate Path Route
+      description: Duplicate a file or folder.
+      operationId: duplicate_path_route_fs_duplicate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DuplicatePathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/reveal:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Reveal Path Route
+      description: Reveal a file or folder in the system file manager (Finder/Explorer).
+      operationId: reveal_path_route_fs_reveal_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_RevealPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fs/open-with-default:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Open With Default Route
+      description: Open a file with the system's default application.
+      operationId: open_with_default_route_fs_open_with_default_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_OpenWithDefaultRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/session/{session_id}/required_variables:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Session Required Variables Endpoint
+      description: Get required variables for a session from Task DAG state.
+      operationId: get_session_required_variables_endpoint_api_session__session_id__required_variables_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_standalone:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Export Notebook Standalone Endpoint
+      description: 'Export a notebook with qualia.get(...) calls inlined for standalone use.
+
+
+        TODO: Because notebooks can be attached/detached across sessions,
+
+        a notebook may reference variables from arbitrary projects/tasks.
+
+        Right now we call ``query_all_task_variables()`` which fetches
+
+        *every* variable in the database rather than scoping to the
+
+        variables relevant to this notebook.  Revisit once we can
+
+        efficiently resolve notebook_id -> relevant task variable set.'
+      operationId: export_notebook_standalone_endpoint_api_notebook_export_standalone_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportStandaloneRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_content:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Export Notebook Content Endpoint
+      description: Export notebook content with qualia.get(...) calls inlined for standalone use.
+      operationId: export_notebook_content_endpoint_api_notebook_export_content_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportNotebookContentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/notebook/export_folder:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Export Folder Notebooks Endpoint
+      description: Export all notebooks in a folder with qualia.get(...) calls inlined.
+      operationId: export_folder_notebooks_endpoint_api_notebook_export_folder_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExportFolderRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /files/upload:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Upload File
+      description: 'Upload a file into the workspace at ``dest_dir/<filename>``.
+
+
+        Name conflicts are auto-renamed (``name (1).ext``) unless
+
+        ``overwrite`` is set; the final path is returned either way.'
+      operationId: upload_file_files_upload_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_file_files_upload_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /files/download:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Download File
+      description: Download a single workspace file as an attachment.
+      operationId: download_file_files_download_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/export:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Export Project Endpoint
+      description: 'Export a project as a .qualia archive (ZIP).
+
+
+        When some notebooks cannot be read the archive is still produced,
+
+        with the skip count surfaced in the ``X-Export-Incomplete`` header
+
+        and the skipped paths recorded in ``project.json``.'
+      operationId: export_project_endpoint_api_projects__project_id__export_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/import:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Import Project Endpoint
+      description: 'Import a .qualia archive as a new project.
+
+
+        Kernel-state restore and agent resume are local-only: cloud kernels
+
+        run in remote sandboxes, so cloud imports land with every session
+
+        idle and no restored kernel state.'
+      operationId: import_project_endpoint_api_projects_import_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_import_project_endpoint_api_projects_import_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Import Project Endpoint Api Projects Import Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /execute/{execution_id}/replay:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Replay Execution Output
+      description: 'Return buffered ``execution_output`` chunks for a live cell run.
+
+
+        Used by the frontend on reconnect/reload to recover any chunks it
+
+        missed while disconnected from the notebook socket room. Authorized
+
+        by the same notebook-lock check as ``/execute``: the caller must
+
+        own the lock on the handle''s notebook.
+
+
+        ``after_seq`` lets clients page incrementally — pass the highest
+
+        ``seq`` they''ve already rendered (live or replayed) and only newer
+
+        chunks are returned. Returns ``404`` when the per-cell replay record
+
+        has been pruned; the cell''s final ``cell.outputs`` is then the source
+
+        of truth.'
+      operationId: replay_execution_output_execute__execution_id__replay_get
+      parameters:
+      - name: execution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Execution Id
+      - name: after_seq
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: After Seq
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /execute:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Execute
+      operationId: execute_execute_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/create:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create Terminal
+      description: Create a new terminal.
+      operationId: create_terminal_api_terminal_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/write:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Write Terminal
+      description: Write data to terminal stdin.
+      operationId: write_terminal_api_terminal__terminal_id__write_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalWriteRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/read:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Read Terminal
+      description: Read data from terminal stdout (polling fallback).
+      operationId: read_terminal_api_terminal__terminal_id__read_get
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/resize:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Resize Terminal
+      description: Resize terminal.
+      operationId: resize_terminal_api_terminal__terminal_id__resize_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalResizeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}:
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Terminal
+      description: Kill terminal process.
+      operationId: delete_terminal_api_terminal__terminal_id__delete
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/python-env:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Python Env
+      description: Get Python environment info for terminal.
+      operationId: get_python_env_api_terminal_python_env_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/terminal/{terminal_id}/qualia:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Qualia Command
+      description: Handle qualia command to open a file in Qualia.
+      operationId: qualia_command_api_terminal__terminal_id__qualia_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualiaCommandRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/update:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Update Single Setting Handler
+      description: Update a single setting.
+      operationId: update_single_setting_handler_api_settings_update_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SettingUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/apply-model-family:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Apply Model Family Handler
+      description: 'Apply a model family by fanning it out into the per-role model settings.
+
+
+        Persists concrete values for the agent roles (flagship) and knowledge
+
+        import (economy tier). The family itself is not persisted — it is only a
+
+        transient way to propagate these per-role defaults. Re-running this
+
+        overwrites those roles; users can still set explicit per-role overrides
+
+        afterwards.'
+      operationId: apply_model_family_handler_api_settings_apply_model_family_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ApplyModelFamilyRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/values:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get All Settings Handler
+      description: Get all setting values.
+      operationId: get_all_settings_handler_api_settings_values_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/base-path:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Base Path Handler
+      description: Get the current base path for notebooks.
+      operationId: get_base_path_handler_api_settings_base_path_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/workspace/switch:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Switch Workspace Handler
+      operationId: switch_workspace_handler_api_workspace_switch_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_WorkspaceSwitchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Environment Status Handler
+      description: Return current environment profile metadata for stale-runtime UI.
+      operationId: get_environment_status_handler_api_settings_environment_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/environment/preparation-status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Environment Preparation Status Handler
+      operationId: get_environment_preparation_status_handler_api_settings_environment_preparation_status_get
+      parameters:
+      - name: profile_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Name
+      - name: language
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - python
+            - julia
+            - r
+            type: string
+          - type: 'null'
+          title: Language
+      - name: advanced
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Advanced
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/prepare:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Prepare Environment Handler
+      operationId: prepare_environment_handler_api_settings_environment_prepare_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrepareRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/cancel-prepare:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Cancel Prepare Environment Handler
+      operationId: cancel_prepare_environment_handler_api_settings_environment_cancel_prepare_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrepareRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/cleanup-prepared:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Cleanup Prepared Environment Handler
+      operationId: cleanup_prepared_environment_handler_api_settings_environment_cleanup_prepared_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/environment/config:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Environment Config Handler
+      operationId: get_environment_config_handler_api_settings_environment_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    put:
+      tags:
+      - runtime_mutations
+      summary: Update Environment Config Handler
+      operationId: update_environment_config_handler_api_settings_environment_config_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentConfigUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/private-values:
+    put:
+      tags:
+      - runtime_mutations
+      summary: Update Environment Private Values Handler
+      operationId: update_environment_private_values_handler_api_settings_environment_private_values_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrivateValuesRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/check-venv:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Check Venv Handler
+      description: Check if .venv exists in the provided directory.
+      operationId: check_venv_handler_api_python_environments_check_venv_get
+      parameters:
+      - name: location
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create-location:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Create Environment Location Handler
+      description: Get the default location where .venv will be created.
+      operationId: get_create_environment_location_handler_api_python_environments_create_location_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/slack/configured:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Slack Configured Handler
+      description: Check whether Slack settings are configured.
+      operationId: get_slack_configured_handler_api_settings_slack_configured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/slack/install:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Slack Oauth Init Handler
+      description: Proxy POST request to Slack OAuth initiation endpoint.
+      operationId: slack_oauth_init_handler_api_settings_slack_install_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SlackOAuthInitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/slack/oauth-callback:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Slack Oauth Callback Handler
+      description: 'Receive OAuth tokens from the website via browser auto-submit form.
+
+
+        The website returns an HTML form that auto-POSTs tokens to this endpoint
+
+        through the user''s browser.  On success the tokens are persisted to
+
+        settings and the browser is redirected to the success page on the website.'
+      operationId: slack_oauth_callback_handler_api_settings_slack_oauth_callback_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/github/configured:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Github Configured Handler
+      description: Return whether a GitHub OAuth token is stored and the flow is enabled.
+      operationId: get_github_configured_handler_api_settings_github_configured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/github/install:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Github Oauth Init Handler
+      description: Proxy POST request to GitHub OAuth initiation endpoint.
+      operationId: github_oauth_init_handler_api_settings_github_install_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_GithubOAuthInitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/github/oauth-callback:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Github Oauth Callback Handler
+      description: Receive OAuth token from the website via browser auto-submit form.
+      operationId: github_oauth_callback_handler_api_settings_github_oauth_callback_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/validate-kernel:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Validate Kernel Setting Handler
+      description: Validate that DEFAULT_KERNEL setting is valid.
+      operationId: validate_kernel_setting_handler_api_settings_validate_kernel_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/kernel-discovery/paths:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Kernel Discovery Paths Handler
+      operationId: list_kernel_discovery_paths_handler_api_kernel_discovery_paths_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - runtime_mutations
+      summary: Add Kernel Discovery Path Handler
+      operationId: add_kernel_discovery_path_handler_api_kernel_discovery_paths_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/preview:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Preview Kernel Discovery Path Handler
+      operationId: preview_kernel_discovery_path_handler_api_kernel_discovery_paths_preview_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/{path_id}/enabled:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Set Kernel Discovery Path Enabled Handler
+      operationId: set_kernel_discovery_path_enabled_handler_api_kernel_discovery_paths__path_id__enabled_post
+      parameters:
+      - name: path_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Path Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathEnabledRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/{path_id}:
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Remove Kernel Discovery Path Handler
+      operationId: remove_kernel_discovery_path_handler_api_kernel_discovery_paths__path_id__delete
+      parameters:
+      - name: path_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Path Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/select:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Select Python Environment Handler
+      description: Select a Python environment and create kernel spec for it.
+      operationId: select_python_environment_handler_api_python_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectPythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/julia-environments/select:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Select Julia Environment Handler
+      description: Select a Julia installation and create kernel spec for it.
+      operationId: select_julia_environment_handler_api_julia_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectJuliaEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/r-environments/select:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Select R Environment Handler
+      description: Select an R installation and create kernel spec for it.
+      operationId: select_r_environment_handler_api_r_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectREnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create-status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Create Environment Status
+      description: Get status for an environment creation job.
+      operationId: get_create_environment_status_api_python_environments_create_status_get
+      parameters:
+      - name: job_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create Python Environment Handler
+      description: Create a new .venv virtual environment using stdlib venv.
+      operationId: create_python_environment_handler_api_python_environments_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CreatePythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/workspace-venv:
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Python Environment Handler
+      operationId: delete_python_environment_handler_api_python_environments_workspace_venv_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DeletePythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Matplotlibrc Handler
+      description: Get current matplotlibrc settings.
+      operationId: get_matplotlibrc_handler_api_settings_matplotlibrc_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - runtime_mutations
+      summary: Update Matplotlibrc Handler
+      description: Update matplotlibrc settings.
+      operationId: update_matplotlibrc_handler_api_settings_matplotlibrc_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_MatplotlibrcUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/path:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Matplotlibrc Path Handler
+      description: Get the path to the matplotlibrc file.
+      operationId: get_matplotlibrc_path_handler_api_settings_matplotlibrc_path_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/matplotlibrc/color-cycles:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Color Cycle Schemes Handler
+      description: Get available color cycle schemes.
+      operationId: get_color_cycle_schemes_handler_api_settings_matplotlibrc_color_cycles_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/matplotlibrc/color-cycles/custom:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Custom Color Scheme Handler
+      description: Save a custom color scheme.
+      operationId: save_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SaveCustomColorSchemeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/color-cycles/custom/{scheme_id}:
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Custom Color Scheme Handler
+      description: Delete a custom color scheme.
+      operationId: delete_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom__scheme_id__delete
+      parameters:
+      - name: scheme_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scheme Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/colormaps:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Colormap Preview Handler
+      description: Get colormap preview data for all available colormaps.
+      operationId: get_colormap_preview_handler_api_settings_matplotlibrc_colormaps_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/bash-allowlist:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Bash Allowlist Handler
+      description: Return the user-managed bash command allowlist.
+      operationId: get_bash_allowlist_handler_api_settings_bash_allowlist_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - runtime_mutations
+      summary: Add Bash Allowlist Handler
+      description: 'Add a command to the user bash allowlist.
+
+
+        If the command has known dangerous flags (e.g. ``rm``), denied-flag
+
+        defaults are auto-applied so that dangerous variants still require
+
+        confirmation.'
+      operationId: add_bash_allowlist_handler_api_settings_bash_allowlist_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_BashAllowlistAddRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Clear Bash Allowlist Handler
+      description: Remove all user-added bash command allowlist entries.
+      operationId: clear_bash_allowlist_handler_api_settings_bash_allowlist_delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/bash-allowlist/{command}:
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Remove Bash Allowlist Handler
+      description: Remove a single command token from the user bash allowlist.
+      operationId: remove_bash_allowlist_handler_api_settings_bash_allowlist__command__delete
+      parameters:
+      - name: command
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Command
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/sandbox:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Sandbox Settings Handler
+      description: Return the current sandbox configuration.
+      operationId: get_sandbox_settings_handler_api_settings_sandbox_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - runtime_mutations
+      summary: Update Sandbox Settings Handler
+      description: Update sandbox settings (partial update). Returns the full new settings payload.
+      operationId: update_sandbox_settings_handler_api_settings_sandbox_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SandboxSettingsUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/sandbox/status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Sandbox Status Handler
+      description: Return platform sandbox availability details.
+      operationId: get_sandbox_status_handler_api_settings_sandbox_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/credentials/status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Credentials Status
+      description: 'Return ``{key: {set: bool, hint: str | null}}`` for every credential.
+
+
+        Reports the active user''s visible credential state for each known key.'
+      operationId: get_credentials_status_api_credentials_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/credentials/{key}:
+    put:
+      tags:
+      - runtime_mutations
+      summary: Store Credential Handler
+      description: Store a credential in ``settings.json``.
+      operationId: store_credential_handler_api_credentials__key__put
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CredentialStoreRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Credential Handler
+      description: Remove a credential from ``settings.json``.
+      operationId: delete_credential_handler_api_credentials__key__delete
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tags:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Available Tags Handler
+      description: Return list of available cell tags with their descriptions.
+      operationId: get_available_tags_handler_tags_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /tags/create:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create Tag Handler
+      description: Create a new tag.
+      operationId: create_tag_handler_tags_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tags/update:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Update Tag Handler
+      description: Update an existing tag.
+      operationId: update_tag_handler_tags_update_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tags/delete:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Delete Tag Handler
+      description: Delete a tag.
+      operationId: delete_tag_handler_tags_delete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Rules Handler
+      operationId: get_rules_handler_api_rules_get
+      parameters:
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - runtime_mutations
+      summary: Create Rule Handler
+      operationId: create_rule_handler_api_rules_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CreateRuleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/{rule_id}:
+    put:
+      tags:
+      - runtime_mutations
+      summary: Update Rule Handler
+      operationId: update_rule_handler_api_rules__rule_id__put
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_UpdateRuleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Rule Handler
+      operationId: delete_rule_handler_api_rules__rule_id__delete
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/reveal-folder:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Reveal Rules Folder Handler
+      operationId: reveal_rules_folder_handler_api_rules_reveal_folder_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/import/cursor:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Import Cursor Rules Handler
+      operationId: import_cursor_rules_handler_api_rules_import_cursor_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/import/claude-code:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Import Claude Code Rules Handler
+      operationId: import_claude_code_rules_handler_api_rules_import_claude_code_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ImportClaudeCodeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/import/file:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Import Rules From File Handler
+      description: 'Import a rule from an arbitrary file on the backend host.
+
+
+        The file''s full contents become the rule body. Reading an arbitrary
+
+        path is only safe on a single-user local backend, so it is refused in
+
+        multi-tenant cloud mode where the filesystem is shared across clients.'
+      operationId: import_rules_from_file_handler_api_rules_import_file_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ImportFileRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/personas:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Personas Handler
+      operationId: list_personas_handler_api_rules_personas_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/personas/activate:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Activate Persona Handler
+      operationId: activate_persona_handler_api_rules_personas_activate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ActivatePersonaRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /writeup/load:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Load Writeup
+      description: Load a writeup file (.qua).
+      operationId: load_writeup_writeup_load_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      - name: writeup_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Writeup Id
+      - name: kernel_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kernel Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /writeup/save:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Writeup
+      description: Save a writeup file (.qua).
+      operationId: save_writeup_writeup_save_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_WriteupSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /writeup/export:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Export Writeup
+      description: Export a writeup to Markdown (.zip), PDF, or LaTeX (.zip).
+      operationId: export_writeup_writeup_export_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      - name: format
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Format
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/claims:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Project Claims
+      description: 'List claims for a project with optional filters and DAG expansion.
+
+
+        HTTP callers receive every matching claim — the per-call recency cap
+
+        that ``get_claims`` applies to the LLM tool path is intentionally not
+
+        propagated here, since UI surfaces (CKG sidebar, task-DAG coloring,
+
+        writeup tables) need the full set. ``claim_ids`` is repeatable
+
+        (``?claim_ids=C-1&claim_ids=C-2``) for bulk lookup of a known set
+
+        without re-scanning the project.'
+      operationId: list_project_claims_api_projects__project_id__claims_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: claim_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Type
+      - name: high_level_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: High Level Only
+      - name: created_by_task_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Task Id
+      - name: degree
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Degree
+      - name: claim_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Claim Ids
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Claim Endpoint
+      description: 'Get a single claim with its sources.
+
+
+        ``project_id`` is optional when the caller only has ``claim_id`` (for example
+
+        writeup previews); the store resolves by claim id alone.'
+      operationId: get_claim_endpoint_api_claims__claim_id__get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - runtime_mutations
+      summary: Delete Claim Endpoint
+      description: Soft delete a finding.
+      operationId: delete_claim_endpoint_api_claims__claim_id__delete
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Delete Claim Endpoint Api Claims  Claim Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}/dag:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Claim Dag Endpoint
+      description: Get a claim with its DAG neighborhood.
+      operationId: get_claim_dag_endpoint_api_claims__claim_id__dag_get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: degree
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Degree
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/claims/{claim_id}/tabular-sort:
+    patch:
+      tags:
+      - runtime_mutations
+      summary: Update Tabular Sort Endpoint
+      description: Update the persisted row sort for a tabular claim.
+      operationId: update_tabular_sort_endpoint_api_projects__project_id__claims__claim_id__tabular_sort_patch
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TabularSortRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}/review:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Review Claim Endpoint
+      description: 'Record a user''s accept/reject decision on a finding from the knowledge panel.
+
+
+        The decision lives on the claim''s ``review_status`` column. ``accepted`` keeps
+
+        the finding and clears its affordances; ``rejected`` reuses the existing
+
+        soft-delete; ``pending`` is the undo state. A soft-deleted finding can only
+
+        re-enter review via ``pending`` (undo); accepting one directly is rejected so
+
+        the row can never end up accepted while still soft-deleted.'
+      operationId: review_claim_endpoint_api_claims__claim_id__review_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewClaimRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Review Claim Endpoint Api Claims  Claim Id  Review Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/review_bulk:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Review Claims Bulk Endpoint
+      description: 'Apply one decision to many findings — Accept all / Reject all and undo.
+
+
+        Acts only on the explicit ``claim_ids`` the client passes (the rows the user
+
+        is looking at), skipping non-findings and any ``accepted`` that can''t apply
+
+        because the finding is already soft-deleted. Returns the claim ids actually
+
+        affected so the client can offer a precise batch undo.'
+      operationId: review_claims_bulk_endpoint_api_claims_review_bulk_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewClaimsBulkRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewClaimsBulkResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/fetch-url:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Fetch Url Endpoint
+      description: 'Fetch a URL and persist its raw body as a blob. Used for optimistic
+
+        prefetch in the Import Knowledge UI so users get immediate feedback
+
+        about size/network errors before starting an import.'
+      operationId: fetch_url_endpoint_api_fetch_url_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchUrlRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchUrlResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-knowledge:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Import Knowledge Endpoint
+      description: Start a knowledge import. Returns immediately; progress via socket events.
+      operationId: import_knowledge_endpoint_api_projects__project_id__import_knowledge_post
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportKnowledgeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Import Knowledge Endpoint Api Projects  Project Id  Import Knowledge Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-sources:
+    get:
+      tags:
+      - runtime_mutations
+      summary: List Import Sources Endpoint
+      description: List every source ever submitted for this project, oldest first.
+      operationId: list_import_sources_endpoint_api_projects__project_id__import_sources_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportSourceResponse'
+                title: Response List Import Sources Endpoint Api Projects  Project Id  Import Sources Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-knowledge/{import_id}/status:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Import Knowledge Status Endpoint
+      description: Get current state of an in-flight or recently completed import.
+      operationId: import_knowledge_status_endpoint_api_projects__project_id__import_knowledge__import_id__status_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: import_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Import Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Import Knowledge Status Endpoint Api Projects  Project Id  Import Knowledge  Import Id  Status Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /blobs/upload:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Upload Blob
+      description: "Upload a file as a blob with streaming status updates.\n\nArgs:\n    file: The file to upload\n\nReturns:\n    Server-Sent Events stream with upload progress and final UUID"
+      operationId: upload_blob_blobs_upload_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_blob_blobs_upload_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /blobs/{uuid_str}:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Serve Blob
+      description: 'Serve a blob (image) by UUID from the database.
+
+
+        Requires an authenticated session. In cloud mode the caller''s user_id is
+
+        derived from the request principal so the store scopes the lookup by owner
+
+        and cross-tenant access is impossible even with a leaked blob UUID.'
+      operationId: serve_blob_blobs__uuid_str__get
+      parameters:
+      - name: uuid_str
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Uuid Str
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /blobs/{uuid_str}/download:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Download Blob
+      description: 'Download a blob by UUID with proper filename.
+
+
+        Requires an authenticated session; in cloud mode the lookup is scoped to
+
+        the caller''s user_id.'
+      operationId: download_blob_blobs__uuid_str__download_get
+      parameters:
+      - name: uuid_str
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Uuid Str
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /blobs/{uuid_str}/save-as-file:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Save Blob As File
+      description: Save a blob from storage as a file in the workspace.
+      operationId: save_blob_as_file_blobs__uuid_str__save_as_file_post
+      parameters:
+      - name: uuid_str
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Uuid Str
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveBlobAsFileRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /autocomplete/models:
+    get:
+      tags:
+      - runtime_mutations
+      summary: Get Autocomplete Models Endpoint
+      description: Get list of available models for autocomplete.
+      operationId: get_autocomplete_models_endpoint_autocomplete_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutocompleteModelsResponse'
+  /api/autocomplete:
+    post:
+      tags:
+      - runtime_mutations
+      summary: Autocomplete
+      description: Start LM autocomplete generation.
+      operationId: autocomplete_api_autocomplete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutocompleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    _TagDeleteRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - display_name
+      title: _TagDeleteRequest
+    _CellPatchRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      - content
+      title: _CellPatchRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _BashAllowlistAddRequest:
+      properties:
+        command:
+          type: string
+          title: Command
+        approved_tokens:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Approved Tokens
+      type: object
+      required:
+      - command
+      title: _BashAllowlistAddRequest
+    RuleType:
+      type: string
+      enum:
+      - always
+      - manual
+      title: RuleType
+    _WorkspaceSwitchRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+        initiator_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Initiator Id
+      type: object
+      required:
+      - path
+      title: _WorkspaceSwitchRequest
+    _TagUpdateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagUpdateRequest
+    _DraftCellsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cell_ids:
+          items:
+            type: string
+          type: array
+          title: Cell Ids
+      type: object
+      required:
+      - notebook_id
+      title: _DraftCellsRequest
+    AddEvidenceResponse:
+      properties:
+        claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Id
+          description: Created claim id, or null when the request was rejected.
+        rejected_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rejected Reason
+          description: Why the request was rejected, when ``claim_id`` is null.
+      type: object
+      title: AddEvidenceResponse
+      description: Response for ``POST /api/evidence``.
+    AutocompleteRequest:
+      properties:
+        notebook_id:
+          type: string
+          minLength: 1
+          title: Notebook Id
+        notebook_path:
+          type: string
+          minLength: 1
+          title: Notebook Path
+        cursor_position:
+          type: integer
+          minimum: 0.0
+          title: Cursor Position
+        current_cell_content:
+          type: string
+          title: Current Cell Content
+        current_cell_id:
+          type: string
+          minLength: 1
+          title: Current Cell Id
+        language:
+          type: string
+          minLength: 1
+          title: Language
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cursor_position
+      - current_cell_content
+      - current_cell_id
+      - language
+      title: AutocompleteRequest
+    TabularSortRequest:
+      properties:
+        sort:
+          additionalProperties: true
+          type: object
+          title: Sort
+      type: object
+      required:
+      - sort
+      title: TabularSortRequest
+    _SelectPythonEnvironmentRequest:
+      properties:
+        python_path:
+          type: string
+          title: Python Path
+      type: object
+      required:
+      - python_path
+      title: _SelectPythonEnvironmentRequest
+    _SandboxSettingsUpdateRequest:
+      properties:
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+        auto_approve:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Auto Approve
+        extra_writable_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Writable Paths
+        excluded_commands:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Excluded Commands
+        extra_deny_write:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Deny Write
+      type: object
+      title: _SandboxSettingsUpdateRequest
+    _ActivatePersonaRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      title: _ActivatePersonaRequest
+    KnowledgeSummaryResponse:
+      properties:
+        counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Counts
+        recent:
+          items:
+            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
+          type: array
+          title: Recent
+      type: object
+      required:
+      - counts
+      title: KnowledgeSummaryResponse
+    FetchUrlResponse:
+      properties:
+        blob_uuid:
+          type: string
+          title: Blob Uuid
+        mime_type:
+          type: string
+          title: Mime Type
+        size:
+          type: integer
+          title: Size
+        preview:
+          type: string
+          title: Preview
+      type: object
+      required:
+      - blob_uuid
+      - mime_type
+      - size
+      - preview
+      title: FetchUrlResponse
+    _DraftResetRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      title: _DraftResetRequest
+    _CreateRuleRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        content:
+          type: string
+          title: Content
+          default: ''
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+          default: manual
+        globs:
+          items:
+            type: string
+          type: array
+          title: Globs
+          default: []
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        kind:
+          $ref: '#/components/schemas/RuleKind'
+          default: rule
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      required:
+      - name
+      title: _CreateRuleRequest
+    _FileCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - path
+      title: _FileCreateRequest
+    Body_upload_file_files_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        dest_dir:
+          type: string
+          title: Dest Dir
+          default: ''
+        overwrite:
+          type: boolean
+          title: Overwrite
+          default: false
+      type: object
+      required:
+      - file
+      title: Body_upload_file_files_upload_post
+    _CreatePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _CreatePythonEnvironmentRequest
+    _KernelDiscoveryPathEnabledRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: _KernelDiscoveryPathEnabledRequest
+    _ExportFolderRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the folder containing notebooks to export
+      type: object
+      required:
+      - path
+      title: _ExportFolderRequest
+    _DeletePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _DeletePythonEnvironmentRequest
+    ReviewClaimRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - decision
+      title: ReviewClaimRequest
+    _SelectREnvironmentRequest:
+      properties:
+        r_path:
+          type: string
+          title: R Path
+      type: object
+      required:
+      - r_path
+      title: _SelectREnvironmentRequest
+    RuleKind:
+      type: string
+      enum:
+      - rule
+      - file-path
+      title: RuleKind
+      description: 'Discriminator for which UI/dialog should render a rule.
+
+
+        ``rule`` (default) is a free-form natural-language rule. ``file_path``
+
+        is a structured rule whose body is generated from its path. The
+
+        injected prompt content is the same for both — kind only affects the
+
+        editor that opens for the rule.'
+    _ExportNotebookContentRequest:
+      properties:
+        notebook:
+          additionalProperties: true
+          type: object
+          title: Notebook
+          description: The notebook JSON content to export
+      type: object
+      required:
+      - notebook
+      title: _ExportNotebookContentRequest
+    _RevealPathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _RevealPathRequest
+    _SaveCustomColorSchemeRequest:
+      properties:
+        scheme_id:
+          type: string
+          title: Scheme Id
+        name:
+          type: string
+          title: Name
+        colors:
+          items:
+            type: string
+          type: array
+          title: Colors
+      type: object
+      required:
+      - scheme_id
+      - name
+      - colors
+      title: _SaveCustomColorSchemeRequest
+    _DraftSaveRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      - path
+      title: _DraftSaveRequest
+    ImportSourceRequest:
+      properties:
+        source_type:
+          type: string
+          enum:
+          - text
+          - file
+          - url
+          title: Source Type
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - source_type
+      title: ImportSourceRequest
+    _ExportStandaloneRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the notebook to export
+      type: object
+      required:
+      - path
+      title: _ExportStandaloneRequest
+    _SlackOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _SlackOAuthInitRequest
+    _UpdateRuleRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        globs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Globs
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      title: _UpdateRuleRequest
+    KernelDiscoveryPathKind:
+      type: string
+      enum:
+      - kernelspec_root
+      - scan_root
+      title: KernelDiscoveryPathKind
+    _FolderCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - path
+      - name
+      title: _FolderCreateRequest
+    _SelectJuliaEnvironmentRequest:
+      properties:
+        julia_path:
+          type: string
+          title: Julia Path
+      type: object
+      required:
+      - julia_path
+      title: _SelectJuliaEnvironmentRequest
+    _PendingUserEdit:
+      properties:
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - cell_id
+      - content
+      title: _PendingUserEdit
+      description: A debounced user content edit not yet emitted via socket.
+    TerminalCreateRequest:
+      properties:
+        shell:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Shell
+        cols:
+          type: integer
+          title: Cols
+          default: 80
+        rows:
+          type: integer
+          title: Rows
+          default: 24
+        cwd:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cwd
+      type: object
+      title: TerminalCreateRequest
+    _GithubOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _GithubOAuthInitRequest
+    _ApplyModelFamilyRequest:
+      properties:
+        family:
+          type: string
+          title: Family
+      type: object
+      required:
+      - family
+      title: _ApplyModelFamilyRequest
+    _ImportClaudeCodeRequest:
+      properties:
+        project_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
+      type: object
+      title: _ImportClaudeCodeRequest
+    ClaimSourceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        claim_id:
+          type: string
+          title: Claim Id
+        source_type:
+          type: string
+          title: Source Type
+        source_claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Claim Id
+        source_notebook_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Id
+        source_notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Path
+        source_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Cell Id
+        source_file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source File Path
+        source_section_heading:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Section Heading
+      type: object
+      required:
+      - id
+      - claim_id
+      - source_type
+      title: ClaimSourceResponse
+    TerminalResizeRequest:
+      properties:
+        cols:
+          type: integer
+          title: Cols
+        rows:
+          type: integer
+          title: Rows
+      type: object
+      required:
+      - cols
+      - rows
+      title: TerminalResizeRequest
+    ClaimType:
+      type: string
+      enum:
+      - notebook-captured
+      - synthesized
+      - tabular
+      - figure
+      - imported
+      title: ClaimType
+      description: 'Claim type constants.
+
+
+        Notebook-captured evidence is created automatically by the Q_VARS system when
+
+        agents assign values to Q_VARS variables in code cells. These are the primary
+
+        source of evidence in the knowledge graph.
+
+
+        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
+
+        interpret what the evidence means—not only restate source values.
+
+
+        Tabular claims store structured data matrices with per-cell source references.
+
+
+        Figure claims link to chart/visualization outputs captured from notebook cells.'
+    AutocompleteModelsResponse:
+      properties:
+        models:
+          items:
+            $ref: '#/components/schemas/AutocompleteModelInfo'
+          type: array
+          title: Models
+      type: object
+      required:
+      - models
+      title: AutocompleteModelsResponse
+    ClaimResponse:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        project_id:
+          type: string
+          title: Project Id
+        claim_type:
+          type: string
+          title: Claim Type
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          title: Content
+        status:
+          type: string
+          title: Status
+        review_status:
+          type: string
+          title: Review Status
+          default: accepted
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          default: false
+        created_by_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Session Id
+        created_by_task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Task Id
+        updated_by_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated By Session Id
+        linked_variable:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Linked Variable
+        tabular_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Tabular Data
+        figure_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Figure Metadata
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        sources:
+          items:
+            $ref: '#/components/schemas/ClaimSourceResponse'
+          type: array
+          title: Sources
+        associated_tasks:
+          items:
+            $ref: '#/components/schemas/AssociatedTaskResponse'
+          type: array
+          title: Associated Tasks
+        associated_notebooks:
+          items:
+            $ref: '#/components/schemas/AssociatedNotebookResponse'
+          type: array
+          title: Associated Notebooks
+      type: object
+      required:
+      - claim_id
+      - project_id
+      - claim_type
+      - content
+      - status
+      - created_at
+      - updated_at
+      title: ClaimResponse
+    _WriteupSaveRequest:
+      properties:
+        writeup_id:
+          type: string
+          title: Writeup Id
+        path:
+          type: string
+          title: Path
+        title:
+          type: string
+          title: Title
+        content:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Content
+      type: object
+      required:
+      - writeup_id
+      - path
+      - title
+      - content
+      title: _WriteupSaveRequest
+    _DraftOperationsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+        operations:
+          items:
+            $ref: '#/components/schemas/_DraftOperation'
+          type: array
+          title: Operations
+      type: object
+      required:
+      - notebook_id
+      title: _DraftOperationsRequest
+    _FileDeleteRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        recursive:
+          type: boolean
+          title: Recursive
+          default: true
+      type: object
+      required:
+      - path
+      title: _FileDeleteRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ImportKnowledgeRequest:
+      properties:
+        sources:
+          items:
+            $ref: '#/components/schemas/ImportSourceRequest'
+          type: array
+          minItems: 1
+          title: Sources
+      type: object
+      required:
+      - sources
+      title: ImportKnowledgeRequest
+    _DraftOperation:
+      properties:
+        base_backend_checkpoint:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Backend Checkpoint
+        base_cell_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Cell Token
+        base_structure_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Structure Token
+        operation_id:
+          type: string
+          title: Operation Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        scope:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Scope
+      type: object
+      required:
+      - operation_id
+      - kind
+      title: _DraftOperation
+    _ExecuteRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        execution_id:
+          type: string
+          title: Execution Id
+          default: default
+        cell_id:
+          type: string
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _ExecuteRequest
+    _CellAddRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        cell_type:
+          type: string
+          title: Cell Type
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        after_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: After Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _CellAddRequest
+    _EnvironmentPrepareRequest:
+      properties:
+        profile_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Name
+        language:
+          type: string
+          enum:
+          - python
+          - julia
+          - r
+          title: Language
+          default: python
+      type: object
+      title: _EnvironmentPrepareRequest
+    Body_upload_blob_blobs_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_blob_blobs_upload_post
+    _EnvironmentPrivateValuesRequest:
+      properties:
+        values:
+          additionalProperties:
+            type: string
+          type: object
+          title: Values
+      type: object
+      required:
+      - values
+      title: _EnvironmentPrivateValuesRequest
+    AssociatedTaskResponse:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        title:
+          type: string
+          title: Title
+        status:
+          type: string
+          title: Status
+        assigned_to_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assigned To Session Id
+      type: object
+      required:
+      - task_id
+      - title
+      - status
+      title: AssociatedTaskResponse
+    AutocompleteModelInfo:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - key
+      - name
+      title: AutocompleteModelInfo
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    _ImportFileRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - path
+      title: _ImportFileRequest
+    _CredentialStoreRequest:
+      properties:
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - value
+      title: _CredentialStoreRequest
+    _SettingUpdateRequest:
+      properties:
+        settings_key:
+          type: string
+          title: Settings Key
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - settings_key
+      - value
+      title: _SettingUpdateRequest
+    KnowledgeSummaryClaimResponse:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        claim_type:
+          $ref: '#/components/schemas/ClaimType'
+        label:
+          type: string
+          title: Label
+        review_status:
+          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
+          default: accepted
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - claim_id
+      - claim_type
+      - label
+      - created_at
+      title: KnowledgeSummaryClaimResponse
+    _MatplotlibrcUpdateRequest:
+      properties:
+        dpi:
+          type: string
+          title: Dpi
+        figsize:
+          type: string
+          title: Figsize
+        colormap:
+          type: string
+          title: Colormap
+        color_cycle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color Cycle
+        custom_colors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Colors
+        font_size:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Size
+        font_family:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Family
+        linewidth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linewidth
+        grid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Grid
+        savefig_dpi:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Dpi
+        savefig_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Format
+      type: object
+      required:
+      - dpi
+      - figsize
+      - colormap
+      title: _MatplotlibrcUpdateRequest
+    TerminalWriteRequest:
+      properties:
+        data:
+          type: string
+          title: Data
+      type: object
+      required:
+      - data
+      title: TerminalWriteRequest
+    _DuplicatePathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _DuplicatePathRequest
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
+      type: object
+      required:
+      - type
+      - content
+      title: SerializedOutput
+    ImportSourceResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        import_id:
+          type: string
+          title: Import Id
+        project_id:
+          type: string
+          title: Project Id
+        source_type:
+          type: string
+          title: Source Type
+        label:
+          type: string
+          title: Label
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        status:
+          type: string
+          title: Status
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        claim_count:
+          type: integer
+          title: Claim Count
+          default: 0
+        batch_status:
+          type: string
+          title: Batch Status
+        batch_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Summary
+        batch_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Error
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - id
+      - import_id
+      - project_id
+      - source_type
+      - label
+      - status
+      - batch_status
+      - created_at
+      - updated_at
+      title: ImportSourceResponse
+    ReviewDecision:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    FetchUrlRequest:
+      properties:
+        url:
+          type: string
+          minLength: 1
+          title: Url
+      type: object
+      required:
+      - url
+      title: FetchUrlRequest
+    _EnvironmentConfigUpdateRequest:
+      properties:
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - config
+      title: _EnvironmentConfigUpdateRequest
+    AddEvidenceRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+          description: Notebook the value was produced in.
+        description:
+          type: string
+          title: Description
+          description: Brief narrative of what the value shows.
+        variable_name:
+          type: string
+          title: Variable Name
+          description: Notebook variable name.
+        value:
+          title: Value
+          description: The value to record. Same shape as qualia.submit_variable.
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+          description: Producing cell id when known; cited as the source.
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+          description: Optional task to associate the evidence claim with.
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          description: If true, broadcasts this claim to all agents.
+          default: false
+      type: object
+      required:
+      - notebook_id
+      - description
+      - variable_name
+      - value
+      title: AddEvidenceRequest
+      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
+
+        variable as a notebook-captured claim).'
+    _DraftSaveToCanonicalRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        force:
+          type: boolean
+          title: Force
+          default: false
+        pending_user_edits:
+          items:
+            $ref: '#/components/schemas/_PendingUserEdit'
+          type: array
+          title: Pending User Edits
+      type: object
+      required:
+      - notebook_id
+      title: _DraftSaveToCanonicalRequest
+    AssociatedNotebookResponse:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      title: AssociatedNotebookResponse
+    _FileSaveRequest:
+      properties:
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      required:
+      - path
+      title: _FileSaveRequest
+    QualiaCommandRequest:
+      properties:
+        file_path:
+          type: string
+          title: File Path
+      type: object
+      required:
+      - file_path
+      title: QualiaCommandRequest
+    _DraftManifestRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+      type: object
+      required:
+      - notebook_id
+      title: _DraftManifestRequest
+    ReviewClaimsBulkRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        claim_ids:
+          items:
+            type: string
+          type: array
+          title: Claim Ids
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - claim_ids
+      - decision
+      title: ReviewClaimsBulkRequest
+    _NotebookReadRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _NotebookReadRequest
+    Cell:
+      properties:
+        type:
+          $ref: '#/components/schemas/CellType'
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        outputs:
+          items:
+            $ref: '#/components/schemas/SerializedOutput'
+          type: array
+          title: Outputs
+        cellId:
+          type: string
+          title: Cellid
+        executionCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executioncount
+        executionTimeMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executiontimems
+        executedAtMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executedatms
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      title: Cell
+      description: Strongly typed representation of a notebook cell.
+    SaveBlobAsFileRequest:
+      properties:
+        filename:
+          type: string
+          title: Filename
+      type: object
+      required:
+      - filename
+      title: SaveBlobAsFileRequest
+    ClaimsListResponse:
+      properties:
+        claims:
+          items:
+            $ref: '#/components/schemas/ClaimResponse'
+          type: array
+          title: Claims
+        related:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Related
+      type: object
+      required:
+      - claims
+      title: ClaimsListResponse
+    ReviewClaimsBulkResponse:
+      properties:
+        affected:
+          items:
+            type: string
+          type: array
+          title: Affected
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - affected
+      - decision
+      title: ReviewClaimsBulkResponse
+    Body_import_project_endpoint_api_projects_import_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_import_project_endpoint_api_projects_import_post
+    _TagCreateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagCreateRequest
+    _FileRenameRequest:
+      properties:
+        old_path:
+          type: string
+          title: Old Path
+        new_path:
+          type: string
+          title: New Path
+      type: object
+      required:
+      - old_path
+      - new_path
+      title: _FileRenameRequest
+    _OpenWithDefaultRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _OpenWithDefaultRequest
+    _KernelDiscoveryPathRequest:
+      properties:
+        kind:
+          $ref: '#/components/schemas/KernelDiscoveryPathKind'
+        path:
+          type: string
+          title: Path
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+      type: object
+      required:
+      - kind
+      - path
+      title: _KernelDiscoveryPathRequest
+    KnowledgeSummaryClaimReviewStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      title: KnowledgeSummaryClaimReviewStatus

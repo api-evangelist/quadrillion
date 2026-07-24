@@ -1,0 +1,179 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account modal-filewatcher API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: modal-filewatcher
+paths:
+  /internal/fs-events:
+    post:
+      tags:
+      - modal-filewatcher
+      summary: Ingest Fs Events
+      description: Ingest filesystem events from the proxy and emit to Socket.IO.
+      operationId: ingest_fs_events_internal_fs_events_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileSystemEventsRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /internal/fs-stale:
+    post:
+      tags:
+      - modal-filewatcher
+      summary: Emit Fs Stale
+      description: Emit ``fs_stale`` Socket.IO event on proxy reconnection.
+      operationId: emit_fs_stale_internal_fs_stale_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FSStalePayload'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FSStalePayload:
+      properties:
+        reason:
+          type: string
+          title: Reason
+        sandbox_id:
+          type: string
+          title: Sandbox Id
+        sandbox_alias:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sandbox Alias
+        workspace_id:
+          type: string
+          title: Workspace Id
+      additionalProperties: false
+      type: object
+      required:
+      - reason
+      - sandbox_id
+      - workspace_id
+      title: FSStalePayload
+      description: Payload emitted on the ``fs_stale`` Socket.IO event.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RawFileEvent:
+      properties:
+        path:
+          type: string
+          title: Path
+        old_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Old Path
+        event_type:
+          type: string
+          enum:
+          - CREATED
+          - MODIFIED
+          - DELETED
+          - MOVED
+          title: Event Type
+        entity_type:
+          type: string
+          enum:
+          - FILE
+          - FOLDER
+          title: Entity Type
+          default: FILE
+        timestamp_ns:
+          type: integer
+          minimum: 0.0
+          title: Timestamp Ns
+      additionalProperties: false
+      type: object
+      required:
+      - path
+      - event_type
+      - timestamp_ns
+      title: RawFileEvent
+      description: A single filesystem event forwarded by the proxy.
+    FileSystemEventsRequest:
+      properties:
+        sandbox_id:
+          type: string
+          title: Sandbox Id
+        sandbox_alias:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sandbox Alias
+        workspace_id:
+          type: string
+          title: Workspace Id
+        api_version:
+          type: string
+          title: Api Version
+          default: v1
+        stale:
+          type: boolean
+          title: Stale
+          default: false
+        events:
+          items:
+            $ref: '#/components/schemas/RawFileEvent'
+          type: array
+          title: Events
+      additionalProperties: false
+      type: object
+      required:
+      - sandbox_id
+      - workspace_id
+      - events
+      title: FileSystemEventsRequest
+      description: Batch of filesystem events from the proxy to FastAPI.

@@ -1,0 +1,279 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account terminal API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: terminal
+paths:
+  /api/terminal/create:
+    post:
+      tags:
+      - terminal
+      summary: Create Terminal
+      description: Create a new terminal.
+      operationId: create_terminal_api_terminal_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/write:
+    post:
+      tags:
+      - terminal
+      summary: Write Terminal
+      description: Write data to terminal stdin.
+      operationId: write_terminal_api_terminal__terminal_id__write_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalWriteRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/read:
+    get:
+      tags:
+      - terminal
+      summary: Read Terminal
+      description: Read data from terminal stdout (polling fallback).
+      operationId: read_terminal_api_terminal__terminal_id__read_get
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}/resize:
+    post:
+      tags:
+      - terminal
+      summary: Resize Terminal
+      description: Resize terminal.
+      operationId: resize_terminal_api_terminal__terminal_id__resize_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalResizeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/{terminal_id}:
+    delete:
+      tags:
+      - terminal
+      summary: Delete Terminal
+      description: Kill terminal process.
+      operationId: delete_terminal_api_terminal__terminal_id__delete
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/python-env:
+    get:
+      tags:
+      - terminal
+      summary: Get Python Env
+      description: Get Python environment info for terminal.
+      operationId: get_python_env_api_terminal_python_env_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/terminal/{terminal_id}/qualia:
+    post:
+      tags:
+      - terminal
+      summary: Qualia Command
+      description: Handle qualia command to open a file in Qualia.
+      operationId: qualia_command_api_terminal__terminal_id__qualia_post
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Terminal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualiaCommandRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    QualiaCommandRequest:
+      properties:
+        file_path:
+          type: string
+          title: File Path
+      type: object
+      required:
+      - file_path
+      title: QualiaCommandRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TerminalWriteRequest:
+      properties:
+        data:
+          type: string
+          title: Data
+      type: object
+      required:
+      - data
+      title: TerminalWriteRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TerminalResizeRequest:
+      properties:
+        cols:
+          type: integer
+          title: Cols
+        rows:
+          type: integer
+          title: Rows
+      type: object
+      required:
+      - cols
+      - rows
+      title: TerminalResizeRequest
+    TerminalCreateRequest:
+      properties:
+        shell:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Shell
+        cols:
+          type: integer
+          title: Cols
+          default: 80
+        rows:
+          type: integer
+          title: Rows
+          default: 24
+        cwd:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cwd
+      type: object
+      title: TerminalCreateRequest

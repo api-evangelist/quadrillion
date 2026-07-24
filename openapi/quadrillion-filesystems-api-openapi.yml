@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account filesystems API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: filesystems
+paths:
+  /api/filesystems:
+    get:
+      tags:
+      - filesystems
+      summary: List Filesystems
+      description: List all filesystems for the authenticated user.
+      operationId: list_filesystems_api_filesystems_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - filesystems
+      summary: Create Filesystem
+      description: Create the default filesystem for the authenticated user.
+      operationId: create_filesystem_api_filesystems_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/filesystems/default:
+    get:
+      tags:
+      - filesystems
+      summary: Get Default
+      description: Get the authenticated user's default filesystem, creating if needed.
+      operationId: get_default_api_filesystems_default_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/filesystems/{fs_id}:
+    delete:
+      tags:
+      - filesystems
+      summary: Delete Filesystem
+      description: Delete a filesystem by ID. Only the owning user can delete it.
+      operationId: delete_filesystem_api_filesystems__fs_id__delete
+      parameters:
+      - name: fs_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Fs Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Openrouter API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Openrouter
+paths:
+  /openrouter/chat/completions:
+    post:
+      summary: Proxy Response Openrouter
+      description: Proxy OpenRouter API requests. Requires valid Quadrillion API key.
+      operationId: proxy_response_openrouter_openrouter_chat_completions_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Openrouter

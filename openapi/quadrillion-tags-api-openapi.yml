@@ -1,0 +1,163 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account tags API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: tags
+paths:
+  /tags:
+    get:
+      tags:
+      - tags
+      summary: Get Available Tags Handler
+      description: Return list of available cell tags with their descriptions.
+      operationId: get_available_tags_handler_tags_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /tags/create:
+    post:
+      tags:
+      - tags
+      summary: Create Tag Handler
+      description: Create a new tag.
+      operationId: create_tag_handler_tags_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tags/update:
+    post:
+      tags:
+      - tags
+      summary: Update Tag Handler
+      description: Update an existing tag.
+      operationId: update_tag_handler_tags_update_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tags/delete:
+    post:
+      tags:
+      - tags
+      summary: Delete Tag Handler
+      description: Delete a tag.
+      operationId: delete_tag_handler_tags_delete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_TagDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    _TagDeleteRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - display_name
+      title: _TagDeleteRequest
+    _TagCreateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagCreateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _TagUpdateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagUpdateRequest

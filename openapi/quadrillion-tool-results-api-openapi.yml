@@ -1,0 +1,185 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account tool_results API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: tool_results
+paths:
+  /api/tool_results:
+    get:
+      tags:
+      - tool_results
+      summary: List Tool Results
+      operationId: list_tool_results_api_tool_results_get
+      parameters:
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      - name: notebook_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolResultsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/tool_results/{call_id}/payload:
+    get:
+      tags:
+      - tool_results
+      summary: Get Tool Result Payload
+      operationId: get_tool_result_payload_api_tool_results__call_id__payload_get
+      parameters:
+      - name: call_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Call Id
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      - name: notebook_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ToolResultsListResponse:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+        entries:
+          items:
+            $ref: '#/components/schemas/ToolResultEntry'
+          type: array
+          title: Entries
+      type: object
+      required:
+      - chat_session_id
+      - entries
+      title: ToolResultsListResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ToolResultEntry:
+      properties:
+        call_id:
+          type: string
+          title: Call Id
+        tool_name:
+          type: string
+          title: Tool Name
+        inputs_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Inputs Summary
+        artifact_id:
+          type: string
+          title: Artifact Id
+        content_type:
+          type: string
+          title: Content Type
+        size_bytes:
+          type: integer
+          title: Size Bytes
+        ok:
+          type: boolean
+          title: Ok
+        truncated:
+          type: boolean
+          title: Truncated
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        assistant_turn_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assistant Turn Id
+        parallel_group_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parallel Group Id
+      type: object
+      required:
+      - call_id
+      - tool_name
+      - artifact_id
+      - content_type
+      - size_bytes
+      - ok
+      - truncated
+      title: ToolResultEntry
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account modal-files API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: modal-files
+paths:
+  /v1/modal/files/list:
+    post:
+      tags:
+      - modal-files
+      summary: List Files
+      description: List directory contents from the workspace sandbox file service.
+      operationId: list_files_v1_modal_files_list_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/read:
+    post:
+      tags:
+      - modal-files
+      summary: Read File
+      description: Read a file from the workspace sandbox file service.
+      operationId: read_file_v1_modal_files_read_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/write:
+    post:
+      tags:
+      - modal-files
+      summary: Write File
+      description: Write/save a file on the workspace sandbox.
+      operationId: write_file_v1_modal_files_write_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/mkdir:
+    post:
+      tags:
+      - modal-files
+      summary: Create Folder
+      description: Create a folder on the workspace sandbox.
+      operationId: create_folder_v1_modal_files_mkdir_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/delete:
+    post:
+      tags:
+      - modal-files
+      summary: Delete Path
+      description: Delete a file or folder on the workspace sandbox.
+      operationId: delete_path_v1_modal_files_delete_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/rename:
+    post:
+      tags:
+      - modal-files
+      summary: Rename Path
+      description: Rename/move a file or folder on the workspace sandbox.
+      operationId: rename_path_v1_modal_files_rename_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/duplicate:
+    post:
+      tags:
+      - modal-files
+      summary: Duplicate Path
+      description: Duplicate a file or folder on the workspace sandbox.
+      operationId: duplicate_path_v1_modal_files_duplicate_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/modal/files/check:
+    post:
+      tags:
+      - modal-files
+      summary: Check Path
+      description: Check if a path exists on the workspace sandbox.
+      operationId: check_path_v1_modal_files_check_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}

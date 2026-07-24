@@ -1,0 +1,1314 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account settings API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: settings
+paths:
+  /api/settings/update:
+    post:
+      tags:
+      - settings
+      summary: Update Single Setting Handler
+      description: Update a single setting.
+      operationId: update_single_setting_handler_api_settings_update_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SettingUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/apply-model-family:
+    post:
+      tags:
+      - settings
+      summary: Apply Model Family Handler
+      description: 'Apply a model family by fanning it out into the per-role model settings.
+
+
+        Persists concrete values for the agent roles (flagship) and knowledge
+
+        import (economy tier). The family itself is not persisted — it is only a
+
+        transient way to propagate these per-role defaults. Re-running this
+
+        overwrites those roles; users can still set explicit per-role overrides
+
+        afterwards.'
+      operationId: apply_model_family_handler_api_settings_apply_model_family_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ApplyModelFamilyRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/values:
+    get:
+      tags:
+      - settings
+      summary: Get All Settings Handler
+      description: Get all setting values.
+      operationId: get_all_settings_handler_api_settings_values_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/base-path:
+    get:
+      tags:
+      - settings
+      summary: Get Base Path Handler
+      description: Get the current base path for notebooks.
+      operationId: get_base_path_handler_api_settings_base_path_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/workspace/switch:
+    post:
+      tags:
+      - settings
+      summary: Switch Workspace Handler
+      operationId: switch_workspace_handler_api_workspace_switch_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_WorkspaceSwitchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/status:
+    get:
+      tags:
+      - settings
+      summary: Get Environment Status Handler
+      description: Return current environment profile metadata for stale-runtime UI.
+      operationId: get_environment_status_handler_api_settings_environment_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/environment/preparation-status:
+    get:
+      tags:
+      - settings
+      summary: Get Environment Preparation Status Handler
+      operationId: get_environment_preparation_status_handler_api_settings_environment_preparation_status_get
+      parameters:
+      - name: profile_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Name
+      - name: language
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - python
+            - julia
+            - r
+            type: string
+          - type: 'null'
+          title: Language
+      - name: advanced
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Advanced
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/prepare:
+    post:
+      tags:
+      - settings
+      summary: Prepare Environment Handler
+      operationId: prepare_environment_handler_api_settings_environment_prepare_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrepareRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/cancel-prepare:
+    post:
+      tags:
+      - settings
+      summary: Cancel Prepare Environment Handler
+      operationId: cancel_prepare_environment_handler_api_settings_environment_cancel_prepare_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrepareRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/cleanup-prepared:
+    post:
+      tags:
+      - settings
+      summary: Cleanup Prepared Environment Handler
+      operationId: cleanup_prepared_environment_handler_api_settings_environment_cleanup_prepared_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/environment/config:
+    get:
+      tags:
+      - settings
+      summary: Get Environment Config Handler
+      operationId: get_environment_config_handler_api_settings_environment_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    put:
+      tags:
+      - settings
+      summary: Update Environment Config Handler
+      operationId: update_environment_config_handler_api_settings_environment_config_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentConfigUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/environment/private-values:
+    put:
+      tags:
+      - settings
+      summary: Update Environment Private Values Handler
+      operationId: update_environment_private_values_handler_api_settings_environment_private_values_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_EnvironmentPrivateValuesRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/check-venv:
+    get:
+      tags:
+      - settings
+      summary: Check Venv Handler
+      description: Check if .venv exists in the provided directory.
+      operationId: check_venv_handler_api_python_environments_check_venv_get
+      parameters:
+      - name: location
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create-location:
+    get:
+      tags:
+      - settings
+      summary: Get Create Environment Location Handler
+      description: Get the default location where .venv will be created.
+      operationId: get_create_environment_location_handler_api_python_environments_create_location_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/slack/configured:
+    get:
+      tags:
+      - settings
+      summary: Get Slack Configured Handler
+      description: Check whether Slack settings are configured.
+      operationId: get_slack_configured_handler_api_settings_slack_configured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/slack/install:
+    post:
+      tags:
+      - settings
+      summary: Slack Oauth Init Handler
+      description: Proxy POST request to Slack OAuth initiation endpoint.
+      operationId: slack_oauth_init_handler_api_settings_slack_install_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SlackOAuthInitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/slack/oauth-callback:
+    post:
+      tags:
+      - settings
+      summary: Slack Oauth Callback Handler
+      description: 'Receive OAuth tokens from the website via browser auto-submit form.
+
+
+        The website returns an HTML form that auto-POSTs tokens to this endpoint
+
+        through the user''s browser.  On success the tokens are persisted to
+
+        settings and the browser is redirected to the success page on the website.'
+      operationId: slack_oauth_callback_handler_api_settings_slack_oauth_callback_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/github/configured:
+    get:
+      tags:
+      - settings
+      summary: Get Github Configured Handler
+      description: Return whether a GitHub OAuth token is stored and the flow is enabled.
+      operationId: get_github_configured_handler_api_settings_github_configured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/github/install:
+    post:
+      tags:
+      - settings
+      summary: Github Oauth Init Handler
+      description: Proxy POST request to GitHub OAuth initiation endpoint.
+      operationId: github_oauth_init_handler_api_settings_github_install_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_GithubOAuthInitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/github/oauth-callback:
+    post:
+      tags:
+      - settings
+      summary: Github Oauth Callback Handler
+      description: Receive OAuth token from the website via browser auto-submit form.
+      operationId: github_oauth_callback_handler_api_settings_github_oauth_callback_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/validate-kernel:
+    get:
+      tags:
+      - settings
+      summary: Validate Kernel Setting Handler
+      description: Validate that DEFAULT_KERNEL setting is valid.
+      operationId: validate_kernel_setting_handler_api_settings_validate_kernel_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/kernel-discovery/paths:
+    get:
+      tags:
+      - settings
+      summary: List Kernel Discovery Paths Handler
+      operationId: list_kernel_discovery_paths_handler_api_kernel_discovery_paths_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - settings
+      summary: Add Kernel Discovery Path Handler
+      operationId: add_kernel_discovery_path_handler_api_kernel_discovery_paths_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/preview:
+    post:
+      tags:
+      - settings
+      summary: Preview Kernel Discovery Path Handler
+      operationId: preview_kernel_discovery_path_handler_api_kernel_discovery_paths_preview_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/{path_id}/enabled:
+    post:
+      tags:
+      - settings
+      summary: Set Kernel Discovery Path Enabled Handler
+      operationId: set_kernel_discovery_path_enabled_handler_api_kernel_discovery_paths__path_id__enabled_post
+      parameters:
+      - name: path_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Path Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_KernelDiscoveryPathEnabledRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel-discovery/paths/{path_id}:
+    delete:
+      tags:
+      - settings
+      summary: Remove Kernel Discovery Path Handler
+      operationId: remove_kernel_discovery_path_handler_api_kernel_discovery_paths__path_id__delete
+      parameters:
+      - name: path_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Path Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/select:
+    post:
+      tags:
+      - settings
+      summary: Select Python Environment Handler
+      description: Select a Python environment and create kernel spec for it.
+      operationId: select_python_environment_handler_api_python_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectPythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/julia-environments/select:
+    post:
+      tags:
+      - settings
+      summary: Select Julia Environment Handler
+      description: Select a Julia installation and create kernel spec for it.
+      operationId: select_julia_environment_handler_api_julia_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectJuliaEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/r-environments/select:
+    post:
+      tags:
+      - settings
+      summary: Select R Environment Handler
+      description: Select an R installation and create kernel spec for it.
+      operationId: select_r_environment_handler_api_r_environments_select_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SelectREnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create-status:
+    get:
+      tags:
+      - settings
+      summary: Get Create Environment Status
+      description: Get status for an environment creation job.
+      operationId: get_create_environment_status_api_python_environments_create_status_get
+      parameters:
+      - name: job_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/create:
+    post:
+      tags:
+      - settings
+      summary: Create Python Environment Handler
+      description: Create a new .venv virtual environment using stdlib venv.
+      operationId: create_python_environment_handler_api_python_environments_create_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CreatePythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/python-environments/workspace-venv:
+    delete:
+      tags:
+      - settings
+      summary: Delete Python Environment Handler
+      operationId: delete_python_environment_handler_api_python_environments_workspace_venv_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_DeletePythonEnvironmentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc:
+    get:
+      tags:
+      - settings
+      summary: Get Matplotlibrc Handler
+      description: Get current matplotlibrc settings.
+      operationId: get_matplotlibrc_handler_api_settings_matplotlibrc_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - settings
+      summary: Update Matplotlibrc Handler
+      description: Update matplotlibrc settings.
+      operationId: update_matplotlibrc_handler_api_settings_matplotlibrc_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_MatplotlibrcUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/path:
+    get:
+      tags:
+      - settings
+      summary: Get Matplotlibrc Path Handler
+      description: Get the path to the matplotlibrc file.
+      operationId: get_matplotlibrc_path_handler_api_settings_matplotlibrc_path_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/matplotlibrc/color-cycles:
+    get:
+      tags:
+      - settings
+      summary: Get Color Cycle Schemes Handler
+      description: Get available color cycle schemes.
+      operationId: get_color_cycle_schemes_handler_api_settings_matplotlibrc_color_cycles_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/matplotlibrc/color-cycles/custom:
+    post:
+      tags:
+      - settings
+      summary: Save Custom Color Scheme Handler
+      description: Save a custom color scheme.
+      operationId: save_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SaveCustomColorSchemeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/color-cycles/custom/{scheme_id}:
+    delete:
+      tags:
+      - settings
+      summary: Delete Custom Color Scheme Handler
+      description: Delete a custom color scheme.
+      operationId: delete_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom__scheme_id__delete
+      parameters:
+      - name: scheme_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scheme Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/matplotlibrc/colormaps:
+    get:
+      tags:
+      - settings
+      summary: Get Colormap Preview Handler
+      description: Get colormap preview data for all available colormaps.
+      operationId: get_colormap_preview_handler_api_settings_matplotlibrc_colormaps_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/bash-allowlist:
+    get:
+      tags:
+      - settings
+      summary: Get Bash Allowlist Handler
+      description: Return the user-managed bash command allowlist.
+      operationId: get_bash_allowlist_handler_api_settings_bash_allowlist_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - settings
+      summary: Add Bash Allowlist Handler
+      description: 'Add a command to the user bash allowlist.
+
+
+        If the command has known dangerous flags (e.g. ``rm``), denied-flag
+
+        defaults are auto-applied so that dangerous variants still require
+
+        confirmation.'
+      operationId: add_bash_allowlist_handler_api_settings_bash_allowlist_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_BashAllowlistAddRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - settings
+      summary: Clear Bash Allowlist Handler
+      description: Remove all user-added bash command allowlist entries.
+      operationId: clear_bash_allowlist_handler_api_settings_bash_allowlist_delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/settings/bash-allowlist/{command}:
+    delete:
+      tags:
+      - settings
+      summary: Remove Bash Allowlist Handler
+      description: Remove a single command token from the user bash allowlist.
+      operationId: remove_bash_allowlist_handler_api_settings_bash_allowlist__command__delete
+      parameters:
+      - name: command
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Command
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/sandbox:
+    get:
+      tags:
+      - settings
+      summary: Get Sandbox Settings Handler
+      description: Return the current sandbox configuration.
+      operationId: get_sandbox_settings_handler_api_settings_sandbox_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - settings
+      summary: Update Sandbox Settings Handler
+      description: Update sandbox settings (partial update). Returns the full new settings payload.
+      operationId: update_sandbox_settings_handler_api_settings_sandbox_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_SandboxSettingsUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/sandbox/status:
+    get:
+      tags:
+      - settings
+      summary: Get Sandbox Status Handler
+      description: Return platform sandbox availability details.
+      operationId: get_sandbox_status_handler_api_settings_sandbox_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _BashAllowlistAddRequest:
+      properties:
+        command:
+          type: string
+          title: Command
+        approved_tokens:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Approved Tokens
+      type: object
+      required:
+      - command
+      title: _BashAllowlistAddRequest
+    _SaveCustomColorSchemeRequest:
+      properties:
+        scheme_id:
+          type: string
+          title: Scheme Id
+        name:
+          type: string
+          title: Name
+        colors:
+          items:
+            type: string
+          type: array
+          title: Colors
+      type: object
+      required:
+      - scheme_id
+      - name
+      - colors
+      title: _SaveCustomColorSchemeRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _WorkspaceSwitchRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+        initiator_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Initiator Id
+      type: object
+      required:
+      - path
+      title: _WorkspaceSwitchRequest
+    _SelectPythonEnvironmentRequest:
+      properties:
+        python_path:
+          type: string
+          title: Python Path
+      type: object
+      required:
+      - python_path
+      title: _SelectPythonEnvironmentRequest
+    _EnvironmentPrepareRequest:
+      properties:
+        profile_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Name
+        language:
+          type: string
+          enum:
+          - python
+          - julia
+          - r
+          title: Language
+          default: python
+      type: object
+      title: _EnvironmentPrepareRequest
+    _EnvironmentPrivateValuesRequest:
+      properties:
+        values:
+          additionalProperties:
+            type: string
+          type: object
+          title: Values
+      type: object
+      required:
+      - values
+      title: _EnvironmentPrivateValuesRequest
+    _SandboxSettingsUpdateRequest:
+      properties:
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+        auto_approve:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Auto Approve
+        extra_writable_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Writable Paths
+        excluded_commands:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Excluded Commands
+        extra_deny_write:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Deny Write
+      type: object
+      title: _SandboxSettingsUpdateRequest
+    _SlackOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _SlackOAuthInitRequest
+    KernelDiscoveryPathKind:
+      type: string
+      enum:
+      - kernelspec_root
+      - scan_root
+      title: KernelDiscoveryPathKind
+    _SettingUpdateRequest:
+      properties:
+        settings_key:
+          type: string
+          title: Settings Key
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - settings_key
+      - value
+      title: _SettingUpdateRequest
+    _MatplotlibrcUpdateRequest:
+      properties:
+        dpi:
+          type: string
+          title: Dpi
+        figsize:
+          type: string
+          title: Figsize
+        colormap:
+          type: string
+          title: Colormap
+        color_cycle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color Cycle
+        custom_colors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Colors
+        font_size:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Size
+        font_family:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Family
+        linewidth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linewidth
+        grid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Grid
+        savefig_dpi:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Dpi
+        savefig_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Format
+      type: object
+      required:
+      - dpi
+      - figsize
+      - colormap
+      title: _MatplotlibrcUpdateRequest
+    _SelectJuliaEnvironmentRequest:
+      properties:
+        julia_path:
+          type: string
+          title: Julia Path
+      type: object
+      required:
+      - julia_path
+      title: _SelectJuliaEnvironmentRequest
+    _CreatePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _CreatePythonEnvironmentRequest
+    _GithubOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _GithubOAuthInitRequest
+    _ApplyModelFamilyRequest:
+      properties:
+        family:
+          type: string
+          title: Family
+      type: object
+      required:
+      - family
+      title: _ApplyModelFamilyRequest
+    _KernelDiscoveryPathEnabledRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: _KernelDiscoveryPathEnabledRequest
+    _DeletePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _DeletePythonEnvironmentRequest
+    _SelectREnvironmentRequest:
+      properties:
+        r_path:
+          type: string
+          title: R Path
+      type: object
+      required:
+      - r_path
+      title: _SelectREnvironmentRequest
+    _EnvironmentConfigUpdateRequest:
+      properties:
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - config
+      title: _EnvironmentConfigUpdateRequest
+    _KernelDiscoveryPathRequest:
+      properties:
+        kind:
+          $ref: '#/components/schemas/KernelDiscoveryPathKind'
+        path:
+          type: string
+          title: Path
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+      type: object
+      required:
+      - kind
+      - path
+      title: _KernelDiscoveryPathRequest

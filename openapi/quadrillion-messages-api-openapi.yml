@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Messages API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Messages
+paths:
+  /v1/messages:
+    post:
+      summary: Proxy Response Anthropic
+      description: Proxy Anthropic Messages API requests. Requires valid Quadrillion API key.
+      operationId: proxy_response_anthropic_v1_messages_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Messages

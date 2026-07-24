@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account linear API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: linear
+paths:
+  /api/linear/webhook:
+    post:
+      tags:
+      - linear
+      summary: Linear Webhook
+      description: 'Receive a Linear webhook and dispatch the configured triage path.
+
+
+        Returns ``{"status": "ok"}`` on every successfully verified event,
+
+        including ones that don''t match the bug-create filter — Linear should
+
+        not retry those. Signature/format failures return 4xx.'
+      operationId: linear_webhook_api_linear_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Linear Webhook Api Linear Webhook Post

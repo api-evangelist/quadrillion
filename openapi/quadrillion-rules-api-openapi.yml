@@ -1,0 +1,394 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account rules API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: rules
+paths:
+  /api/rules:
+    get:
+      tags:
+      - rules
+      summary: Get Rules Handler
+      operationId: get_rules_handler_api_rules_get
+      parameters:
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - rules
+      summary: Create Rule Handler
+      operationId: create_rule_handler_api_rules_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_CreateRuleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/{rule_id}:
+    put:
+      tags:
+      - rules
+      summary: Update Rule Handler
+      operationId: update_rule_handler_api_rules__rule_id__put
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_UpdateRuleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - rules
+      summary: Delete Rule Handler
+      operationId: delete_rule_handler_api_rules__rule_id__delete
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/reveal-folder:
+    post:
+      tags:
+      - rules
+      summary: Reveal Rules Folder Handler
+      operationId: reveal_rules_folder_handler_api_rules_reveal_folder_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/import/cursor:
+    post:
+      tags:
+      - rules
+      summary: Import Cursor Rules Handler
+      operationId: import_cursor_rules_handler_api_rules_import_cursor_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/import/claude-code:
+    post:
+      tags:
+      - rules
+      summary: Import Claude Code Rules Handler
+      operationId: import_claude_code_rules_handler_api_rules_import_claude_code_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ImportClaudeCodeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/import/file:
+    post:
+      tags:
+      - rules
+      summary: Import Rules From File Handler
+      description: 'Import a rule from an arbitrary file on the backend host.
+
+
+        The file''s full contents become the rule body. Reading an arbitrary
+
+        path is only safe on a single-user local backend, so it is refused in
+
+        multi-tenant cloud mode where the filesystem is shared across clients.'
+      operationId: import_rules_from_file_handler_api_rules_import_file_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ImportFileRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/rules/personas:
+    get:
+      tags:
+      - rules
+      summary: List Personas Handler
+      operationId: list_personas_handler_api_rules_personas_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/rules/personas/activate:
+    post:
+      tags:
+      - rules
+      summary: Activate Persona Handler
+      operationId: activate_persona_handler_api_rules_personas_activate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_ActivatePersonaRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    _ImportFileRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - path
+      title: _ImportFileRequest
+    _UpdateRuleRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        globs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Globs
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      title: _UpdateRuleRequest
+    _ImportClaudeCodeRequest:
+      properties:
+        project_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
+      type: object
+      title: _ImportClaudeCodeRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _CreateRuleRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        content:
+          type: string
+          title: Content
+          default: ''
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+          default: manual
+        globs:
+          items:
+            type: string
+          type: array
+          title: Globs
+          default: []
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        kind:
+          $ref: '#/components/schemas/RuleKind'
+          default: rule
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      required:
+      - name
+      title: _CreateRuleRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RuleKind:
+      type: string
+      enum:
+      - rule
+      - file-path
+      title: RuleKind
+      description: 'Discriminator for which UI/dialog should render a rule.
+
+
+        ``rule`` (default) is a free-form natural-language rule. ``file_path``
+
+        is a structured rule whose body is generated from its path. The
+
+        injected prompt content is the same for both — kind only affects the
+
+        editor that opens for the rule.'
+    RuleType:
+      type: string
+      enum:
+      - always
+      - manual
+      title: RuleType
+    _ActivatePersonaRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      title: _ActivatePersonaRequest

@@ -1,0 +1,335 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account auth API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: auth
+paths:
+  /api/auth/me:
+    get:
+      tags:
+      - auth
+      summary: Get Current User
+      description: "Get current authenticated user information.\n\nRequires: Bearer token or session cookie\n\nReturns:\n    {\n        \"id\": 123,\n        \"email\": \"user@example.com\",\n        \"name\": \"John Doe\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"last_login\": \"2025-01-16T14:20:00Z\",\n        \"job_type\": \"Data Scientist\",\n        \"company_name\": \"Acme Corp\",\n        \"onboarding_completed\": true,\n        \"organization_role\": \"owner\"\n    }"
+      operationId: get_current_user_api_auth_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/auth/logout:
+    post:
+      tags:
+      - auth
+      summary: Logout
+      description: "Logout endpoint - clears the session cookie.\n\nReturns:\n    {\"message\": \"Logged out successfully\"}"
+      operationId: logout_api_auth_logout_post
+      parameters:
+      - name: frontend_origin
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/orgs/invitations/{token}:
+    get:
+      tags:
+      - auth
+      summary: Preview Invitation
+      description: 'Preview an invitation by token — no auth required.
+
+
+        Returns org name, role, and invited email so the frontend can show
+
+        a confirmation screen before the user accepts.'
+      operationId: preview_invitation_api_auth_orgs_invitations__token__get
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Token
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/orgs/invitations/{token}/accept:
+    post:
+      tags:
+      - auth
+      summary: Accept Invitation
+      operationId: accept_invitation_api_auth_orgs_invitations__token__accept_post
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Token
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/workos/start:
+    get:
+      tags:
+      - auth
+      summary: Start
+      description: "Build the WorkOS authorization URL and redirect.\n\n* ``org_slug`` — when present, the start endpoint looks up the\n  Organization's WorkOS organization id and routes through the\n  tenant SSO connection. When absent, falls back to personal\n  Google OAuth via WorkOS's built-in ``GoogleOAuth`` provider.\n* ``frontend_origin`` — explicit browser origin. Required for\n  browser logins and must match ``ALLOWED_FRONTEND_ORIGINS``. Used\n  to pick the callback host for dashboard-vs-cloud logins.\n* ``next`` — post-login redirect target on the frontend. Validated\n  to root-relative paths only.\n* ``callback_port`` — when present, the success path will redirect\n  to ``http://localhost:<port>/callback`` instead of setting a\n  browser cookie. Used by ``qli login`` and the Electron app."
+      operationId: start_api_auth_workos_start_get
+      parameters:
+      - name: org_slug
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org Slug
+      - name: frontend_origin
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+      - name: next
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+      - name: callback_port
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Callback Port
+      - name: login_hint
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Login Hint
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/workos/callback:
+    get:
+      tags:
+      - auth
+      summary: Callback
+      description: Exchange the WorkOS code for a profile and finalise the session.
+      operationId: callback_api_auth_workos_callback_get
+      parameters:
+      - name: code
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Code
+      - name: state
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+      - name: error
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/workos/discover:
+    get:
+      tags:
+      - auth
+      summary: Discover
+      description: 'Email-domain SSO routing.
+
+
+        Looks up whether the email''s domain belongs to a WorkOS Organization
+
+        that''s wired to one of our ``Organization`` rows. Returns the org
+
+        slug + the ``/start`` URL the caller should redirect to. Returns
+
+        ``{org_slug: null, login_url: null}`` when no SSO is configured for
+
+        the domain — the caller falls back to global Google login.
+
+
+        When the caller supplies ``frontend_origin``, it must match
+
+        ``ALLOWED_FRONTEND_ORIGINS`` and is round-tripped into ``login_url``
+
+        so hosted browser callers can redirect to ``/start`` without
+
+        rebuilding the query string themselves.
+
+
+        WorkOS is the source of truth for ``OrganizationDomain``; we keep no
+
+        local copy. One WorkOS API call per discover, which is acceptable
+
+        since users only click "Continue with SSO" at most once per login.'
+      operationId: discover_api_auth_workos_discover_get
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 320
+          title: Email
+      - name: frontend_origin
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frontend Origin
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoverResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/workos/webhook:
+    post:
+      tags:
+      - auth
+      summary: Webhook
+      description: "WorkOS event delivery endpoint.\n\nSubscribed events:\n* ``dsync.user.created`` — eager membership provisioning. Customer's\n  IdP pushed a new user via SCIM; create the local User +\n  OrganizationMember rows so the user can sign in directly without\n  an admin invite.\n* ``dsync.user.deleted`` — per-user revocation (offboard)\n* ``dsync.user.updated`` (state=inactive) — per-user revocation\n  (suspend / disable; covers Okta DEPROVISIONED, Azure Disabled, etc.)\n* ``connection.deactivated`` / ``connection.deleted`` /\n  ``dsync.deleted`` — org-wide revocation. Customer's IT admin\n  pulled the SSO plug; force-log-out every member of the affected\n  organization (memberships preserved so a later reconnect lets\n  them log back in).\n\nIdempotent on the WorkOS event id via ``processed_webhook_events``."
+      operationId: webhook_api_auth_workos_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    DiscoverResponse:
+      properties:
+        org_slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org Slug
+        login_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Login Url
+      type: object
+      required:
+      - org_slug
+      - login_url
+      title: DiscoverResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

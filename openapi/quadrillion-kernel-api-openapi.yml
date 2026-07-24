@@ -1,0 +1,419 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account kernel API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: kernel
+paths:
+  /v1/kernel/kernels/start:
+    post:
+      tags:
+      - kernel
+      summary: Start Kernel
+      description: 'Accept a start_kernel request and return an operation_id immediately.
+
+
+        The get_user_filesystem dependency chains: OAuth session/internal JWT → user → filesystem.
+
+        The user''s filesystem path is injected into the body before forwarding
+
+        to the upstream gateway, which bind-mounts it into the Singularity container.
+
+
+        If the kernel is already running, emits ``kernel_alive`` and returns
+
+        immediately — mirroring the local backend''s behaviour and avoiding a
+
+        misleading "Kernel starting…" / "Kernel started ✓" toast cycle.
+
+
+        Poll GET /operations/{operation_id} for the result.'
+      operationId: start_kernel_v1_kernel_kernels_start_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/operations/{operation_id}:
+    get:
+      tags:
+      - kernel
+      summary: Poll Operation
+      description: Poll the status of a long-running operation (e.g. start_kernel).
+      operationId: poll_operation_v1_kernel_operations__operation_id__get
+      parameters:
+      - name: operation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Operation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/stop:
+    post:
+      tags:
+      - kernel
+      summary: Stop Kernel
+      operationId: stop_kernel_v1_kernel_kernels__notebook_id__stop_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/interrupt:
+    post:
+      tags:
+      - kernel
+      summary: Interrupt Kernel
+      operationId: interrupt_kernel_v1_kernel_kernels__notebook_id__interrupt_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/restart:
+    post:
+      tags:
+      - kernel
+      summary: Restart Kernel
+      operationId: restart_kernel_v1_kernel_kernels__notebook_id__restart_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/status:
+    get:
+      tags:
+      - kernel
+      summary: Kernel Status
+      operationId: kernel_status_v1_kernel_kernels__notebook_id__status_get
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels:
+    get:
+      tags:
+      - kernel
+      summary: List Kernels
+      operationId: list_kernels_v1_kernel_kernels_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/compute/gpu-availability:
+    get:
+      tags:
+      - kernel
+      summary: Gpu Availability
+      description: Proxy the gateway's per-GPU-type availability report.
+      operationId: gpu_availability_v1_kernel_compute_gpu_availability_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/kernels/{notebook_id}/execute:
+    post:
+      tags:
+      - kernel
+      summary: Execute Code
+      description: Proxy an execute request, streaming the login node's SSE response directly.
+      operationId: execute_code_v1_kernel_kernels__notebook_id__execute_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/execute_silent:
+    post:
+      tags:
+      - kernel
+      summary: Execute Silent
+      operationId: execute_silent_v1_kernel_kernels__notebook_id__execute_silent_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernels/{notebook_id}/complete:
+    post:
+      tags:
+      - kernel
+      summary: Complete Code
+      operationId: complete_code_v1_kernel_kernels__notebook_id__complete_post
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/bash:
+    post:
+      tags:
+      - kernel
+      summary: Execute Bash
+      operationId: execute_bash_v1_kernel_bash_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/envs:
+    get:
+      tags:
+      - kernel
+      summary: List Environments
+      operationId: list_environments_v1_kernel_envs_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - kernel
+      summary: Create Environment
+      operationId: create_environment_v1_kernel_envs_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/envs/{name}:
+    delete:
+      tags:
+      - kernel
+      summary: Delete Environment
+      operationId: delete_environment_v1_kernel_envs__name__delete
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/kernelspecs:
+    get:
+      tags:
+      - kernel
+      summary: List Kernel Specs
+      operationId: list_kernel_specs_v1_kernel_kernelspecs_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/health:
+    get:
+      tags:
+      - kernel
+      summary: Kernel Health
+      operationId: kernel_health_v1_kernel_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/test/runtime-state/{notebook_id}:
+    get:
+      tags:
+      - kernel
+      summary: Kernel Test Runtime State
+      operationId: kernel_test_runtime_state_v1_kernel_test_runtime_state__notebook_id__get
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/kernel/gpu-runtimes:
+    get:
+      tags:
+      - kernel
+      summary: List Gpu Runtimes
+      description: List the caller's GPU execution environments and attached notebooks.
+      operationId: list_gpu_runtimes_v1_kernel_gpu_runtimes_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

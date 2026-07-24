@@ -1,0 +1,118 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account project API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: project
+paths:
+  /api/projects/{project_id}/export:
+    get:
+      tags:
+      - project
+      summary: Export Project Endpoint
+      description: 'Export a project as a .qualia archive (ZIP).
+
+
+        When some notebooks cannot be read the archive is still produced,
+
+        with the skip count surfaced in the ``X-Export-Incomplete`` header
+
+        and the skipped paths recorded in ``project.json``.'
+      operationId: export_project_endpoint_api_projects__project_id__export_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/import:
+    post:
+      tags:
+      - project
+      summary: Import Project Endpoint
+      description: 'Import a .qualia archive as a new project.
+
+
+        Kernel-state restore and agent resume are local-only: cloud kernels
+
+        run in remote sandboxes, so cloud imports land with every session
+
+        idle and no restored kernel state.'
+      operationId: import_project_endpoint_api_projects_import_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_import_project_endpoint_api_projects_import_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Import Project Endpoint Api Projects Import Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_import_project_endpoint_api_projects_import_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_import_project_endpoint_api_projects_import_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account slack API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: slack
+paths:
+  /api/slack/install:
+    post:
+      tags:
+      - slack
+      summary: Start Slack Install
+      description: Build the Slack authorize URL for the cloud Events-API app.
+      operationId: start_slack_install_api_slack_install_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstallResponse'
+  /api/slack/oauth-callback:
+    post:
+      tags:
+      - slack
+      summary: Slack Oauth Callback
+      description: Receive OAuth tokens from the proxy via browser auto-submit form.
+      operationId: slack_oauth_callback_api_slack_oauth_callback_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/slack/status:
+    get:
+      tags:
+      - slack
+      summary: Get Slack Status
+      description: Report the user's live Slack installation, if any.
+      operationId: get_slack_status_api_slack_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstallationStatus'
+  /api/slack/execution-mode:
+    post:
+      tags:
+      - slack
+      summary: Set Slack Execution Mode
+      description: 'Set where the user''s inbound Slack runs (cloud or their own machine).
+
+
+        Per-account: applies to every one of the user''s live installs so the
+
+        choice is consistent across workspaces. Reassigns ``config`` to a new
+
+        dict so SQLAlchemy''s JSON column detects the change.'
+      operationId: set_slack_execution_mode_api_slack_execution_mode_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionModeBody'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/slack/installation:
+    delete:
+      tags:
+      - slack
+      summary: Disconnect Slack
+      description: 'Mark all of the user''s installations revoked.
+
+
+        Tokens stay encrypted at rest until the user reinstalls (which
+
+        overwrites them); Slack-side revocation is the user''s uninstall in
+
+        Slack, which the Events API webhook also records.'
+      operationId: disconnect_slack_api_slack_installation_delete
+      responses:
+        '204':
+          description: Successful Response
+components:
+  schemas:
+    ExecutionModeBody:
+      properties:
+        mode:
+          type: string
+          enum:
+          - cloud
+          - local
+          title: Mode
+      type: object
+      required:
+      - mode
+      title: ExecutionModeBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    InstallationStatus:
+      properties:
+        connected:
+          type: boolean
+          title: Connected
+        team_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Id
+        slack_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slack User Id
+        installed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Installed At
+        execution_mode:
+          type: string
+          enum:
+          - cloud
+          - local
+          title: Execution Mode
+          default: cloud
+      type: object
+      required:
+      - connected
+      title: InstallationStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InstallResponse:
+      properties:
+        oauth_url:
+          type: string
+          title: Oauth Url
+        request_id:
+          type: string
+          title: Request Id
+      type: object
+      required:
+      - oauth_url
+      - request_id
+      title: InstallResponse

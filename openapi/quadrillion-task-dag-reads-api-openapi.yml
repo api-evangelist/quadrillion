@@ -1,0 +1,559 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account task_dag_reads API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: task_dag_reads
+paths:
+  /api/projects:
+    get:
+      tags:
+      - task_dag_reads
+      summary: List Projects Endpoint
+      operationId: list_projects_endpoint_api_projects_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProjectResponse'
+                type: array
+                title: Response List Projects Endpoint Api Projects Get
+  /api/projects/{project_id}:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Project Endpoint
+      operationId: get_project_endpoint_api_projects__project_id__get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/tasks:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Project Tasks
+      operationId: get_project_tasks_api_projects__project_id__tasks_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: include_variables
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Variables
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DagResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/sessions:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Project Sessions
+      operationId: get_project_sessions_api_projects__project_id__sessions_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: include_user_input
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include User Input
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Project Sessions Api Projects  Project Id  Sessions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sessions/{session_id}/project:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Session Project
+      operationId: get_session_project_api_sessions__session_id__project_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  anyOf:
+                  - type: string
+                  - type: 'null'
+                title: Response Get Session Project Api Sessions  Session Id  Project Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sessions/{session_id}/tasks:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Session Tasks
+      operationId: get_session_tasks_api_sessions__session_id__tasks_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionTasksResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/tasks/{task_id}:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Task Endpoint
+      operationId: get_task_endpoint_api_tasks__task_id__get
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Task Id
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonObject'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/task_variables/normalized:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Task Variables Normalized
+      operationId: get_task_variables_normalized_api_task_variables_normalized_get
+      parameters:
+      - name: notebook_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Id
+      - name: variable_names
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Variable Names
+      - name: tables
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Tables
+      - name: table_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Table Ids
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NormalizedTaskVariablesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/task_variables/tracked:
+    get:
+      tags:
+      - task_dag_reads
+      summary: Get Tracked Variables
+      operationId: get_tracked_variables_api_task_variables_tracked_get
+      parameters:
+      - name: notebook_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackedVariablesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    DagResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskResponse'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: DagResponse
+    TaskResponse:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        project_id:
+          type: string
+          title: Project Id
+        title:
+          type: string
+          title: Title
+        short_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Short Description
+        objective:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Objective
+        status:
+          type: string
+          title: Status
+        is_blocked:
+          type: boolean
+          title: Is Blocked
+          default: false
+        blocked_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blocked Reason
+        created_by_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Session Id
+        assigned_to_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assigned To Session Id
+        estimated_time_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Estimated Time Seconds
+        result_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Result Summary
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        completed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completed At
+        blocked_by:
+          items:
+            type: string
+          type: array
+          title: Blocked By
+        blocks:
+          items:
+            type: string
+          type: array
+          title: Blocks
+        required_variables:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Required Variables
+        notes:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Notes
+        attached_code_cells:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Attached Code Cells
+      type: object
+      required:
+      - task_id
+      - project_id
+      - title
+      - status
+      - created_at
+      - updated_at
+      title: TaskResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TrackedVariablesResponse:
+      properties:
+        variables:
+          items:
+            $ref: '#/components/schemas/TrackedVariable'
+          type: array
+          title: Variables
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      type: object
+      title: TrackedVariablesResponse
+    NormalizedTaskVariablesResponse:
+      properties:
+        kind:
+          type: string
+          title: Kind
+        columns:
+          items:
+            type: string
+          type: array
+          title: Columns
+        rows:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Rows
+      type: object
+      required:
+      - kind
+      - columns
+      - rows
+      title: NormalizedTaskVariablesResponse
+      description: 'Envelope returned by ``GET /api/task_variables/normalized``.
+
+
+        ``kind`` distinguishes the variable shape (``"variables"``) from the
+
+        tabular finding shape (``"tables"``). ``columns`` is the canonical
+
+        column order for the requested kind. Every row is guaranteed to
+
+        contain every column key (filled with ``None`` where the source row
+
+        omitted it) so kernel-side clients can build their native table
+
+        type without each language re-encoding the empty-schema fallback.'
+    ProjectResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        stub_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stub Title
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - project_id
+      - title
+      - created_at
+      - updated_at
+      title: ProjectResponse
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
+      type: object
+      required:
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable
+    SessionTasksResponse:
+      properties:
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: SessionTasksResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JsonObject:
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      type: object
+    JsonValue: {}

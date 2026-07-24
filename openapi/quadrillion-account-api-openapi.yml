@@ -1,0 +1,305 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: account
+paths:
+  /api/account/features:
+    get:
+      tags:
+      - account
+      summary: Get Account Features
+      description: 'Get feature eligibility flags for the authenticated account.
+
+
+        Authenticates via session token (JWT/cookie) or API key.
+
+        Returns plan-based entitlements; omitted keys are unavailable.  The
+
+        ``is_admin`` flag is surfaced separately so the desktop can grant
+
+        Quadrillion staff access to every gated feature via a single, explicit
+
+        override rather than piggybacking on ``ollama``.'
+      operationId: get_account_features_api_account_features_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFeaturesResponse'
+  /api/account/models:
+    get:
+      tags:
+      - account
+      summary: Get Model Catalog
+      description: 'Return the authoritative model catalog with an ETag for conditional GETs.
+
+
+        This is the source of truth the desktop backend fetches at startup and
+
+        after every ``QUADRILLION_API_KEY`` change, so new models ship via a cloud
+
+        redeploy without requiring a desktop release.  Availability filtering by
+
+        the user''s own credentials happens on the desktop, with one exception:
+
+        ``eap: true`` models are omitted server-side for accounts without the
+
+        ``eap_access`` entitlement, because shipped desktop builds cannot be
+
+        trusted to hide them.  The ETag is therefore stable per entitlement
+
+        variant rather than across all accounts.
+
+
+        Server-only data is stripped first: ``listed: false`` billing-only models
+
+        and the inline ``pricing`` block never leave the server.
+
+
+        The ETag is derived from the stripped catalog content; an unchanged catalog
+
+        returns ``304 Not Modified`` so the desktop leaves its local store
+
+        untouched.'
+      operationId: get_model_catalog_api_account_models_get
+      parameters:
+      - name: if-none-match
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: If-None-Match
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/account/subscription:
+    get:
+      tags:
+      - account
+      summary: Get Subscription
+      description: 'Get subscription, usage, and overage info for the authenticated user.
+
+
+        ``is_admin_managed=True`` when user is an org member (billed by org admin)
+
+        or has no stripe_data on their subscription (manually provisioned).'
+      operationId: get_subscription_api_account_subscription_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+components:
+  schemas:
+    SubscriptionResponse:
+      properties:
+        plan_tier:
+          type: string
+          title: Plan Tier
+        status:
+          type: string
+          title: Status
+        cancel_at_period_end:
+          type: boolean
+          title: Cancel At Period End
+          default: false
+        current_period_start:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period Start
+        current_period_end:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period End
+        usage_percentage:
+          type: number
+          title: Usage Percentage
+        is_limited:
+          type: boolean
+          title: Is Limited
+        overage_eligible:
+          type: boolean
+          title: Overage Eligible
+          default: false
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        overage_spend_usd:
+          type: number
+          title: Overage Spend Usd
+        overage_percentage:
+          type: number
+          title: Overage Percentage
+        is_in_overage:
+          type: boolean
+          title: Is In Overage
+        is_org_member:
+          type: boolean
+          title: Is Org Member
+        is_admin_managed:
+          type: boolean
+          title: Is Admin Managed
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/OrgInfoResponse'
+          - type: 'null'
+      type: object
+      required:
+      - plan_tier
+      - status
+      - usage_percentage
+      - is_limited
+      - overage_enabled
+      - overage_limit_usd
+      - overage_spend_usd
+      - overage_percentage
+      - is_in_overage
+      - is_org_member
+      - is_admin_managed
+      title: SubscriptionResponse
+      description: 'Response model for subscription info.
+
+
+        Base usage is percentage-only — internal compute credit limits are not
+
+        exposed as USD to avoid revealing plan economics.  Overage amounts are
+
+        in USD because users are directly billed for them.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AccountFeaturesResponse:
+      properties:
+        is_admin:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Admin
+        ollama:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ollama
+        max_parallel_agents:
+          type: integer
+          title: Max Parallel Agents
+          default: 2
+        gpu_access:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Gpu Access
+        autonomous_runs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Autonomous Runs
+        slack_integration:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Slack Integration
+        overage_eligible:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Overage Eligible
+        byok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Byok
+        github_oauth:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Github Oauth
+        eap_access:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Eap Access
+      type: object
+      title: AccountFeaturesResponse
+      description: 'Response model for account feature flags.
+
+
+        Only includes feature keys the user is eligible for.
+
+        Omitted keys mean the feature is not available (except max_parallel_agents
+
+        which always has a value).'
+      examples:
+      - is_admin: true
+        max_parallel_agents: 8
+      - max_parallel_agents: 2
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrgInfoResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        role:
+          type: string
+          title: Role
+      type: object
+      required:
+      - name
+      - slug
+      - role
+      title: OrgInfoResponse
+      description: Organization context returned in the subscription response.

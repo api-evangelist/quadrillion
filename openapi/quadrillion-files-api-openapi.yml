@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account files API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: files
+paths:
+  /v1/kernel/files/list:
+    post:
+      tags:
+      - files
+      summary: List Files
+      description: List directory contents on the user's NFS filesystem.
+      operationId: list_files_v1_kernel_files_list_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/read:
+    post:
+      tags:
+      - files
+      summary: Read File
+      description: Read a file from the user's NFS filesystem.
+      operationId: read_file_v1_kernel_files_read_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/write:
+    post:
+      tags:
+      - files
+      summary: Write File
+      description: Write/save a file on the user's NFS filesystem.
+      operationId: write_file_v1_kernel_files_write_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/mkdir:
+    post:
+      tags:
+      - files
+      summary: Create Folder
+      description: Create a folder on the user's NFS filesystem.
+      operationId: create_folder_v1_kernel_files_mkdir_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/delete:
+    post:
+      tags:
+      - files
+      summary: Delete Path
+      description: Delete a file or folder on the user's NFS filesystem.
+      operationId: delete_path_v1_kernel_files_delete_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/rename:
+    post:
+      tags:
+      - files
+      summary: Rename Path
+      description: Rename/move a file or folder on the user's NFS filesystem.
+      operationId: rename_path_v1_kernel_files_rename_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/duplicate:
+    post:
+      tags:
+      - files
+      summary: Duplicate Path
+      description: Duplicate a file or folder on the user's NFS filesystem.
+      operationId: duplicate_path_v1_kernel_files_duplicate_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/kernel/files/check:
+    post:
+      tags:
+      - files
+      summary: Check Path
+      description: Check if a path exists on the user's NFS filesystem.
+      operationId: check_path_v1_kernel_files_check_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /files/upload:
+    post:
+      tags:
+      - files
+      summary: Upload File
+      description: 'Upload a file into the workspace at ``dest_dir/<filename>``.
+
+
+        Name conflicts are auto-renamed (``name (1).ext``) unless
+
+        ``overwrite`` is set; the final path is returned either way.'
+      operationId: upload_file_files_upload_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_file_files_upload_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /files/download:
+    get:
+      tags:
+      - files
+      summary: Download File
+      description: Download a single workspace file as an attachment.
+      operationId: download_file_files_download_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_upload_file_files_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        dest_dir:
+          type: string
+          title: Dest Dir
+          default: ''
+        overwrite:
+          type: boolean
+          title: Overwrite
+          default: false
+      type: object
+      required:
+      - file
+      title: Body_upload_file_files_upload_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

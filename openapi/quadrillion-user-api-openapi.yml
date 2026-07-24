@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account user API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: user
+paths:
+  /api/user/profile:
+    get:
+      tags:
+      - user
+      summary: Get User Profile
+      description: "Get the authenticated user's profile.\n\nRequires: JWT token (session cookie or Authorization header)\n\nReturns:\n    {\n        \"id\": 123,\n        \"email\": \"user@example.com\",\n        \"name\": \"John Doe\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"last_login\": \"2025-01-16T14:20:00Z\"\n    }"
+      operationId: get_user_profile_api_user_profile_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+components:
+  schemas:
+    UserProfileResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        email:
+          type: string
+          title: Email
+        name:
+          type: string
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        last_login:
+          type: string
+          title: Last Login
+      type: object
+      required:
+      - id
+      - email
+      - name
+      - created_at
+      - last_login
+      title: UserProfileResponse
+      description: Response model for user profile.

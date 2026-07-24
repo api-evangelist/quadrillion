@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account You API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: You
+paths:
+  /you/v1/search:
+    post:
+      summary: Proxy Response You Search
+      description: 'Proxy you.com Search API requests. Requires valid Quadrillion API key.
+
+
+        Unlike the LM provider routes, this one is non-streaming and returns
+
+        the upstream JSON body as-is.'
+      operationId: proxy_response_you_search_you_v1_search_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/YouSearchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - You
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    YouSearchRequest:
+      properties:
+        query:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Query
+        count:
+          anyOf:
+          - type: integer
+            maximum: 20.0
+            minimum: 1.0
+          - type: 'null'
+          title: Count
+        freshness:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Freshness
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        safesearch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Safesearch
+      type: object
+      required:
+      - query
+      title: YouSearchRequest

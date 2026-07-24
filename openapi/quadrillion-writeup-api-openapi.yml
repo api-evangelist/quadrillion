@@ -1,0 +1,161 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account writeup API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: writeup
+paths:
+  /writeup/load:
+    get:
+      tags:
+      - writeup
+      summary: Load Writeup
+      description: Load a writeup file (.qua).
+      operationId: load_writeup_writeup_load_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      - name: writeup_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Writeup Id
+      - name: kernel_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kernel Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /writeup/save:
+    post:
+      tags:
+      - writeup
+      summary: Save Writeup
+      description: Save a writeup file (.qua).
+      operationId: save_writeup_writeup_save_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_WriteupSaveRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /writeup/export:
+    get:
+      tags:
+      - writeup
+      summary: Export Writeup
+      description: Export a writeup to Markdown (.zip), PDF, or LaTeX (.zip).
+      operationId: export_writeup_writeup_export_get
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Path
+      - name: format
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Format
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _WriteupSaveRequest:
+      properties:
+        writeup_id:
+          type: string
+          title: Writeup Id
+        path:
+          type: string
+          title: Path
+        title:
+          type: string
+          title: Title
+        content:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Content
+      type: object
+      required:
+      - writeup_id
+      - path
+      - title
+      - content
+      title: _WriteupSaveRequest

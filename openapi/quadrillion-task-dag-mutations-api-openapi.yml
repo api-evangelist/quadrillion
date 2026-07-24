@@ -1,0 +1,634 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account task_dag_mutations API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: task_dag_mutations
+paths:
+  /api/projects:
+    post:
+      tags:
+      - task_dag_mutations
+      summary: Create Project Endpoint
+      operationId: create_project_endpoint_api_projects_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}:
+    delete:
+      tags:
+      - task_dag_mutations
+      summary: Delete Project Endpoint
+      description: Delete a project and all agents (chat sessions) within it for the current user.
+      operationId: delete_project_endpoint_api_projects__project_id__delete
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Project Endpoint Api Projects  Project Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - task_dag_mutations
+      summary: Update Project Title Endpoint
+      operationId: update_project_title_endpoint_api_projects__project_id__patch
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectTitleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/tasks/{task_id}/reassign:
+    post:
+      tags:
+      - task_dag_mutations
+      summary: Reassign Task Endpoint
+      operationId: reassign_task_endpoint_api_projects__project_id__tasks__task_id__reassign_post
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Task Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReassignTaskRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: boolean
+                title: Response Reassign Task Endpoint Api Projects  Project Id  Tasks  Task Id  Reassign Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/tasks/{task_id}:
+    patch:
+      tags:
+      - task_dag_mutations
+      summary: Update Task Endpoint
+      operationId: update_task_endpoint_api_projects__project_id__tasks__task_id__patch
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Task Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/JsonObject'
+                title: Response Update Task Endpoint Api Projects  Project Id  Tasks  Task Id  Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - task_dag_mutations
+      summary: Delete Task Endpoint
+      operationId: delete_task_endpoint_api_projects__project_id__tasks__task_id__delete
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Task Id
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Chat session ID of the caller (must be assignee or creator)
+          title: Chat Session Id
+        description: Chat session ID of the caller (must be assignee or creator)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/DeleteTaskRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/JsonObject'
+                title: Response Delete Task Endpoint Api Projects  Project Id  Tasks  Task Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/task_variables/serialize_and_submit:
+    post:
+      tags:
+      - task_dag_mutations
+      summary: Serialize And Submit Task Variables Endpoint
+      description: 'Persist variable values captured by the kernel after cell execution.
+
+
+        Internal-principal only: the value must originate from the kernel runtime, never
+
+        an agent/session (see ``quadrillion.services.VARIABLE_EVIDENCE_INVARIANT``).'
+      operationId: serialize_and_submit_task_variables_endpoint_api_task_variables_serialize_and_submit_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializeAndSubmitRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerializeAndSubmitResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/kernel/post_run:
+    post:
+      tags:
+      - task_dag_mutations
+      summary: Kernel Post Run Endpoint
+      description: 'Accept a full post-run snapshot: evidence values + namespace inventory.
+
+
+        DEPRECATED: only legacy injected ``Q_VARS`` clients post here (qualia
+
+        uses ``/serialize_and_submit`` + the inventory Comm). Remove with the
+
+        local handler and ``KernelPostRunRequest`` once the
+
+        ``kernel_post_run.start`` log goes quiet; the drain window is bounded
+
+        by app-update uptake, not kernel churn.
+
+
+        Internal-principal only: evidence values must originate from the
+
+        kernel runtime (see ``VARIABLE_EVIDENCE_INVARIANT``).'
+      operationId: kernel_post_run_endpoint_api_kernel_post_run_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KernelPostRunRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerializeAndSubmitResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      deprecated: true
+components:
+  schemas:
+    UpdateProjectTitleRequest:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: New project title
+        chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+          description: Optional; used to route task_dag_updated for project selector refresh
+      type: object
+      required:
+      - title
+      title: UpdateProjectTitleRequest
+    UpdateTaskRequest:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+          description: Chat session ID of the caller (must be assignee or creator)
+        new_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: New Status
+          description: 'New status: in_progress, completed, failed, or cancelled. Omit to update fields only.'
+        new_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: New Title
+          description: Update the task title (planned tasks only)
+        new_objective:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: New Objective
+          description: Update the task objective (planned tasks only)
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+          description: Append a note to the task
+        add_blocked_by:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Add Blocked By
+          description: Add upstream dependencies (task IDs)
+        remove_blocked_by:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Remove Blocked By
+          description: Remove upstream dependencies (planned tasks only)
+        add_blocking:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Add Blocking
+          description: Add downstream dependencies (task IDs)
+        remove_blocking:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Remove Blocking
+          description: Remove downstream dependencies (planned tasks only)
+        add_required_variables:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/AddRequiredVariableRequest'
+            type: array
+          - type: 'null'
+          title: Add Required Variables
+          description: Add required variables (planned tasks only)
+        remove_required_variables:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Remove Required Variables
+          description: Remove required variables by name (planned tasks only)
+        remove_starter_cells:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Remove Starter Cells
+          description: Remove starter cells by cell ID (planned tasks only)
+      type: object
+      required:
+      - chat_session_id
+      title: UpdateTaskRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SerializeAndSubmitRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        variables:
+          additionalProperties: true
+          type: object
+          title: Variables
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      - variables
+      title: SerializeAndSubmitRequest
+      description: 'Raw values pushed from a kernel post-run hook.
+
+
+        Clients send the JSON-decoded value as-is; the server is the source
+
+        of truth for type classification (see
+
+        ``quadrillion.services.value_classifier``). This keeps Python, R,
+
+        and Julia Q_VARS clients in lockstep regardless of how each language
+
+        natively represents numeric literals.'
+    CreateProjectRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Optional project title
+      type: object
+      title: CreateProjectRequest
+    SerializeAndSubmitResponse:
+      properties:
+        accepted:
+          items:
+            type: string
+          type: array
+          title: Accepted
+        rejected:
+          additionalProperties:
+            type: string
+          type: object
+          title: Rejected
+        tracked:
+          items:
+            $ref: '#/components/schemas/TrackedVariable'
+          type: array
+          title: Tracked
+      type: object
+      title: SerializeAndSubmitResponse
+    ReassignTaskRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+          description: Chat session ID of the agent to assign to
+        chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+          description: Optional. Caller's active chat session; used to route task_dag_updated to the client performing the drag.
+      type: object
+      required:
+      - session_id
+      title: ReassignTaskRequest
+    KernelPostRunRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        variables:
+          additionalProperties: true
+          type: object
+          title: Variables
+        namespace:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Namespace
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      title: KernelPostRunRequest
+      description: 'Full post-run snapshot pushed from a kernel: evidence values plus the
+
+        namespace inventory rendered for the frontend variables panel.
+
+
+        Mirrors ``handlers.task_dag.KernelPostRunRequest`` so the local and cloud
+
+        ``/api/kernel/post_run`` adapters accept an identical JSON shape.'
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
+      type: object
+      required:
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable
+    ProjectResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        stub_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stub Title
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - project_id
+      - title
+      - created_at
+      - updated_at
+      title: ProjectResponse
+    DeleteTaskRequest:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+          description: Chat session ID of the caller (must be assignee or creator)
+      type: object
+      required:
+      - chat_session_id
+      title: DeleteTaskRequest
+    AddRequiredVariableRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Variable name
+        type:
+          type: string
+          title: Type
+          description: 'Expected type: float, int, str, bool, list[float], list[int], list[str], or any'
+          default: any
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Optional human-readable description of the variable
+      type: object
+      required:
+      - name
+      title: AddRequiredVariableRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JsonObject:
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      type: object
+    JsonValue: {}

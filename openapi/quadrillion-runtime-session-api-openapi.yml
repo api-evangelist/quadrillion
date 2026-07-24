@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account runtime-session API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: runtime-session
+paths:
+  /api/session:
+    get:
+      tags:
+      - runtime-session
+      summary: Bootstrap Runtime Session
+      operationId: bootstrap_runtime_session_api_session_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/session/csrf:
+    get:
+      tags:
+      - runtime-session
+      summary: Refresh Runtime Csrf
+      operationId: refresh_runtime_csrf_api_session_csrf_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}

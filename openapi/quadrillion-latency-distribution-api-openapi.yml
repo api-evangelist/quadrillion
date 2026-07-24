@@ -1,0 +1,234 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Latency Distribution API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Latency Distribution
+paths:
+  /api/latency_distribution:
+    get:
+      summary: Get Latency Distribution
+      description: 'Get latency distribution with percentiles (p1, p5, p10, p25, p50, p75, p90, p95, p99)
+
+        aggregated by day and model.
+
+
+        Returns latency percentiles for:
+
+        - proxy_latency: Time from request received to upstream call initiated
+
+        - ttft_latency: Time from upstream call to first byte received (Time To First Token)
+
+
+        Defaults to the caller''s own data. Admin users (with @quadrillion.io email)
+
+        may opt into cross-user data by passing user_id (specific user) or
+
+        all_users=true (everyone). Non-admin requests for other users'' data are
+
+        silently scoped to the caller.'
+      operationId: get_latency_distribution_api_latency_distribution_get
+      parameters:
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Filter by user ID (admin only)
+          title: User Id
+        description: Filter by user ID (admin only)
+      - name: all_users
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Return data for all users (admin only opt-in)
+          default: false
+          title: All Users
+        description: Return data for all users (admin only opt-in)
+      - name: model
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by model name
+          title: Model
+        description: Filter by model name
+      - name: start_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: Start date (ISO 8601)
+          title: Start Date
+        description: Start date (ISO 8601)
+      - name: end_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: End date (ISO 8601)
+          title: End Date
+        description: End date (ISO 8601)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatencyDistributionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Latency Distribution
+components:
+  schemas:
+    LatencyPercentiles:
+      properties:
+        p1:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P1
+          description: 1st percentile
+        p5:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P5
+          description: 5th percentile
+        p10:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P10
+          description: 10th percentile
+        p25:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P25
+          description: 25th percentile
+        p50:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50
+          description: 50th percentile (median)
+        p75:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P75
+          description: 75th percentile
+        p90:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90
+          description: 90th percentile
+        p95:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95
+          description: 95th percentile
+        p99:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99
+          description: 99th percentile
+        count:
+          type: integer
+          title: Count
+          description: Number of samples
+      type: object
+      required:
+      - count
+      title: LatencyPercentiles
+      description: Percentile values for a latency metric (in milliseconds).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LatencyDistributionResponse:
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/LatencyDistributionBucket'
+          type: array
+          title: Buckets
+          description: Latency distributions by day and model
+      type: object
+      required:
+      - buckets
+      title: LatencyDistributionResponse
+      description: Response model for latency distribution query.
+    LatencyDistributionBucket:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+          description: The date for this bucket
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model name
+        proxy_latency:
+          $ref: '#/components/schemas/LatencyPercentiles'
+          description: Proxy latency percentiles (request to upstream)
+        ttft_latency:
+          $ref: '#/components/schemas/LatencyPercentiles'
+          description: TTFT latency percentiles (upstream to first byte)
+      type: object
+      required:
+      - date
+      - proxy_latency
+      - ttft_latency
+      title: LatencyDistributionBucket
+      description: Latency distribution for a model on a specific day.

@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account Quadrillion Cloud API API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: Quadrillion Cloud API
+paths:
+  /:
+    get:
+      summary: Root
+      description: Cloud API service metadata.
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Quadrillion Cloud API

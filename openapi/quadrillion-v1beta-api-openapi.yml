@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account V1beta API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: V1beta
+paths:
+  /v1beta/models/{model}:streamGenerateContent:
+    post:
+      summary: Proxy Response Gemini
+      description: 'Proxy Gemini API requests. Requires valid Quadrillion API key.
+
+
+        The Gemini SDK puts the model name in the URL path rather than the
+
+        JSON body.  We stash it on ``request.state`` so that
+
+        ``proxy_response`` can inject it into the payload for downstream
+
+        URL construction.'
+      operationId: proxy_response_gemini_v1beta_models__model__streamGenerateContent_post
+      parameters:
+      - name: model
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Model
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - V1beta
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

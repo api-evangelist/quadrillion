@@ -1,0 +1,202 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account modal-terminal API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: modal-terminal
+paths:
+  /internal/terminal-activity:
+    post:
+      tags:
+      - modal-terminal
+      summary: Record Terminal Activity
+      description: Refresh workspace-environment activity from coalesced terminal I/O.
+      operationId: record_terminal_activity_internal_terminal_activity_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalActivityRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/session:
+    post:
+      tags:
+      - modal-terminal
+      summary: Create Terminal Session
+      description: Create a new terminal session backed by a workspace sandbox.
+      operationId: create_terminal_session_api_terminal_session_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminalSessionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminalSessionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/session/{session_id}/reconnect:
+    post:
+      tags:
+      - modal-terminal
+      summary: Reconnect Terminal Session
+      description: Reconnect to an existing terminal session.
+      operationId: reconnect_terminal_session_api_terminal_session__session_id__reconnect_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminalReconnectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/terminal/session/{session_id}/disconnect:
+    post:
+      tags:
+      - modal-terminal
+      summary: Disconnect Terminal Session
+      description: Disconnect and remove a terminal session.
+      operationId: disconnect_terminal_session_api_terminal_session__session_id__disconnect_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TerminalReconnectResponse:
+      properties:
+        token:
+          type: string
+          title: Token
+      additionalProperties: false
+      type: object
+      required:
+      - token
+      title: TerminalReconnectResponse
+      description: Response containing a fresh session token for reconnection.
+    TerminalSessionResponse:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+        token:
+          type: string
+          title: Token
+        ws_url:
+          type: string
+          title: Ws Url
+      additionalProperties: false
+      type: object
+      required:
+      - session_id
+      - token
+      - ws_url
+      title: TerminalSessionResponse
+      description: Response containing the session credentials and WebSocket URL.
+    TerminalActivityRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+        sandbox_alias:
+          type: string
+          title: Sandbox Alias
+        proxy_node:
+          type: string
+          title: Proxy Node
+        connection_id:
+          type: string
+          title: Connection Id
+          default: ''
+        frames:
+          type: integer
+          minimum: 1.0
+          title: Frames
+          default: 1
+      additionalProperties: false
+      type: object
+      required:
+      - session_id
+      - sandbox_alias
+      - proxy_node
+      title: TerminalActivityRequest
+      description: Proxy callback reporting coalesced terminal input or output activity.
+    TerminalSessionRequest:
+      properties: {}
+      additionalProperties: false
+      type: object
+      title: TerminalSessionRequest
+      description: Request to create a new terminal session.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

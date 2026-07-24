@@ -1,0 +1,34 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account slack-webhooks API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: slack-webhooks
+paths:
+  /api/slack/events:
+    post:
+      tags:
+      - slack-webhooks
+      summary: Slack Events
+      description: 'Events API request URL: handshake, dedup, ack-fast dispatch.'
+      operationId: slack_events_api_slack_events_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/slack/interactivity:
+    post:
+      tags:
+      - slack-webhooks
+      summary: Slack Interactivity
+      description: 'Interactivity request URL: form-encoded ``payload=<json>``.'
+      operationId: slack_interactivity_api_slack_interactivity_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}

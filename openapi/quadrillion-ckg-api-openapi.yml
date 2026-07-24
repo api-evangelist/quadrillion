@@ -1,0 +1,1115 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account ckg API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: ckg
+paths:
+  /api/projects/{project_id}/knowledge-summary:
+    get:
+      tags:
+      - ckg
+      summary: Get Project Knowledge Summary
+      operationId: get_project_knowledge_summary_api_projects__project_id__knowledge_summary_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: recent_limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 0
+          default: 30
+          title: Recent Limit
+      - name: refresh
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Refresh
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeSummaryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/evidence:
+    post:
+      tags:
+      - ckg
+      summary: Add Evidence Endpoint
+      description: 'Add a notebook-captured evidence claim for an untracked variable.
+
+
+        Kernel-only on both mounts: this local route requires the kernel API
+
+        bearer token; the cloud mirror requires an internal principal.
+
+
+        Rejections (unsupported value type, no session for the notebook,
+
+        bad variable name) come back in ``rejected_reason`` rather than
+
+        via HTTP error so the client can surface them in-cell without
+
+        raising.'
+      operationId: add_evidence_endpoint_api_evidence_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEvidenceRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddEvidenceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/claims:
+    get:
+      tags:
+      - ckg
+      summary: List Project Claims
+      description: 'List claims for a project with optional filters and DAG expansion.
+
+
+        HTTP callers receive every matching claim — the per-call recency cap
+
+        that ``get_claims`` applies to the LLM tool path is intentionally not
+
+        propagated here, since UI surfaces (CKG sidebar, task-DAG coloring,
+
+        writeup tables) need the full set. ``claim_ids`` is repeatable
+
+        (``?claim_ids=C-1&claim_ids=C-2``) for bulk lookup of a known set
+
+        without re-scanning the project.'
+      operationId: list_project_claims_api_projects__project_id__claims_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: claim_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Type
+      - name: high_level_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: High Level Only
+      - name: created_by_task_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Task Id
+      - name: degree
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Degree
+      - name: claim_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Claim Ids
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}:
+    get:
+      tags:
+      - ckg
+      summary: Get Claim Endpoint
+      description: 'Get a single claim with its sources.
+
+
+        ``project_id`` is optional when the caller only has ``claim_id`` (for example
+
+        writeup previews); the store resolves by claim id alone.'
+      operationId: get_claim_endpoint_api_claims__claim_id__get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - ckg
+      summary: Delete Claim Endpoint
+      description: Soft delete a finding.
+      operationId: delete_claim_endpoint_api_claims__claim_id__delete
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Delete Claim Endpoint Api Claims  Claim Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}/dag:
+    get:
+      tags:
+      - ckg
+      summary: Get Claim Dag Endpoint
+      description: Get a claim with its DAG neighborhood.
+      operationId: get_claim_dag_endpoint_api_claims__claim_id__dag_get
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: degree
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Degree
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/claims/{claim_id}/tabular-sort:
+    patch:
+      tags:
+      - ckg
+      summary: Update Tabular Sort Endpoint
+      description: Update the persisted row sort for a tabular claim.
+      operationId: update_tabular_sort_endpoint_api_projects__project_id__claims__claim_id__tabular_sort_patch
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TabularSortRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/{claim_id}/review:
+    post:
+      tags:
+      - ckg
+      summary: Review Claim Endpoint
+      description: 'Record a user''s accept/reject decision on a finding from the knowledge panel.
+
+
+        The decision lives on the claim''s ``review_status`` column. ``accepted`` keeps
+
+        the finding and clears its affordances; ``rejected`` reuses the existing
+
+        soft-delete; ``pending`` is the undo state. A soft-deleted finding can only
+
+        re-enter review via ``pending`` (undo); accepting one directly is rejected so
+
+        the row can never end up accepted while still soft-deleted.'
+      operationId: review_claim_endpoint_api_claims__claim_id__review_post
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Claim Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewClaimRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Review Claim Endpoint Api Claims  Claim Id  Review Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/claims/review_bulk:
+    post:
+      tags:
+      - ckg
+      summary: Review Claims Bulk Endpoint
+      description: 'Apply one decision to many findings — Accept all / Reject all and undo.
+
+
+        Acts only on the explicit ``claim_ids`` the client passes (the rows the user
+
+        is looking at), skipping non-findings and any ``accepted`` that can''t apply
+
+        because the finding is already soft-deleted. Returns the claim ids actually
+
+        affected so the client can offer a precise batch undo.'
+      operationId: review_claims_bulk_endpoint_api_claims_review_bulk_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewClaimsBulkRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewClaimsBulkResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/fetch-url:
+    post:
+      tags:
+      - ckg
+      summary: Fetch Url Endpoint
+      description: 'Fetch a URL and persist its raw body as a blob. Used for optimistic
+
+        prefetch in the Import Knowledge UI so users get immediate feedback
+
+        about size/network errors before starting an import.'
+      operationId: fetch_url_endpoint_api_fetch_url_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchUrlRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchUrlResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-knowledge:
+    post:
+      tags:
+      - ckg
+      summary: Import Knowledge Endpoint
+      description: Start a knowledge import. Returns immediately; progress via socket events.
+      operationId: import_knowledge_endpoint_api_projects__project_id__import_knowledge_post
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportKnowledgeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Import Knowledge Endpoint Api Projects  Project Id  Import Knowledge Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-sources:
+    get:
+      tags:
+      - ckg
+      summary: List Import Sources Endpoint
+      description: List every source ever submitted for this project, oldest first.
+      operationId: list_import_sources_endpoint_api_projects__project_id__import_sources_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportSourceResponse'
+                title: Response List Import Sources Endpoint Api Projects  Project Id  Import Sources Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/projects/{project_id}/import-knowledge/{import_id}/status:
+    get:
+      tags:
+      - ckg
+      summary: Import Knowledge Status Endpoint
+      description: Get current state of an in-flight or recently completed import.
+      operationId: import_knowledge_status_endpoint_api_projects__project_id__import_knowledge__import_id__status_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: import_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Import Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Import Knowledge Status Endpoint Api Projects  Project Id  Import Knowledge  Import Id  Status Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AddEvidenceRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+          description: Notebook the value was produced in.
+        description:
+          type: string
+          title: Description
+          description: Brief narrative of what the value shows.
+        variable_name:
+          type: string
+          title: Variable Name
+          description: Notebook variable name.
+        value:
+          title: Value
+          description: The value to record. Same shape as qualia.submit_variable.
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+          description: Producing cell id when known; cited as the source.
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+          description: Optional task to associate the evidence claim with.
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          description: If true, broadcasts this claim to all agents.
+          default: false
+      type: object
+      required:
+      - notebook_id
+      - description
+      - variable_name
+      - value
+      title: AddEvidenceRequest
+      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
+
+        variable as a notebook-captured claim).'
+    ClaimResponse:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        project_id:
+          type: string
+          title: Project Id
+        claim_type:
+          type: string
+          title: Claim Type
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          title: Content
+        status:
+          type: string
+          title: Status
+        review_status:
+          type: string
+          title: Review Status
+          default: accepted
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          default: false
+        created_by_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Session Id
+        created_by_task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By Task Id
+        updated_by_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated By Session Id
+        linked_variable:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Linked Variable
+        tabular_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Tabular Data
+        figure_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Figure Metadata
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        sources:
+          items:
+            $ref: '#/components/schemas/ClaimSourceResponse'
+          type: array
+          title: Sources
+        associated_tasks:
+          items:
+            $ref: '#/components/schemas/AssociatedTaskResponse'
+          type: array
+          title: Associated Tasks
+        associated_notebooks:
+          items:
+            $ref: '#/components/schemas/AssociatedNotebookResponse'
+          type: array
+          title: Associated Notebooks
+      type: object
+      required:
+      - claim_id
+      - project_id
+      - claim_type
+      - content
+      - status
+      - created_at
+      - updated_at
+      title: ClaimResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AssociatedNotebookResponse:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      title: AssociatedNotebookResponse
+    ImportSourceRequest:
+      properties:
+        source_type:
+          type: string
+          enum:
+          - text
+          - file
+          - url
+          title: Source Type
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - source_type
+      title: ImportSourceRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ImportKnowledgeRequest:
+      properties:
+        sources:
+          items:
+            $ref: '#/components/schemas/ImportSourceRequest'
+          type: array
+          minItems: 1
+          title: Sources
+      type: object
+      required:
+      - sources
+      title: ImportKnowledgeRequest
+    AddEvidenceResponse:
+      properties:
+        claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Id
+          description: Created claim id, or null when the request was rejected.
+        rejected_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rejected Reason
+          description: Why the request was rejected, when ``claim_id`` is null.
+      type: object
+      title: AddEvidenceResponse
+      description: Response for ``POST /api/evidence``.
+    ReviewClaimsBulkRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        claim_ids:
+          items:
+            type: string
+          type: array
+          title: Claim Ids
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - claim_ids
+      - decision
+      title: ReviewClaimsBulkRequest
+    TabularSortRequest:
+      properties:
+        sort:
+          additionalProperties: true
+          type: object
+          title: Sort
+      type: object
+      required:
+      - sort
+      title: TabularSortRequest
+    AssociatedTaskResponse:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        title:
+          type: string
+          title: Title
+        status:
+          type: string
+          title: Status
+        assigned_to_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assigned To Session Id
+      type: object
+      required:
+      - task_id
+      - title
+      - status
+      title: AssociatedTaskResponse
+    KnowledgeSummaryResponse:
+      properties:
+        counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Counts
+        recent:
+          items:
+            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
+          type: array
+          title: Recent
+      type: object
+      required:
+      - counts
+      title: KnowledgeSummaryResponse
+    FetchUrlResponse:
+      properties:
+        blob_uuid:
+          type: string
+          title: Blob Uuid
+        mime_type:
+          type: string
+          title: Mime Type
+        size:
+          type: integer
+          title: Size
+        preview:
+          type: string
+          title: Preview
+      type: object
+      required:
+      - blob_uuid
+      - mime_type
+      - size
+      - preview
+      title: FetchUrlResponse
+    KnowledgeSummaryClaimResponse:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        claim_type:
+          $ref: '#/components/schemas/ClaimType'
+        label:
+          type: string
+          title: Label
+        review_status:
+          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
+          default: accepted
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - claim_id
+      - claim_type
+      - label
+      - created_at
+      title: KnowledgeSummaryClaimResponse
+    ClaimsListResponse:
+      properties:
+        claims:
+          items:
+            $ref: '#/components/schemas/ClaimResponse'
+          type: array
+          title: Claims
+        related:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Related
+      type: object
+      required:
+      - claims
+      title: ClaimsListResponse
+    ReviewClaimsBulkResponse:
+      properties:
+        affected:
+          items:
+            type: string
+          type: array
+          title: Affected
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - affected
+      - decision
+      title: ReviewClaimsBulkResponse
+    ClaimSourceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        claim_id:
+          type: string
+          title: Claim Id
+        source_type:
+          type: string
+          title: Source Type
+        source_claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Claim Id
+        source_notebook_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Id
+        source_notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Path
+        source_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Cell Id
+        source_file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source File Path
+        source_section_heading:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Section Heading
+      type: object
+      required:
+      - id
+      - claim_id
+      - source_type
+      title: ClaimSourceResponse
+    ImportSourceResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        import_id:
+          type: string
+          title: Import Id
+        project_id:
+          type: string
+          title: Project Id
+        source_type:
+          type: string
+          title: Source Type
+        label:
+          type: string
+          title: Label
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        status:
+          type: string
+          title: Status
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        claim_count:
+          type: integer
+          title: Claim Count
+          default: 0
+        batch_status:
+          type: string
+          title: Batch Status
+        batch_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Summary
+        batch_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Error
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - id
+      - import_id
+      - project_id
+      - source_type
+      - label
+      - status
+      - batch_status
+      - created_at
+      - updated_at
+      title: ImportSourceResponse
+    ReviewClaimRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - decision
+      title: ReviewClaimRequest
+    ReviewDecision:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    FetchUrlRequest:
+      properties:
+        url:
+          type: string
+          minLength: 1
+          title: Url
+      type: object
+      required:
+      - url
+      title: FetchUrlRequest
+    ClaimType:
+      type: string
+      enum:
+      - notebook-captured
+      - synthesized
+      - tabular
+      - figure
+      - imported
+      title: ClaimType
+      description: 'Claim type constants.
+
+
+        Notebook-captured evidence is created automatically by the Q_VARS system when
+
+        agents assign values to Q_VARS variables in code cells. These are the primary
+
+        source of evidence in the knowledge graph.
+
+
+        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
+
+        interpret what the evidence means—not only restate source values.
+
+
+        Tabular claims store structured data matrices with per-cell source references.
+
+
+        Figure claims link to chart/visualization outputs captured from notebook cells.'
+    KnowledgeSummaryClaimReviewStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      title: KnowledgeSummaryClaimReviewStatus

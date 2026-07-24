@@ -1,0 +1,1345 @@
+openapi: 3.1.0
+info:
+  title: Quadrillion Cloud account store API
+  description: Public cloud API service for cloud-safe backend endpoints
+  version: 0.1.0
+tags:
+- name: store
+paths:
+  /v1/store/chat-sessions:
+    get:
+      tags:
+      - store
+      summary: List Chat Sessions
+      operationId: list_chat_sessions_v1_store_chat_sessions_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - store
+      summary: Create Chat Session
+      operationId: create_chat_session_v1_store_chat_sessions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChatSessionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/execution-statuses/{execution_id}:
+    get:
+      tags:
+      - store
+      summary: Get Execution Status
+      operationId: get_execution_status_v1_store_execution_statuses__execution_id__get
+      parameters:
+      - name: execution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Execution Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/execution-statuses:
+    post:
+      tags:
+      - store
+      summary: Upsert Execution Status
+      operationId: upsert_execution_status_v1_store_execution_statuses_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertExecutionStatusRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}:
+    get:
+      tags:
+      - store
+      summary: Get Chat Session
+      operationId: get_chat_session_v1_store_chat_sessions__chat_session_id__get
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - store
+      summary: Update Chat Session
+      operationId: update_chat_session_v1_store_chat_sessions__chat_session_id__patch
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChatSessionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/notebooks/{notebook_id}/kernel-config:
+    get:
+      tags:
+      - store
+      summary: Get Notebook Kernel Config
+      operationId: get_notebook_kernel_config_v1_store_notebooks__notebook_id__kernel_config_get
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/attach-notebook:
+    post:
+      tags:
+      - store
+      summary: Attach Notebook To Session
+      operationId: attach_notebook_to_session_v1_store_chat_sessions__chat_session_id__attach_notebook_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachNotebookRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/detach-notebook:
+    post:
+      tags:
+      - store
+      summary: Detach Notebook From Session
+      operationId: detach_notebook_from_session_v1_store_chat_sessions__chat_session_id__detach_notebook_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages:
+    post:
+      tags:
+      - store
+      summary: Enqueue Pending Message
+      description: Append a queued pending message at the tail of the session's queue.
+      operationId: enqueue_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnqueuePendingMessageRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - store
+      summary: List Pending Messages
+      description: List queued pending-message rows for a chat session in queue order.
+      operationId: list_pending_messages_v1_store_chat_sessions__chat_session_id__pending_messages_get
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      - name: kinds
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kinds
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/oldest-drainable:
+    get:
+      tags:
+      - store
+      summary: Get Oldest Drainable Pending Message
+      description: Return the oldest queued row of *kind* eligible to drain, or null.
+      operationId: get_oldest_drainable_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages_oldest_drainable_get
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      - name: kind
+        in: query
+        required: false
+        schema:
+          type: string
+          default: regular
+          title: Kind
+      - name: honor_hold
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Honor Hold
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/claim-oldest-drainable:
+    post:
+      tags:
+      - store
+      summary: Claim Oldest Drainable Pending Message
+      description: 'Atomically lease and return the oldest drainable row of *kind*, or null.
+
+
+        The row is leased, not removed: the caller promotes it into history and then
+
+        deletes it, so a crash mid-promotion leaves it recoverable.'
+      operationId: claim_oldest_drainable_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages_claim_oldest_drainable_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimOldestDrainablePendingMessageRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/release-lease:
+    post:
+      tags:
+      - store
+      summary: Release Pending Message Lease
+      description: Clear a drain lease so a row whose promotion failed is drainable again.
+      operationId: release_pending_message_lease_v1_store_chat_sessions__chat_session_id__pending_messages_release_lease_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleasePendingMessageLeaseRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/update-payload:
+    post:
+      tags:
+      - store
+      summary: Update Pending Message Payload
+      description: Rewrite a queued row's payload in place.
+      operationId: update_pending_message_payload_v1_store_chat_sessions__chat_session_id__pending_messages_update_payload_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePendingMessagePayloadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/set-hold:
+    post:
+      tags:
+      - store
+      summary: Set Pending Message Hold
+      description: Set or clear the durable editing hold on a queued row.
+      operationId: set_pending_message_hold_v1_store_chat_sessions__chat_session_id__pending_messages_set_hold_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPendingMessageHoldRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/reorder:
+    post:
+      tags:
+      - store
+      summary: Reorder Pending Messages
+      description: Rewrite queue positions for *kind* rows to match the given order.
+      operationId: reorder_pending_messages_v1_store_chat_sessions__chat_session_id__pending_messages_reorder_post
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderPendingMessagesRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/chat-sessions/{chat_session_id}/pending-messages/{pending_id}:
+    delete:
+      tags:
+      - store
+      summary: Delete Pending Message
+      description: Delete a single queued pending-message row. No-op when already gone.
+      operationId: delete_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages__pending_id__delete
+      parameters:
+      - name: chat_session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Chat Session Id
+      - name: pending_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Pending Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/notebooks/{notebook_id}/owner:
+    get:
+      tags:
+      - store
+      summary: Get Notebook Owner
+      operationId: get_notebook_owner_v1_store_notebooks__notebook_id__owner_get
+      parameters:
+      - name: notebook_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Notebook Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects:
+    get:
+      tags:
+      - store
+      summary: List Projects
+      operationId: list_projects_v1_store_projects_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/store/projects/{project_id}:
+    get:
+      tags:
+      - store
+      summary: Get Project
+      operationId: get_project_v1_store_projects__project_id__get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/export-rows:
+    get:
+      tags:
+      - store
+      summary: Export Project Rows
+      description: Return every DB-backed row of an owned project for a .qualia export.
+      operationId: export_project_rows_v1_store_projects__project_id__export_rows_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/ingest-rows:
+    post:
+      tags:
+      - store
+      summary: Ingest Project Rows
+      description: 'Insert the remapped rows of an imported .qualia archive.
+
+
+        The imported project and sessions are re-homed to the authenticated
+
+        user regardless of the identity recorded in the archive.'
+      operationId: ingest_project_rows_v1_store_projects_ingest_rows_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestProjectRowsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/tasks:
+    get:
+      tags:
+      - store
+      summary: Get Project Tasks
+      operationId: get_project_tasks_v1_store_projects__project_id__tasks_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: include_variables
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Variables
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/knowledge-summary:
+    get:
+      tags:
+      - store
+      summary: Get Project Knowledge Summary
+      operationId: get_project_knowledge_summary_v1_store_projects__project_id__knowledge_summary_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: recent_limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 0
+          default: 30
+          title: Recent Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/sessions:
+    get:
+      tags:
+      - store
+      summary: Get Project Sessions
+      operationId: get_project_sessions_v1_store_projects__project_id__sessions_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: include_user_input
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include User Input
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/task-statuses:
+    get:
+      tags:
+      - store
+      summary: Get Project Task Statuses
+      operationId: get_project_task_statuses_v1_store_projects__project_id__task_statuses_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/projects/{project_id}/sessions/{session_id}/tasks:
+    get:
+      tags:
+      - store
+      summary: Get Project Session Tasks
+      operationId: get_project_session_tasks_v1_store_projects__project_id__sessions__session_id__tasks_get
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Project Id
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      - name: include_variables
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Variables
+      - name: include_planned_created_by_session
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Planned Created By Session
+      - name: guidance_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Guidance Only
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/sessions/{session_id}/project:
+    get:
+      tags:
+      - store
+      summary: Get Session Project
+      operationId: get_session_project_v1_store_sessions__session_id__project_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/sessions/{session_id}/state:
+    get:
+      tags:
+      - store
+      summary: Get Session State
+      operationId: get_session_state_v1_store_sessions__session_id__state_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/project_artifacts:
+    post:
+      tags:
+      - store
+      summary: Save Project Artifact Route
+      operationId: save_project_artifact_route_v1_store_project_artifacts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveProjectArtifactRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/project_artifacts/by_call/{call_id}:
+    get:
+      tags:
+      - store
+      summary: Get Project Artifact By Call Route
+      operationId: get_project_artifact_by_call_route_v1_store_project_artifacts_by_call__call_id__get
+      parameters:
+      - name: call_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Call Id
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      - name: chat_session_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/store/project_artifacts/metadata:
+    post:
+      tags:
+      - store
+      summary: Get Project Artifact Metadata Route
+      operationId: get_project_artifact_metadata_route_v1_store_project_artifacts_metadata_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectArtifactMetadataRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    UpdateChatSessionRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        status_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Message
+        project_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
+        partition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Partition
+        compute_traits:
+          anyOf:
+          - $ref: '#/components/schemas/ComputeTraits'
+          - type: 'null'
+        total_tokens:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Total Tokens
+        last_seq_at_api_call:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Last Seq At Api Call
+      type: object
+      title: UpdateChatSessionRequest
+    ReorderPendingMessagesRequest:
+      properties:
+        ordered_pending_ids:
+          items:
+            type: string
+          type: array
+          title: Ordered Pending Ids
+        kind:
+          type: string
+          title: Kind
+          default: regular
+      type: object
+      required:
+      - ordered_pending_ids
+      title: ReorderPendingMessagesRequest
+    IngestProjectRowsRequest:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        mapping:
+          additionalProperties:
+            type: string
+          type: object
+          title: Mapping
+      type: object
+      required:
+      - data
+      - mapping
+      title: IngestProjectRowsRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComputeTraits:
+      properties:
+        gpu_type:
+          anyOf:
+          - $ref: '#/components/schemas/GpuType'
+          - type: 'null'
+        gpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gpu Count
+        cpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Cpu Count
+        memory_gb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Memory Gb
+      additionalProperties: false
+      type: object
+      title: ComputeTraits
+      description: 'Abstract resource requirements for a task.
+
+
+        All fields are optional; omitted fields impose no constraint.'
+    GpuType:
+      type: string
+      enum:
+      - a10g
+      - l4
+      - a100
+      - h100
+      title: GpuType
+      description: Supported GPU families for compute requests.
+    EnqueuePendingMessageRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+      type: object
+      required:
+      - pending_id
+      - kind
+      - payload
+      title: EnqueuePendingMessageRequest
+    ProjectArtifactMetadataRequest:
+      properties:
+        call_ids:
+          items:
+            type: string
+          type: array
+          title: Call Ids
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+      type: object
+      required:
+      - call_ids
+      title: ProjectArtifactMetadataRequest
+    ReleasePendingMessageLeaseRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+      type: object
+      required:
+      - pending_id
+      title: ReleasePendingMessageLeaseRequest
+    AttachNotebookRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      title: AttachNotebookRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateChatSessionRequest:
+      properties:
+        chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+        notebook_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      type: object
+      title: CreateChatSessionRequest
+    SaveProjectArtifactRequest:
+      properties:
+        artifact_id:
+          type: string
+          title: Artifact Id
+        project_id:
+          type: string
+          title: Project Id
+        source_chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Chat Session Id
+        source_call_id:
+          type: string
+          title: Source Call Id
+        tool_name:
+          type: string
+          title: Tool Name
+        mime_type:
+          type: string
+          title: Mime Type
+        data_b64:
+          type: string
+          title: Data B64
+      type: object
+      required:
+      - artifact_id
+      - project_id
+      - source_call_id
+      - tool_name
+      - mime_type
+      - data_b64
+      title: SaveProjectArtifactRequest
+    UpsertExecutionStatusRequest:
+      properties:
+        execution_id:
+          type: string
+          title: Execution Id
+        execution_type:
+          type: string
+          title: Execution Type
+        status:
+          type: string
+          title: Status
+          default: running
+        chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chat Session Id
+        notebook_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Id
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        last_output_tail:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Last Output Tail
+        execution_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Execution Metadata
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        completed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - execution_id
+      - execution_type
+      title: UpsertExecutionStatusRequest
+    ClaimOldestDrainablePendingMessageRequest:
+      properties:
+        kind:
+          type: string
+          title: Kind
+          default: regular
+        honor_hold:
+          type: boolean
+          title: Honor Hold
+          default: true
+      type: object
+      title: ClaimOldestDrainablePendingMessageRequest
+    UpdatePendingMessagePayloadRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        require_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Require Kind
+        token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
+      type: object
+      required:
+      - pending_id
+      - payload
+      title: UpdatePendingMessagePayloadRequest
+    SetPendingMessageHoldRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        held:
+          type: boolean
+          title: Held
+        token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
+        require_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Require Kind
+      type: object
+      required:
+      - pending_id
+      - held
+      title: SetPendingMessageHoldRequest
