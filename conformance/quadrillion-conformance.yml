@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: searched
+source: https://quadrillion.io/
+docs: https://trust.quadrillion.io/
+standards:
+  - id: soc2-type-ii
+    conforms: true
+    evidence: >-
+      quadrillion.io enterprise section states "SOC 2 Type II"; trust center
+      hosted at trust.quadrillion.io (Vanta).
+  - id: hipaa
+    conforms: true
+    evidence: >-
+      quadrillion.io enterprise section states HIPAA compliance for enterprise
+      deployments.
+  - id: gdpr
+    conforms: true
+    evidence: A Data Processing Addendum (DPA) is published at quadrillion.io/dpa.
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme in the OpenAPI; auth is API key + WorkOS SSO.
+  - id: openid-connect
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use the FastAPI validation envelope (detail[]), not
+      application/problem+json.
+  - id: openapi-3.1
+    conforms: true
+    evidence: api.quadrillion.io/openapi.json is a valid OpenAPI 3.1.0 document.

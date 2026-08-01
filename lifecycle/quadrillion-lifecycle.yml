@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: https://quadrillion.io/changelog
+versioning:
+  scheme: uri-path
+  current: v1
+  api_version: 0.1.0
+  docs: https://docs.quadrillion.io
+  note: >-
+    Cloud API is version 0.1.0 with path-prefixed surfaces (/api/*, /v1/*).
+    Desktop app follows its own semver release train (Qualia 0.6 as of
+    April–May 2026).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal deprecation policy or RFC 8594 Sunset header support documented.
+status_page: https://quadrillion.io/status
+changelog: https://quadrillion.io/changelog
+sla:
+  url: null
+  uptime_target: null
+deprecated_operations: []

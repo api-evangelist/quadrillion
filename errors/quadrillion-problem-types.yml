@@ -1,0 +1,43 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/quadrillion-cloud-openapi-original.json
+format: fastapi-validation
+envelope:
+  media_type: application/json
+  shape: '{ "detail": [ { "loc": [...], "msg": "...", "type": "..." } ] }'
+  schema_ref: '#/components/schemas/HTTPValidationError'
+  note: >-
+    The Quadrillion Cloud API is a FastAPI service. It does not emit RFC 9457
+    application/problem+json; request-validation failures return HTTP 422 with a
+    detail[] array of ValidationError objects (loc / msg / type). Non-validation
+    errors follow standard HTTP status semantics with a JSON body.
+problems:
+  - status: 422
+    title: Validation error
+    description: >-
+      Request failed schema validation. Response body is an HTTPValidationError
+      with detail[] entries pinpointing the offending field (loc), a human
+      message (msg), and a Pydantic error type. Declared on 227 of 320
+      operations.
+    schema_ref: '#/components/schemas/HTTPValidationError'
+  - status: 401
+    title: Unauthenticated
+    description: >-
+      Missing or invalid Quadrillion API key, or an expired/absent WorkOS SSO
+      session, on an endpoint that requires authentication.
+  - status: 403
+    title: Forbidden
+    description: >-
+      Authenticated principal lacks the required role or organization entitlement
+      (e.g. admin-only /api/admin/* routes, org-member-scoped routes).
+  - status: 404
+    title: Not found
+    description: Referenced resource (project, task, notebook, session, key) does not exist.
+  - status: 429
+    title: Too many requests
+    description: >-
+      Usage/rate ceiling reached (plan usage limits, overage ceiling on the
+      billing surface).
+  - status: 500
+    title: Internal server error
+    description: Unexpected server-side failure.

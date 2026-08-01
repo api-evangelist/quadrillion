@@ -1,0 +1,52 @@
+generated: '2026-07-20'
+method: searched
+source: https://quadrillion.io/changelog
+scheme: semver
+product: Qualia / Quadrillion platform
+current_version: '0.6'
+entries:
+  - version: '0.6'
+    date: '2026-05'
+    title: Skills and Planned Tasks
+    additions:
+      - Skills — a first-class system for teaching agents repeatable procedures and packaged capabilities
+      - Planned tasks — agents plan multi-step work up front, then execute and report against the plan
+      - Custom instructions overhauled into a rule-based format
+      - Secure credential storage, broader zoom support
+    breaking: false
+  - version: 0.5.9
+    date: '2026-03-12'
+    title: Image pasting
+    additions:
+      - Paste images directly into chat — screenshots, plots, and references go straight to the agent
+    breaking: false
+  - version: 0.5.8
+    date: '2026-03-12'
+    title: Knowledge System
+    additions:
+      - Persistent knowledge agents can read and write across sessions
+      - Agents can break a task into smaller steps before executing
+      - Agents sidebar redesign, Gantt view improvements
+    breaking: false
+  - version: 0.5.5
+    date: '2026-02-22'
+    title: Themes and project management
+    additions:
+      - Catppuccin themes and broader theming
+      - Export and import generations as JSON
+      - Delete entire projects from the UI
+      - Manually detach notebooks from agents
+    breaking: false
+  - version: 0.5.4
+    date: '2026-02-16'
+    title: Todo graphs
+    additions:
+      - Visualize and steer multi-step agent work as a graph
+    breaking: false
+  - version: 0.5.2
+    date: '2026-02-13'
+    title: Top nav and image compression
+    additions:
+      - Fully featured top nav across the app
+      - Images downsampled and compressed before being sent to the agent
+    breaking: false

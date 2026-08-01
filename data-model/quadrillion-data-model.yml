@@ -1,0 +1,111 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/quadrillion-cloud-openapi-original.json
+note: >-
+  Entity-relationship graph derived from the Quadrillion Cloud API OpenAPI path
+  hierarchy and component schemas. Relationships are inferred from nested route
+  paths (parent/{id}/child) and id-reference fields.
+entities:
+  - name: Organization
+    schema: OrgDetailResponse
+    routes:
+      - '/api/org/{org_id}'
+      - '/api/admin/organizations/{org_id}'
+    relationships:
+      - has_many: OrgMember
+        via: org_id
+      - has_many: OrgInvitation
+        via: org_id
+  - name: User
+    schema: UserProfileResponse
+    routes:
+      - '/api/user/profile'
+      - '/api/auth/me'
+      - '/api/admin/users/{user_id}'
+    relationships:
+      - belongs_to: Organization
+        via: org_id
+      - has_many: ApiKey
+        via: user_id
+      - has_many: Subscription
+        via: user_id
+  - name: ApiKey
+    schema: ListKeyResponse
+    routes:
+      - '/api/keys'
+      - '/api/keys/{key_id}'
+    relationships:
+      - belongs_to: User
+        via: user_id
+  - name: Project
+    schema: ProjectResponse
+    routes:
+      - '/api/projects'
+      - '/api/projects/{project_id}'
+    relationships:
+      - has_many: Task
+        via: project_id
+      - has_many: ChatSession
+        via: project_id
+      - has_many: Claim
+        via: project_id
+      - has_many: ProjectArtifact
+        via: project_id
+  - name: Task
+    schema: TaskResponse
+    routes:
+      - '/api/projects/{project_id}/tasks'
+      - '/api/tasks/{task_id}'
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - belongs_to: ChatSession
+        via: session_id
+  - name: ChatSession
+    schema: AssociatedNotebookResponse
+    routes:
+      - '/sessions'
+      - '/sessions/{chat_session_id}'
+      - '/v1/store/chat-sessions'
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_one: Notebook
+        via: notebook_id
+      - has_many: PendingMessage
+        via: chat_session_id
+  - name: Notebook
+    routes:
+      - '/notebooks'
+      - '/notebook/create'
+      - '/v1/store/notebooks/{notebook_id}'
+    relationships:
+      - has_one: Kernel
+        via: notebook_id
+      - has_many: Cell
+        via: notebook_id
+  - name: Kernel
+    routes:
+      - '/v1/kernel/kernels'
+      - '/v1/kernel/kernels/{notebook_id}/status'
+    relationships:
+      - belongs_to: Notebook
+        via: notebook_id
+  - name: Claim
+    schema: ClaimResponse
+    routes:
+      - '/api/projects/{project_id}/claims'
+      - '/api/claims/{claim_id}'
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: Evidence
+        via: claim_id
+  - name: Subscription
+    schema: SubscriptionResponse
+    routes:
+      - '/api/account/subscription'
+      - '/api/stripe/checkout-session'
+    relationships:
+      - belongs_to: User
+        via: user_id

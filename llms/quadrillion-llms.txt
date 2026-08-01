@@ -1,0 +1,37 @@
+# Qualia Docs
+
+## Docs
+
+- [Agents](https://docs.quadrillion.io/agents.md): Run parallel experiments and delegate work to independent agents.
+- [Autonomous Mode](https://docs.quadrillion.io/autonomous-mode.md): Let Qualia work independently for hours with Slack updates.
+- [Chat & AI](https://docs.quadrillion.io/chat-and-ai.md): Talk to Qualia in plain English to analyze data, write code, and run experiments.
+- [Getting Started](https://docs.quadrillion.io/getting-started.md): Download Qualia and start your first research session in minutes.
+- [Overview](https://docs.quadrillion.io/index.md): Qualia is a coding agent for researchers.
+- [Kernel Toolbar](https://docs.quadrillion.io/kernel-toolbar.md): Control code execution with the kernel picker and toolbar actions.
+- [Knowledge System](https://docs.quadrillion.io/knowledge.md): Track claims, evidence, and evolving understanding with the Central Knowledge Graph.
+- [MCP Integrations](https://docs.quadrillion.io/mcp-integrations.md): Connect external tools to Qualia using the Model Context Protocol.
+- [Notebooks](https://docs.quadrillion.io/notebooks.md): A Jupyter-compatible notebook IDE with code execution and visualizations.
+- [Q_VARS](https://docs.quadrillion.io/q-vars.md): Pass variables between tasks in notebook workflows.
+- [Rules](https://docs.quadrillion.io/rules.md): Create persistent instructions that guide AI behavior across all conversations.
+- [Search](https://docs.quadrillion.io/search.md): Find content in your current document or across your entire workspace.
+- [AI Assistant Settings](https://docs.quadrillion.io/settings/ai.md): Configure models, research style, rules, skills, and agent behavior.
+- [API Keys](https://docs.quadrillion.io/settings/api-keys.md): Configure API keys for AI providers.
+- [Appearance Settings](https://docs.quadrillion.io/settings/appearance.md): Configure themes, chat layout, and visual preferences.
+- [Data Management](https://docs.quadrillion.io/settings/data-management.md): Manage Qualia's internal database and reset options.
+- [Editor Settings](https://docs.quadrillion.io/settings/editor.md): Configure code editing, autocomplete, and display preferences.
+- [General Settings](https://docs.quadrillion.io/settings/general.md): Configure Python environments, terminal shell, and language preferences.
+- [Matplotlib Settings](https://docs.quadrillion.io/settings/matplotlib.md): Configure default plot appearance, colors, and export options.
+- [Settings Overview](https://docs.quadrillion.io/settings/overview.md): Configure Qualia's behavior, appearance, and integrations.
+- [Slack Integration](https://docs.quadrillion.io/settings/slack.md): Connect Qualia to Slack for autonomous mode updates.
+- [Cell Tags](https://docs.quadrillion.io/settings/tags.md): Manage custom tags for organizing notebook cells.
+- [Skills](https://docs.quadrillion.io/skills.md): Define reusable workflows that agents can invoke automatically or on demand.
+- [Tab Management](https://docs.quadrillion.io/tabs.md): Work with multiple documents in tabs across different panes.
+- [Tasks](https://docs.quadrillion.io/tasks.md): Organize work into a network of tasks with dependencies and assignments.
+- [Terminal](https://docs.quadrillion.io/terminal.md): An integrated terminal for running shell commands without leaving Qualia.
+- [Tutorial](https://docs.quadrillion.io/tutorial.md): A step-by-step walkthrough of a complete Qualia research session.
+- [Writeups](https://docs.quadrillion.io/writeups.md): Create structured research documents with .qua files.
+
+## Optional
+
+- [Changelog](https://quadrillion.io/changelog)
+- [Status](https://quadrillion.io/status)

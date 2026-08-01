@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: quadrillion.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 19 21:25:55 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: docs.quadrillion.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  7 01:04:23 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: api.quadrillion.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 11 23:59:59 2026 GMT
+  hsts: null
+domains:
+- domain: quadrillion.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

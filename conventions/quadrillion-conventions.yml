@@ -1,0 +1,50 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/quadrillion-cloud-openapi-original.json
+docs: https://docs.quadrillion.io
+summary: >-
+  Cross-cutting request/response semantics for the Quadrillion Cloud API,
+  derived from the published OpenAPI 3.1 document and the Qualia docs. The API is
+  a FastAPI service; its error envelope, validation model, and pagination follow
+  FastAPI/Pydantic conventions.
+authentication:
+  style: api-key + workos-sso-session
+  detail: authentication/quadrillion-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header or parameter is declared in the OpenAPI; the API
+    does not document an idempotency contract.
+pagination:
+  supported: true
+  style: offset
+  note: >-
+    Several list endpoints accept pagination query parameters (e.g. limit /
+    offset). No cursor-based pagination envelope is declared spec-wide.
+error_envelope:
+  format: fastapi-validation
+  media_type: application/json
+  shape: '{ "detail": [ { "loc": [...], "msg": "...", "type": "..." } ] }'
+  validation_status: 422
+  schema_ref: '#/components/schemas/HTTPValidationError'
+  note: >-
+    Not RFC 9457 problem+json. Validation failures return HTTP 422 with a
+    detail[] array of ValidationError objects (loc / msg / type). See
+    errors/quadrillion-problem-types.yml.
+versioning:
+  style: uri-path
+  detail: >-
+    Path prefixes segment the surface — unversioned /api/* app routes, /v1/*
+    store/kernel/release routes, and provider-shaped proxy paths (/v1/messages,
+    /responses, /v1beta/models/...). The Cloud API itself is version 0.1.0.
+rate_limit_signaling:
+  documented: false
+metadata:
+  note: >-
+    Usage and latency telemetry are exposed via /api/token_usage and
+    /api/latency_distribution rather than per-response metadata envelopes.
+cross_links:
+  errors: errors/quadrillion-problem-types.yml
+  lifecycle: lifecycle/quadrillion-lifecycle.yml
+  authentication: authentication/quadrillion-authentication.yml
+  data_model: data-model/quadrillion-data-model.yml

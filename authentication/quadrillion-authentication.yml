@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.quadrillion.io/settings/api-keys.md
+docs: https://docs.quadrillion.io
+note: >-
+  The published OpenAPI (api.quadrillion.io/openapi.json) declares no
+  components.securitySchemes, but the operation descriptions and docs state that
+  the cloud proxy routes "require a valid Quadrillion API key," and the API
+  exposes first-party key management (create/validate/revoke) plus WorkOS-backed
+  SSO sessions for the desktop app.
+summary:
+  types: [apiKey, session]
+  api_key_in: [header]
+  sso: [workos]
+schemes:
+  - name: QuadrillionApiKey
+    type: apiKey
+    in: header
+    description: >-
+      Programmatic access to the cloud proxy and store endpoints is authorized
+      with a Quadrillion API key. Keys are created via POST /api/keys
+      (create_api_key_api_keys_post) — the plaintext key is returned once and
+      cannot be retrieved again — and can be checked via POST /api/keys/validate
+      (validate_api_key_api_keys_validate_post), listed via GET /api/keys, and
+      revoked via DELETE /api/keys/{key_id}.
+    sources: [openapi/quadrillion-cloud-openapi-original.json]
+  - name: WorkosSSOSession
+    type: session
+    description: >-
+      The Qualia desktop app authenticates users through WorkOS-backed SSO
+      (GET/POST /api/auth/workos/start, /callback, /discover) issuing a server
+      session (GET /api/auth/me, /api/session, /api/session/csrf) with CSRF
+      protection. Organization membership and provisioning are managed through
+      the WorkOS admin portal endpoints.
+    sources: [openapi/quadrillion-cloud-openapi-original.json]
