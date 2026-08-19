@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account Openrouter API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Openrouter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Proxy Response Openrouter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/openrouter/chat/completions"
+          },
+          "docs": "Proxy OpenRouter API requests. Requires valid Quadrillion API key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,2361 @@
+{
+  "item": [
+    {
+      "id": "f5e8360e-6b2a-417b-ad0b-ea39beaad931",
+      "name": "admin",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6d44019-7aca-4be1-a2d9-239c750e764e",
+          "name": "List Users",
+          "request": {
+            "name": "List Users",
+            "description": {
+              "content": "List users with offset pagination (admin only).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78dec18e-7fde-421f-a085-6cbb7fdccf2f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"users\": [\n    {\n      \"id\": 6141,\n      \"email\": \"string\",\n      \"name\": \"string\",\n      \"created_at\": \"1986-05-27T22:14:11.787Z\",\n      \"last_login\": \"1953-12-29T02:04:39.847Z\",\n      \"job_types\": [\n        \"string\",\n        \"string\"\n      ],\n      \"company_name\": \"string\",\n      \"onboarding_completed\": false,\n      \"organization_role\": \"string\",\n      \"plan\": \"free\",\n      \"usage_limit_override_usd\": 5692.677122202592,\n      \"organization_name\": \"string\",\n      \"plan_default_limit_usd\": 0\n    },\n    {\n      \"id\": 8924,\n      \"email\": \"string\",\n      \"name\": \"string\",\n      \"created_at\": \"2010-03-13T01:13:56.779Z\",\n      \"last_login\": \"1983-09-30T05:22:46.490Z\",\n      \"job_types\": [\n        \"string\",\n        \"string\"\n      ],\n      \"company_name\": \"string\",\n      \"onboarding_completed\": false,\n      \"organization_role\": \"string\",\n      \"plan\": \"free\",\n      \"usage_limit_override_usd\": 4319.459717608713,\n      \"organization_name\": \"string\",\n      \"plan_default_limit_usd\": 0\n    }\n  ],\n  \"total_count\": 3635\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31b552da-91b6-4b8e-b7ff-6e92a2269194",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "93bce10f-da7b-40ad-b9c6-99a251101a83",
+          "name": "Get User Stats",
+          "request": {
+            "name": "Get User Stats",
+            "description": {
+              "content": "Engagement KPIs plus a daily active-user trend series (admin only).\n\nActive = distinct users with at least one model request in the window.\nWAU/MAU are distinct users in the trailing 7/30 days; average DAU is the\nmean of the per-day distinct counts over the trailing ``avg_dau_days``\nwindow (zero-activity days included). Stickiness is always the trailing\n30-day average DAU over MAU, independent of ``avg_dau_days``. The heatmap\nseries is scoped to the selected ``days`` lookback. When ``exclude_admins``\nis set, Quadrillion staff (admin-email users) are dropped from every count.\nAll buckets use ``date_trunc`` over UTC timestamps.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "avg_dau_days",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude_admins",
+                  "value": "<boolean>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aa6134d0-d691-4c40-aae7-90522285da8b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "avg_dau_days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_users\": 7886,\n  \"range_days\": 7095,\n  \"daily_active_users\": [\n    {\n      \"date\": \"2018-10-17\",\n      \"active_users\": 7474\n    },\n    {\n      \"date\": \"2008-05-04\",\n      \"active_users\": 7936\n    }\n  ],\n  \"average_dau\": 2985.341984974188,\n  \"average_dau_days\": 5519,\n  \"wau\": 3469,\n  \"mau\": 8276,\n  \"stickiness\": 5158.484538780487\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef19832f-0ec2-4cb7-8e41-06773414393c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "avg_dau_days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8bcb9409-11e0-4dec-80bc-eb45fada30aa",
+          "name": "Get User Stats Timeseries",
+          "request": {
+            "name": "Get User Stats Timeseries",
+            "description": {
+              "content": "Per-day rolling DAU/WAU/MAU/stickiness over the selected lookback (admin).\n\nDistinct (user, day) activity is read once over the lookback plus a 30-day\nseed, then the rolling windows are computed in Python so every output day is\nfully populated. When ``exclude_admins`` is set, Quadrillion staff are left\nout. Buckets use ``date_trunc`` over UTC timestamps.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "stats",
+                "timeseries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude_admins",
+                  "value": "<boolean>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "72572bb5-9e39-4ace-b62b-4fe5fd34cb04",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "stats",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"range_days\": 720,\n  \"points\": [\n    {\n      \"date\": \"1990-07-05\",\n      \"dau\": 836,\n      \"wau\": 1087,\n      \"mau\": 2102,\n      \"stickiness\": 8977.553962107686\n    },\n    {\n      \"date\": \"1993-01-26\",\n      \"dau\": 2452,\n      \"wau\": 7601,\n      \"mau\": 9256,\n      \"stickiness\": 7500.180616993392\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d58f2805-42d0-46ad-81ec-194152363ce7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "stats",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57fd1dd4-a6eb-4c4b-b7c8-123ebf42c2a0",
+          "name": "Get Active Users",
+          "request": {
+            "name": "Get Active Users",
+            "description": {
+              "content": "The exact distinct users with model usage in the trailing ``days`` window.\n\nBacks each metric's \"who counts\" list. ``last_active`` and ``active_days``\ndescribe each user's footprint inside the window. When ``exclude_admins`` is\nset, Quadrillion staff are omitted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude_admins",
+                  "value": "<boolean>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "12a84dab-2c1e-4371-8928-ba096a0f71f1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": 731,\n  \"exclude_admins\": false,\n  \"total\": 9984,\n  \"users\": [\n    {\n      \"id\": 9954,\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"last_active\": \"1991-05-30T18:51:19.743Z\",\n      \"active_days\": 6178\n    },\n    {\n      \"id\": 9923,\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"last_active\": \"2003-03-03T11:37:13.615Z\",\n      \"active_days\": 3963\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6483745-aacb-4701-a7ab-24b5a4d5b9e7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "exclude_admins",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c692087-9876-4f5c-b753-1f00c7baff85",
+          "name": "Update User Subscription",
+          "request": {
+            "name": "Update User Subscription",
+            "description": {
+              "content": "Update a user's subscription plan, usage override, and/or overage settings (admin only).\n\nRejects if the user belongs to an org (plan managed by org).\nOverage fields only valid for Max plan.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users",
+                ":user_id",
+                "subscription"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plan\": \"<string>\",\n  \"usage_limit_override_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_usd\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "32f3a751-7321-4e42-b10d-3b3c15ad934f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    ":user_id",
+                    "subscription"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plan\": \"<string>\",\n  \"usage_limit_override_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_usd\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user_id\": 2671,\n  \"plan\": \"string\",\n  \"usage_limit_override_usd\": 5119.832767160831,\n  \"overage_enabled\": true,\n  \"overage_limit_usd\": 1278.8684808641426\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bc3b823-d2ab-45cb-bb3e-6d7de72b5fb7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    ":user_id",
+                    "subscription"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plan\": \"<string>\",\n  \"usage_limit_override_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_usd\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4733668d-4326-4657-bf04-a35a8d8e81a5",
+          "name": "Revoke User Sessions",
+          "request": {
+            "name": "Revoke User Sessions",
+            "description": {
+              "content": "Bump ``users.session_version`` to invalidate the user's active JWTs.\n\nPlatform-admin only. Used for incident response when WorkOS Directory\nSync can't deliver fast enough — phished credentials, urgent offboard,\ncustomer security request, etc. The next request from any of the user's\nsessions will fail with ``session_revoked``; they can re-authenticate\nimmediately to mint a fresh token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "users",
+                ":user_id",
+                "revoke-sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "835a50a0-2b70-4f22-b70e-0d192851ec99",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    ":user_id",
+                    "revoke-sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "87f3f990-9bc6-4abb-892c-d191bb617cbf",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "users",
+                    ":user_id",
+                    "revoke-sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "74a37b3e-4b54-4827-a18c-350c0b64591f",
+          "name": "Create Org",
+          "request": {
+            "name": "Create Org",
+            "description": {
+              "content": "Create an enterprise organization (admin only).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"slug\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"billing_interval\": \"month\",\n  \"overage_enabled\": false,\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"admin_user_email\": \"<string>\",\n  \"seat_price_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c3539f3e-f7cd-41d4-80fd-c64d8e66166d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"slug\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"billing_interval\": \"month\",\n  \"overage_enabled\": false,\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"admin_user_email\": \"<string>\",\n  \"seat_price_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3851,\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"stripe_customer_id\": \"string\",\n  \"billing_email\": \"string\",\n  \"api_markup_rate\": 2497.5469620883873,\n  \"archived_at\": \"string\",\n  \"created_at\": \"string\",\n  \"updated_at\": \"string\",\n  \"member_count\": 46,\n  \"payment_method_status\": \"string\",\n  \"subscription\": {\n    \"plan\": \"string\",\n    \"status\": \"string\",\n    \"overage_enabled\": false,\n    \"overage_limit_usd\": 9380.57920020979,\n    \"usage_limit_per_user_usd\": 4532.648164604995,\n    \"seat_price_cents\": 4191\n  },\n  \"next_steps\": \"string\",\n  \"stripe_customer_url\": \"string\",\n  \"stripe_subscription_url\": \"string\",\n  \"workos_organization_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10eeca05-04d7-45f4-947d-73d324a169c4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"slug\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"billing_interval\": \"month\",\n  \"overage_enabled\": false,\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"admin_user_email\": \"<string>\",\n  \"seat_price_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdee828b-fac9-42af-b7c7-063dd5490129",
+          "name": "List Orgs",
+          "request": {
+            "name": "List Orgs",
+            "description": {
+              "content": "List organizations with offset pagination (admin only). Excludes archived by default.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include_archived",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c3ca7092-0a54-4efe-999b-58eb0dc6218f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizations\": [\n    {\n      \"id\": 306,\n      \"name\": \"string\",\n      \"slug\": \"string\",\n      \"stripe_customer_id\": \"string\",\n      \"billing_email\": \"string\",\n      \"api_markup_rate\": 642.9289432658592,\n      \"archived_at\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"member_count\": 1121,\n      \"payment_method_status\": \"string\",\n      \"subscription\": {\n        \"plan\": \"string\",\n        \"status\": \"string\",\n        \"overage_enabled\": false,\n        \"overage_limit_usd\": 8300.529356605672,\n        \"usage_limit_per_user_usd\": 2840.9947432217077,\n        \"seat_price_cents\": 125\n      },\n      \"next_steps\": \"string\",\n      \"stripe_customer_url\": \"string\",\n      \"stripe_subscription_url\": \"string\",\n      \"workos_organization_id\": \"string\"\n    },\n    {\n      \"id\": 4104,\n      \"name\": \"string\",\n      \"slug\": \"string\",\n      \"stripe_customer_id\": \"string\",\n      \"billing_email\": \"string\",\n      \"api_markup_rate\": 3986.404177854129,\n      \"archived_at\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"member_count\": 9887,\n      \"payment_method_status\": \"string\",\n      \"subscription\": {\n        \"plan\": \"string\",\n        \"status\": \"string\",\n        \"overage_enabled\": false,\n        \"overage_limit_usd\": 2051.441154852911,\n        \"usage_limit_per_user_usd\": 1597.237406589259,\n        \"seat_price_cents\": 4467\n      },\n      \"next_steps\": \"string\",\n      \"stripe_customer_url\": \"string\",\n      \"stripe_subscription_url\": \"string\",\n      \"workos_organization_id\": \"string\"\n    }\n  ],\n  \"total_count\": 8999\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1195fa3-224b-4dcf-bd93-da33e871a9b9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ced5761e-94d1-448c-acf1-b372636f523d",
+          "name": "Get Org Admin",
+          "request": {
+            "name": "Get Org Admin",
+            "description": {
+              "content": "Get full org detail (members, invitations, SSO) plus Stripe Dashboard URLs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations",
+                ":org_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "org_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da58432e-3d88-4093-a5af-4e5e026fce5e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8794,\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"stripe_customer_id\": \"string\",\n  \"billing_email\": \"string\",\n  \"api_markup_rate\": 6371.42884900356,\n  \"archived_at\": \"string\",\n  \"created_at\": \"string\",\n  \"updated_at\": \"string\",\n  \"subscription\": {\n    \"plan\": \"string\",\n    \"usage_limit_override_usd\": 3579.139521237128,\n    \"overage_enabled\": false,\n    \"overage_limit_usd\": 3774.559203447213,\n    \"seat_price_cents\": 2181,\n    \"billing_interval\": \"string\"\n  },\n  \"members\": [\n    {\n      \"user_id\": 7515,\n      \"email\": \"string\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"usage_limit_override_usd\": 8627.882070576416,\n      \"overage_limit_override_usd\": 2470.6649333818455,\n      \"created_at\": \"string\"\n    },\n    {\n      \"user_id\": 5156,\n      \"email\": \"string\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"usage_limit_override_usd\": 8535.072366834187,\n      \"overage_limit_override_usd\": 8064.080704845204,\n      \"created_at\": \"string\"\n    }\n  ],\n  \"member_count\": 8045,\n  \"payment_method_status\": \"string\",\n  \"next_steps\": \"string\",\n  \"sso_configured\": false,\n  \"stripe_customer_url\": \"string\",\n  \"stripe_subscription_url\": \"string\",\n  \"workos_organization_id\": \"string\",\n  \"workos_dashboard_url\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37ec839f-1b6d-405e-b88b-6faac658741c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ff33532-e8dc-4a09-a6ec-795122086d32",
+          "name": "Delete Org",
+          "request": {
+            "name": "Delete Org",
+            "description": {
+              "content": "Archive (offboard) an organization. Requires ?confirm=true (admin only).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations",
+                ":org_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "confirm",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "org_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e22bc8e5-d9c1-4b77-a4f4-497c45651a37",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confirm",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9bdf5fae-a88c-4f78-836b-1c3940263269",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confirm",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee95c21a-ab4f-4fdf-a7fa-19849a9a88ad",
+          "name": "Update Org",
+          "request": {
+            "name": "Update Org",
+            "description": {
+              "content": "Edit an enterprise organization's billing profile (admin only).\n\nCovers seat price, per-user usage cap, overage toggle/ceiling,\nAPI markup, org name, and billing email. Seat-price changes create\na new per-org Stripe Price and swap the subscription item with\nproration. Name/email changes are mirrored to the Stripe Customer\nso invoices stay aligned. An append-only ``billing_events`` row\ncaptures ``{before, after, reason}``.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations",
+                ":org_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "org_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e0f658d3-bdd3-4a49-8d69-d2c16bdc0957",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3851,\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"stripe_customer_id\": \"string\",\n  \"billing_email\": \"string\",\n  \"api_markup_rate\": 2497.5469620883873,\n  \"archived_at\": \"string\",\n  \"created_at\": \"string\",\n  \"updated_at\": \"string\",\n  \"member_count\": 46,\n  \"payment_method_status\": \"string\",\n  \"subscription\": {\n    \"plan\": \"string\",\n    \"status\": \"string\",\n    \"overage_enabled\": false,\n    \"overage_limit_usd\": 9380.57920020979,\n    \"usage_limit_per_user_usd\": 4532.648164604995,\n    \"seat_price_cents\": 4191\n  },\n  \"next_steps\": \"string\",\n  \"stripe_customer_url\": \"string\",\n  \"stripe_subscription_url\": \"string\",\n  \"workos_organization_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c3ed909-f2f2-4963-a16d-55d39cc4dce6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"billing_email\": \"<string>\",\n  \"seat_price_cents\": \"<integer>\",\n  \"usage_limit_per_user_usd\": \"<number>\",\n  \"overage_enabled\": \"<boolean>\",\n  \"overage_limit_per_user_usd\": \"<integer>\",\n  \"api_markup_rate\": \"<number>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "426b8ab1-b575-4100-b21d-6c51941ade48",
+          "name": "Unlink Org Workos",
+          "request": {
+            "name": "Unlink Org Workos",
+            "description": {
+              "content": "Sever the local org's link to its WorkOS Organization.\n\nPlatform-admin-only emergency tool for rolling back accidental\nbootstraps. Best-effort deletes the WorkOS Organization (so we don't\nleak orphans into our WorkOS account) and clears the local pointer.\nA WorkOS deletion failure (e.g. already deleted via the dashboard,\nrate limit, or transient network error) does not block the local\nunlink — staff can always re-run the bootstrap to relink.\n\nLocal memberships are NOT touched: members keep their seats, but\nfurther logins fall back to the personal-Google flow until the org\nis linked again.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "organizations",
+                ":org_id",
+                "workos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "org_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5ac8d9a7-4ec7-48d1-b5a9-99ef9585ba3d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id",
+                    "workos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a1bd9cab-c181-4b3c-87e1-7bdb6e829f30",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "organizations",
+                    ":org_id",
+                    "workos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "org_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1c03d4d-55e3-4880-b580-e610d02034cf",
+          "name": "List Feature Overrides",
+          "request": {
+            "name": "List Feature Overrides",
+            "description": {
+              "content": "List all overrides for a feature key (admin only).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "feature-overrides"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "feature",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "996fab0f-22e4-47f7-8d94-cf4ed35bea50",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "feature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"overrides\": [\n    {\n      \"feature_key\": \"string\",\n      \"subject_type\": \"email\",\n      \"subject\": \"string\",\n      \"enabled\": false,\n      \"note\": \"string\",\n      \"created_at\": \"1968-03-09T07:28:56.187Z\",\n      \"updated_at\": \"2001-09-30T05:45:11.556Z\"\n    },\n    {\n      \"feature_key\": \"string\",\n      \"subject_type\": \"email_domain\",\n      \"subject\": \"string\",\n      \"enabled\": false,\n      \"note\": \"string\",\n      \"created_at\": \"1979-10-20T06:08:28.655Z\",\n      \"updated_at\": \"2019-06-27T21:24:41.719Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1661dc38-bac1-4b56-8ed8-9cbafaccb7f7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "feature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b721e4c-f9f2-4fe0-a789-42c1e8702f06",
+          "name": "Grant Feature Override",
+          "request": {
+            "name": "Grant Feature Override",
+            "description": {
+              "content": "Grant a feature to a subject (admin only). Upsert with ``enabled=True``.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "feature-overrides",
+                "grant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d1d3db7b-4660-4a84-896e-5d4d4da6533e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "grant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"feature_key\": \"string\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"string\",\n  \"enabled\": true,\n  \"note\": \"string\",\n  \"created_at\": \"2001-03-11T02:10:19.275Z\",\n  \"updated_at\": \"2016-07-12T04:39:23.047Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dadfe632-7003-4e38-8fa4-cad816da1b29",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "grant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "392a411f-2ebe-424a-b0d9-e761a74d39e8",
+          "name": "Deny Feature Override",
+          "request": {
+            "name": "Deny Feature Override",
+            "description": {
+              "content": "Explicitly deny a feature to a subject (admin only). Upsert with\n``enabled=False`` — wins over any plan-level grant in the resolver.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "feature-overrides",
+                "deny"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3e928b81-fa59-4205-8943-d771150c4cb9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "deny"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"feature_key\": \"string\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"string\",\n  \"enabled\": true,\n  \"note\": \"string\",\n  \"created_at\": \"2001-03-11T02:10:19.275Z\",\n  \"updated_at\": \"2016-07-12T04:39:23.047Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1abfc06-2e3f-43d5-be9c-254fe650a5e5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "deny"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"organization_slug\",\n  \"subject\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ec0a6e6-2598-4d10-96db-77acfef22347",
+          "name": "Revoke Feature Override",
+          "request": {
+            "name": "Revoke Feature Override",
+            "description": {
+              "content": "Delete an override row (admin only). 404 if no matching row exists.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "feature-overrides",
+                "revoke"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"<string>\",\n  \"subject\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e801df61-bf63-4a1a-8780-4ace4832f582",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "revoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"email_domain\",\n  \"subject\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a771a00b-c96a-4484-b5c5-15d2e78350f3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "feature-overrides",
+                    "revoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feature\": \"<string>\",\n  \"subject_type\": \"email_domain\",\n  \"subject\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c997100e-c84e-49c5-8e41-4a71ed61a364",
+    "name": "Quadrillion Cloud account admin API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

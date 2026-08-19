@@ -1,0 +1,106 @@
+{
+  "item": [
+    {
+      "id": "cf316b62-4f66-498a-83d2-9d5565d0a028",
+      "name": "Fireworks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a6641f1-8734-4552-8f4c-46fb5864cea6",
+          "name": "Proxy Response Fireworks",
+          "request": {
+            "name": "Proxy Response Fireworks",
+            "description": {
+              "content": "Proxy Fireworks AI inference requests (BMT-291).\n\nTargets RFT-trained models served on Fireworks via OpenAI-compatible\n/inference/v1/chat/completions. The ``model`` field in the request body\nis a full deployment resource name like\n``accounts/<acct>/deployments/<deployment-id>``.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fireworks",
+                "chat",
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "827fa7ce-1b92-4de4-9fc7-ffcc31e80403",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fireworks",
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "69e56524-f8de-446e-b7d8-4022487d69f1",
+    "name": "Quadrillion Cloud account Fireworks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

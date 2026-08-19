@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account tags API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Available Tags Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tags"
+          },
+          "docs": "Return list of available cell tags with their descriptions."
+        },
+        {
+          "info": {
+            "name": "Create Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new tag."
+        },
+        {
+          "info": {
+            "name": "Update Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing tag."
+        },
+        {
+          "info": {
+            "name": "Delete Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a tag."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

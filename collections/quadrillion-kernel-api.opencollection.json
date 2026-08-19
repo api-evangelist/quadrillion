@@ -1,0 +1,297 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account kernel API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "kernel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start Kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/start"
+          },
+          "docs": "Accept a start_kernel request and return an operation_id immediately.\n\nThe get_user_filesystem dependency chains: OAuth session/internal JWT → user → filesystem.\nThe user's filesystem path is injected into the body before forwarding\nto the upstream gateway, which bind-mounts it into the Singularity container.\n\nIf the kernel is already running, emits ``kernel_alive`` and returns\nimmediately — mirroring the local backend's behaviour and avoiding a\nmisleading \"Kernel starting…\" / \"Kernel started ✓\""
+        },
+        {
+          "info": {
+            "name": "Poll Operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/operations/:operation_id",
+            "params": [
+              {
+                "name": "operation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Poll the status of a long-running operation (e.g. start_kernel)."
+        },
+        {
+          "info": {
+            "name": "Stop Kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/stop",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop Kernel"
+        },
+        {
+          "info": {
+            "name": "Interrupt Kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/interrupt",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Interrupt Kernel"
+        },
+        {
+          "info": {
+            "name": "Restart Kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/restart",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Restart Kernel"
+        },
+        {
+          "info": {
+            "name": "Kernel Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/status",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Kernel Status"
+        },
+        {
+          "info": {
+            "name": "List Kernels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/kernels"
+          },
+          "docs": "List Kernels"
+        },
+        {
+          "info": {
+            "name": "Gpu Availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/compute/gpu-availability"
+          },
+          "docs": "Proxy the gateway's per-GPU-type availability report."
+        },
+        {
+          "info": {
+            "name": "Execute Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/execute",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Proxy an execute request, streaming the login node's SSE response directly."
+        },
+        {
+          "info": {
+            "name": "Execute Silent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/execute_silent",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Execute Silent"
+        },
+        {
+          "info": {
+            "name": "Complete Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/kernels/:notebook_id/complete",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Complete Code"
+        },
+        {
+          "info": {
+            "name": "Execute Bash",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/bash"
+          },
+          "docs": "Execute Bash"
+        },
+        {
+          "info": {
+            "name": "List Environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/envs"
+          },
+          "docs": "List Environments"
+        },
+        {
+          "info": {
+            "name": "Create Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/envs"
+          },
+          "docs": "Create Environment"
+        },
+        {
+          "info": {
+            "name": "Delete Environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/kernel/envs/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Environment"
+        },
+        {
+          "info": {
+            "name": "List Kernel Specs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/kernelspecs"
+          },
+          "docs": "List Kernel Specs"
+        },
+        {
+          "info": {
+            "name": "Kernel Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/health"
+          },
+          "docs": "Kernel Health"
+        },
+        {
+          "info": {
+            "name": "Kernel Test Runtime State",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/test/runtime-state/:notebook_id",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Kernel Test Runtime State"
+        },
+        {
+          "info": {
+            "name": "List Gpu Runtimes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/kernel/gpu-runtimes"
+          },
+          "docs": "List the caller's GPU execution environments and attached notebooks."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

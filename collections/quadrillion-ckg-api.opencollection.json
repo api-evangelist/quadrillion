@@ -1,0 +1,325 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account ckg API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ckg",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Project Knowledge Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/knowledge-summary",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recent_limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "refresh",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Knowledge Summary"
+        },
+        {
+          "info": {
+            "name": "Add Evidence Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/evidence",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a notebook-captured evidence claim for an untracked variable.\n\nKernel-only on both mounts: this local route requires the kernel API\nbearer token; the cloud mirror requires an internal principal.\n\nRejections (unsupported value type, no session for the notebook,\nbad variable name) come back in ``rejected_reason`` rather than\nvia HTTP error so the client can surface them in-cell without\nraising."
+        },
+        {
+          "info": {
+            "name": "List Project Claims",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/claims",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "claim_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "high_level_only",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_by_task_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "degree",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "claim_ids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List claims for a project with optional filters and DAG expansion.\n\nHTTP callers receive every matching claim — the per-call recency cap\nthat ``get_claims`` applies to the LLM tool path is intentionally not\npropagated here, since UI surfaces (CKG sidebar, task-DAG coloring,\nwriteup tables) need the full set. ``claim_ids`` is repeatable\n(``?claim_ids=C-1&claim_ids=C-2``) for bulk lookup of a known set\nwithout re-scanning the project."
+        },
+        {
+          "info": {
+            "name": "Get Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/claims/:claim_id",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a single claim with its sources.\n\n``project_id`` is optional when the caller only has ``claim_id`` (for example\nwriteup previews); the store resolves by claim id alone."
+        },
+        {
+          "info": {
+            "name": "Delete Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/claims/:claim_id",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Soft delete a finding."
+        },
+        {
+          "info": {
+            "name": "Get Claim Dag Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/claims/:claim_id/dag",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "degree",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a claim with its DAG neighborhood."
+        },
+        {
+          "info": {
+            "name": "Update Tabular Sort Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/projects/:project_id/claims/:claim_id/tabular-sort",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the persisted row sort for a tabular claim."
+        },
+        {
+          "info": {
+            "name": "Review Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/claims/:claim_id/review",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record a user's accept/reject decision on a finding from the knowledge panel.\n\nThe decision lives on the claim's ``review_status`` column. ``accepted`` keeps\nthe finding and clears its affordances; ``rejected`` reuses the existing\nsoft-delete; ``pending`` is the undo state. A soft-deleted finding can only\nre-enter review via ``pending`` (undo); accepting one directly is rejected so\nthe row can never end up accepted while still soft-deleted."
+        },
+        {
+          "info": {
+            "name": "Review Claims Bulk Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/claims/review_bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply one decision to many findings — Accept all / Reject all and undo.\n\nActs only on the explicit ``claim_ids`` the client passes (the rows the user\nis looking at), skipping non-findings and any ``accepted`` that can't apply\nbecause the finding is already soft-deleted. Returns the claim ids actually\naffected so the client can offer a precise batch undo."
+        },
+        {
+          "info": {
+            "name": "Fetch Url Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/fetch-url",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a URL and persist its raw body as a blob. Used for optimistic\nprefetch in the Import Knowledge UI so users get immediate feedback\nabout size/network errors before starting an import."
+        },
+        {
+          "info": {
+            "name": "Import Knowledge Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-knowledge",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a knowledge import. Returns immediately; progress via socket events."
+        },
+        {
+          "info": {
+            "name": "List Import Sources Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-sources",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List every source ever submitted for this project, oldest first."
+        },
+        {
+          "info": {
+            "name": "Import Knowledge Status Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-knowledge/:import_id/status",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "import_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get current state of an in-flight or recently completed import."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

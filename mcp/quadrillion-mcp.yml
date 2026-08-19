@@ -2,40 +2,44 @@ generated: '2026-07-20'
 method: derived
 status: candidate
 source: openapi/quadrillion-cloud-openapi-original.json
-note: >-
-  Quadrillion does not publish a hosted MCP server for the Cloud API — instead
-  the Qualia desktop app is an MCP *client* that connects external tools via the
-  Model Context Protocol (see docs.quadrillion.io/mcp-integrations.md). The tools
-  below are a CANDIDATE mapping derived from a marquee subset of the cloud-safe
-  Cloud API operations; not an official server.
+note: Quadrillion does not publish a hosted MCP server for the Cloud API — instead the Qualia desktop
+  app is an MCP *client* that connects external tools via the Model Context Protocol (see docs.quadrillion.io/mcp-integrations.md).
+  The tools below are a CANDIDATE mapping derived from a marquee subset of the cloud-safe Cloud API operations;
+  not an official server.
 server:
   name: quadrillion-cloud
   transport: http
 tools:
-  - name: list_models
-    description: List models available to the account
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#get_available_models_models_get
-  - name: create_api_key
-    description: Create a Quadrillion API key (plaintext returned once)
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#create_api_key_api_keys_post
-  - name: validate_api_key
-    description: Validate a Quadrillion API key
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#validate_api_key_api_keys_validate_post
-  - name: create_project
-    description: Create a research project
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#create_project_endpoint_api_projects_post
-  - name: get_project_tasks
-    description: List tasks for a project
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#get_project_tasks_api_projects__project_id__tasks_get
-  - name: list_project_claims
-    description: List knowledge-graph claims for a project
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#list_project_claims_api_projects__project_id__claims_get
-  - name: add_evidence
-    description: Attach evidence to a claim in the knowledge graph
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#add_evidence_endpoint_api_evidence_post
-  - name: start_kernel
-    description: Start a compute kernel for a notebook
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#start_kernel_v1_kernel_kernels_start_post
-  - name: execute_code
-    description: Execute code in a running notebook kernel
-    source_operation: openapi/quadrillion-cloud-openapi-original.json#execute_code_v1_kernel_kernels__notebook_id__execute_post
+- name: list_models
+  description: List models available to the account
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#get_available_models_models_get
+- name: create_api_key
+  description: Create a Quadrillion API key (plaintext returned once)
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#create_api_key_api_keys_post
+- name: validate_api_key
+  description: Validate a Quadrillion API key
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#validate_api_key_api_keys_validate_post
+- name: create_project
+  description: Create a research project
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#create_project_endpoint_api_projects_post
+- name: get_project_tasks
+  description: List tasks for a project
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#get_project_tasks_api_projects__project_id__tasks_get
+- name: list_project_claims
+  description: List knowledge-graph claims for a project
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#list_project_claims_api_projects__project_id__claims_get
+- name: add_evidence
+  description: Attach evidence to a claim in the knowledge graph
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#add_evidence_endpoint_api_evidence_post
+- name: start_kernel
+  description: Start a compute kernel for a notebook
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#start_kernel_v1_kernel_kernels_start_post
+- name: execute_code
+  description: Execute code in a running notebook kernel
+  source_operation: openapi/quadrillion-cloud-openapi-original.json#execute_code_v1_kernel_kernels__notebook_id__execute_post
+deployment:
+  mode: none
+  verified: derived
+  tools: 9
+  checked: '2026-08-12'
+  source: catalog MCP census

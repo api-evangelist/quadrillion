@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account modal-files API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "modal-files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/list"
+          },
+          "docs": "List directory contents from the workspace sandbox file service."
+        },
+        {
+          "info": {
+            "name": "Read File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/read"
+          },
+          "docs": "Read a file from the workspace sandbox file service."
+        },
+        {
+          "info": {
+            "name": "Write File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/write"
+          },
+          "docs": "Write/save a file on the workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Create Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/mkdir"
+          },
+          "docs": "Create a folder on the workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Delete Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/delete"
+          },
+          "docs": "Delete a file or folder on the workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Rename Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/rename"
+          },
+          "docs": "Rename/move a file or folder on the workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Duplicate Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/duplicate"
+          },
+          "docs": "Duplicate a file or folder on the workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Check Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/modal/files/check"
+          },
+          "docs": "Check if a path exists on the workspace sandbox."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,330 @@
+{
+  "item": [
+    {
+      "id": "b30e8faf-0bda-4f85-be03-a51dde0e09df",
+      "name": "tool_results",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f42a3837-1bd7-40a5-8297-2d3ca46d8044",
+          "name": "List Tool Results",
+          "request": {
+            "name": "List Tool Results",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "tool_results"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "chat_session_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "notebook_id",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5498e2f1-7420-47b2-8fe2-e23aa6fb3e9d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tool_results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "notebook_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"chat_session_id\": \"string\",\n  \"entries\": [\n    {\n      \"call_id\": \"string\",\n      \"tool_name\": \"string\",\n      \"artifact_id\": \"string\",\n      \"content_type\": \"string\",\n      \"size_bytes\": 1727,\n      \"ok\": true,\n      \"truncated\": true,\n      \"inputs_summary\": \"string\",\n      \"created_at\": \"string\",\n      \"assistant_turn_id\": \"string\",\n      \"parallel_group_id\": \"string\"\n    },\n    {\n      \"call_id\": \"string\",\n      \"tool_name\": \"string\",\n      \"artifact_id\": \"string\",\n      \"content_type\": \"string\",\n      \"size_bytes\": 6159,\n      \"ok\": false,\n      \"truncated\": true,\n      \"inputs_summary\": \"string\",\n      \"created_at\": \"string\",\n      \"assistant_turn_id\": \"string\",\n      \"parallel_group_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d687288c-5e3f-46de-bfe2-0e57e12a2f28",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tool_results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "notebook_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf688e7e-6adf-4ac2-895c-f47270571af4",
+          "name": "Get Tool Result Payload",
+          "request": {
+            "name": "Get Tool Result Payload",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "tool_results",
+                ":call_id",
+                "payload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "chat_session_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "notebook_id",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "call_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09804a06-bff5-4977-94c6-88ec01c464fa",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tool_results",
+                    ":call_id",
+                    "payload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "notebook_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea6b3c7b-389a-41e7-a5b2-b929b6c01fcd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tool_results",
+                    ":call_id",
+                    "payload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "notebook_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "59cb7820-e51a-46c9-bff8-5563105b6f70",
+    "name": "Quadrillion Cloud account tool_results API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

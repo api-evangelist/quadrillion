@@ -1,0 +1,210 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account org API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "org",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get My Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/org/me"
+          },
+          "docs": "Get the current user's org (if they are an admin/owner)."
+        },
+        {
+          "info": {
+            "name": "Get Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/org/:org_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization details with members and subscription."
+        },
+        {
+          "info": {
+            "name": "Add Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/org/:org_id/members",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a member to an org by email, or create an invitation."
+        },
+        {
+          "info": {
+            "name": "Update Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/org/:org_id/members/:user_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update member role or cap overrides.\n\nSet overrides to null to revert to org defaults."
+        },
+        {
+          "info": {
+            "name": "Remove Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/org/:org_id/members/:user_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a member from an org."
+        },
+        {
+          "info": {
+            "name": "Revoke Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/org/:org_id/invitations/:invitation_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "invitation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Revoke a pending invitation."
+        },
+        {
+          "info": {
+            "name": "Resend Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/org/:org_id/invitations/:invitation_id/resend",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "invitation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Re-send the invitation email for an existing pending invitation."
+        },
+        {
+          "info": {
+            "name": "Regenerate Setup Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/org/:org_id/setup-link",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "frontend_origin",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Regenerate the Stripe payment setup link for an org."
+        },
+        {
+          "info": {
+            "name": "Get Workos Portal Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/org/:org_id/workos-portal-link",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Self-service WorkOS Admin Portal link for the org's owner or admin.\n\nThe ``intent`` selects which Admin Portal section the customer lands on\n(``sso``, ``dsync``, ``domain_verification``, ``audit_logs``). The\nWorkOS portal does not expose cross-intent navigation, so each section\nneeds a separately generated link.\n\nOn first call for an unlinked org, this creates a WorkOS Organization\nnamed after the local org and links it. Subsequent calls just return\nfresh portal links — same shape as ``POST /api"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

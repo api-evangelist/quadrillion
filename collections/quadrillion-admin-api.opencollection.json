@@ -1,0 +1,342 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account admin API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List users with offset pagination (admin only)."
+        },
+        {
+          "info": {
+            "name": "Get User Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/stats",
+            "params": [
+              {
+                "name": "days",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "avg_dau_days",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_admins",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Engagement KPIs plus a daily active-user trend series (admin only).\n\nActive = distinct users with at least one model request in the window.\nWAU/MAU are distinct users in the trailing 7/30 days; average DAU is the\nmean of the per-day distinct counts over the trailing ``avg_dau_days``\nwindow (zero-activity days included). Stickiness is always the trailing\n30-day average DAU over MAU, independent of ``avg_dau_days``. The heatmap\nseries is scoped to the selected ``days`` lookback. When ``exclude_adm"
+        },
+        {
+          "info": {
+            "name": "Get User Stats Timeseries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/stats/timeseries",
+            "params": [
+              {
+                "name": "days",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_admins",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Per-day rolling DAU/WAU/MAU/stickiness over the selected lookback (admin).\n\nDistinct (user, day) activity is read once over the lookback plus a 30-day\nseed, then the rolling windows are computed in Python so every output day is\nfully populated. When ``exclude_admins`` is set, Quadrillion staff are left\nout. Buckets use ``date_trunc`` over UTC timestamps."
+        },
+        {
+          "info": {
+            "name": "Get Active Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/users/active",
+            "params": [
+              {
+                "name": "days",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_admins",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "The exact distinct users with model usage in the trailing ``days`` window.\n\nBacks each metric's \"who counts\" list. ``last_active`` and ``active_days``\ndescribe each user's footprint inside the window. When ``exclude_admins`` is\nset, Quadrillion staff are omitted."
+        },
+        {
+          "info": {
+            "name": "Update User Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/admin/users/:user_id/subscription",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a user's subscription plan, usage override, and/or overage settings (admin only).\n\nRejects if the user belongs to an org (plan managed by org).\nOverage fields only valid for Max plan."
+        },
+        {
+          "info": {
+            "name": "Revoke User Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/users/:user_id/revoke-sessions",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Bump ``users.session_version`` to invalidate the user's active JWTs.\n\nPlatform-admin only. Used for incident response when WorkOS Directory\nSync can't deliver fast enough — phished credentials, urgent offboard,\ncustomer security request, etc. The next request from any of the user's\nsessions will fail with ``session_revoked``; they can re-authenticate\nimmediately to mint a fresh token."
+        },
+        {
+          "info": {
+            "name": "List Orgs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/organizations",
+            "params": [
+              {
+                "name": "include_archived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List organizations with offset pagination (admin only). Excludes archived by default."
+        },
+        {
+          "info": {
+            "name": "Create Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/organizations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an enterprise organization (admin only)."
+        },
+        {
+          "info": {
+            "name": "Get Org Admin",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/organizations/:org_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get full org detail (members, invitations, SSO) plus Stripe Dashboard URLs."
+        },
+        {
+          "info": {
+            "name": "Update Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/admin/organizations/:org_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit an enterprise organization's billing profile (admin only).\n\nCovers seat price, per-user usage cap, overage toggle/ceiling,\nAPI markup, org name, and billing email. Seat-price changes create\na new per-org Stripe Price and swap the subscription item with\nproration. Name/email changes are mirrored to the Stripe Customer\nso invoices stay aligned. An append-only ``billing_events`` row\ncaptures ``{before, after, reason}``."
+        },
+        {
+          "info": {
+            "name": "Delete Org",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/organizations/:org_id",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "confirm",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Archive (offboard) an organization. Requires ?confirm=true (admin only)."
+        },
+        {
+          "info": {
+            "name": "Unlink Org Workos",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/admin/organizations/:org_id/workos",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Sever the local org's link to its WorkOS Organization.\n\nPlatform-admin-only emergency tool for rolling back accidental\nbootstraps. Best-effort deletes the WorkOS Organization (so we don't\nleak orphans into our WorkOS account) and clears the local pointer.\nA WorkOS deletion failure (e.g. already deleted via the dashboard,\nrate limit, or transient network error) does not block the local\nunlink — staff can always re-run the bootstrap to relink.\n\nLocal memberships are NOT touched: members keep their"
+        },
+        {
+          "info": {
+            "name": "List Feature Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/feature-overrides",
+            "params": [
+              {
+                "name": "feature",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all overrides for a feature key (admin only)."
+        },
+        {
+          "info": {
+            "name": "Grant Feature Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/feature-overrides/grant",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grant a feature to a subject (admin only). Upsert with ``enabled=True``."
+        },
+        {
+          "info": {
+            "name": "Deny Feature Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/feature-overrides/deny",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Explicitly deny a feature to a subject (admin only). Upsert with\n``enabled=False`` — wins over any plan-level grant in the resolver."
+        },
+        {
+          "info": {
+            "name": "Revoke Feature Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/feature-overrides/revoke",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete an override row (admin only). 404 if no matching row exists."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

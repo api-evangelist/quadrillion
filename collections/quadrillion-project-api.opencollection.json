@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account project API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "project",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/export",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export a project as a .qualia archive (ZIP).\n\nWhen some notebooks cannot be read the archive is still produced,\nwith the skip count surfaced in the ``X-Export-Incomplete`` header\nand the skipped paths recorded in ``project.json``."
+        },
+        {
+          "info": {
+            "name": "Import Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects/import",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Import a .qualia archive as a new project.\n\nKernel-state restore and agent resume are local-only: cloud kernels\nrun in remote sandboxes, so cloud imports land with every session\nidle and no restored kernel state."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

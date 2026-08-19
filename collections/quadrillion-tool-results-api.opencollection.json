@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account tool_results API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tool_results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tool Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tool_results",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Tool Results"
+        },
+        {
+          "info": {
+            "name": "Get Tool Result Payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tool_results/:call_id/payload",
+            "params": [
+              {
+                "name": "call_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Tool Result Payload"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

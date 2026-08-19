@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account integration-relay API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "integration-relay",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Relay Bootstrap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/integrations/relay/bootstrap"
+          },
+          "docs": "Report whether the desktop should relay, and hand it the bot token."
+        },
+        {
+          "info": {
+            "name": "Relay Poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/integrations/relay/poll"
+          },
+          "docs": "Long-poll for the next resolved event relayed to this user."
+        },
+        {
+          "info": {
+            "name": "Relay Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/integrations/relay/route",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record a thread→owner route created by a relay (local) mention.\n\nWhen a mention runs on the desktop, cloud never sees the project, so the\ndesktop reports the thread mapping here; without it, later replies in the\nthread have no route and cloud would drop them. First writer wins.\n\nThe caller may only record routes for a workspace it has a live Slack\ninstall in. The route is keyed on Slack coordinates alone, so without this\ncheck any authenticated API key could squat or mis-route another tenant's\nt"
+        },
+        {
+          "info": {
+            "name": "Relay Ack",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/integrations/relay/ack",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirm receipt of a relayed event (resolves the webhook's handoff)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

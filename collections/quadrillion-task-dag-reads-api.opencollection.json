@@ -1,0 +1,208 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account task_dag_reads API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "task_dag_reads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Projects Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects"
+          },
+          "docs": "List Projects Endpoint"
+        },
+        {
+          "info": {
+            "name": "Get Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Project Endpoint"
+        },
+        {
+          "info": {
+            "name": "Get Project Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/tasks",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_variables",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Tasks"
+        },
+        {
+          "info": {
+            "name": "Get Project Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/sessions",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_user_input",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Sessions"
+        },
+        {
+          "info": {
+            "name": "Get Session Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/sessions/:session_id/project",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Session Project"
+        },
+        {
+          "info": {
+            "name": "Get Session Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/sessions/:session_id/tasks",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Session Tasks"
+        },
+        {
+          "info": {
+            "name": "Get Task Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tasks/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Task Endpoint"
+        },
+        {
+          "info": {
+            "name": "Get Task Variables Normalized",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/task_variables/normalized",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "variable_names",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tables",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "table_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Task Variables Normalized"
+        },
+        {
+          "info": {
+            "name": "Get Tracked Variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/task_variables/tracked",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Tracked Variables"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

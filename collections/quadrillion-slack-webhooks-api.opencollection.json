@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account slack-webhooks API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "slack-webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Slack Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/slack/events"
+          },
+          "docs": "Events API request URL: handshake, dedup, ack-fast dispatch."
+        },
+        {
+          "info": {
+            "name": "Slack Interactivity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/slack/interactivity"
+          },
+          "docs": "Interactivity request URL: form-encoded ``payload=<json>``."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,500 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account notebook API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "notebook",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read Notebook Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "GET version of /notebook endpoint for serving files in markdown img tags."
+        },
+        {
+          "info": {
+            "name": "Read Notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Load a file by path, checking for a session draft first.\n\nIf a session draft exists for this notebook:\n- Returns the draft state instead of the canonical file.\n- If the draft's canonical base revision has drifted, includes a\n  ``draft_conflict`` field so the frontend can prompt the user.\n\nNon-notebook files bypass draft logic entirely.\n\nReturns:\n- .ipynb  -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }\n- text    -> raw UTF-8 text (text/plain or application/json)\n- binary  ->"
+        },
+        {
+          "info": {
+            "name": "Get Draft Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/manifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Manifest"
+        },
+        {
+          "info": {
+            "name": "Get Draft Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/manifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Manifest"
+        },
+        {
+          "info": {
+            "name": "Get Draft Cells",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/cells",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Cells"
+        },
+        {
+          "info": {
+            "name": "Get Draft Cells",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/cells",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Cells"
+        },
+        {
+          "info": {
+            "name": "Submit Draft Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/operations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Draft Operations"
+        },
+        {
+          "info": {
+            "name": "Submit Draft Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/operations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Draft Operations"
+        },
+        {
+          "info": {
+            "name": "Patch Notebook Cell",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/cell",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a user cell-content edit to draft + live notebook state.\n\nSynchronous HTTP equivalent of the ``notebook_cell_user_edit``\nsocket event. Used by the frontend to flush a pending edit before\ninvoking ``/execute`` so cell-id execution sees the user's latest\ncontent. A missed patch is a failed precondition for execution because\ncontinuing would run stale backend state."
+        },
+        {
+          "info": {
+            "name": "Add Notebook Cell",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/cell/add",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Insert a new user-authored cell into the draft + live notebook state.\n\nUsed by the frontend so that subsequent same-session HTTP writes\n(``/notebook/cell``, ``/execute``) are guaranteed to see the cell.\n\nIdempotent: re-adding an existing ``cell_id`` returns success\nwithout mutating the draft."
+        },
+        {
+          "info": {
+            "name": "Save Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a session draft (debounced autosave path).\n\nNo-ops when a generation is active: the agent's turn notebook is\nthe sole draft writer, and user edits flow over the\n``notebook_cell_user_*`` socket events."
+        },
+        {
+          "info": {
+            "name": "Reset Draft To Canonical",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/reset-to-canonical",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset a live session draft to canonical file state without deleting it."
+        },
+        {
+          "info": {
+            "name": "Save Draft To Canonical",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/save-to-canonical",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Promote a session draft to canonical.\n\nOutside generation: CAS conflict detection (or ``force=True``). During\ngeneration, ``save_to_canonical`` force-writes the live draft because the\ndraft store is the notebook source of truth for user and agent edits. Either\nway the draft is preserved on success with a refreshed\n``canonical_base_revision``.\n\nAny ``pending_user_edits`` are applied first via the same per-cell write\npath the ``notebook_cell_user_edit`` socket handler uses, so an explicit\nsave ins"
+        },
+        {
+          "info": {
+            "name": "Save Or Export Notebook Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/save",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save handler for notebooks and text files.\n\nFor notebooks, this now saves to the session draft store first, then\npromotes to canonical with CAS conflict detection."
+        },
+        {
+          "info": {
+            "name": "Create File Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new notebook or text file, failing if the path already exists.\n\nUnlike ``/notebook/save`` (an upsert), this endpoint refuses to overwrite\nan existing file and returns ``409 Conflict`` when ``path`` is taken.\n\nFor ``.ipynb`` files this writes a starter notebook containing one empty\ncode cell whose ``cell_id`` is minted on the backend. That avoids the\nfrontend (``useNotebookLoader.makeEmptyCell``) fabricating a phantom cell\nwith a client-side id when it loads a zero-cell notebook."
+        },
+        {
+          "info": {
+            "name": "Delete Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a file or folder under NOTEBOOK_BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "List Notebooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebooks",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists all files in a given path relative to BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "Create Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a folder under the given relative 'path' within BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "List Recent Notebooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebooks/recent",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists the most recently modified notebooks."
+        },
+        {
+          "info": {
+            "name": "Check Path Exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook/check-path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Check if a file path exists."
+        },
+        {
+          "info": {
+            "name": "List Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/list-files",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Unified endpoint for listing files and folders in a directory."
+        },
+        {
+          "info": {
+            "name": "List All Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/list-all-files"
+          },
+          "docs": "Return a flat, sorted list of workspace-relative file paths.\n\nUsed by the chat composer's ``@path:`` autocomplete. Local mode only\nfor now; remote/cloud flavors return an empty list until they grow a\nproper implementation."
+        },
+        {
+          "info": {
+            "name": "Rename Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/rename",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rename/move a file or folder."
+        },
+        {
+          "info": {
+            "name": "Get Notebook Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook/id",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "GET /notebook/id?path=<relative_path_to_ipynb>"
+        },
+        {
+          "info": {
+            "name": "Duplicate Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/duplicate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Duplicate a file or folder."
+        },
+        {
+          "info": {
+            "name": "Reveal Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/reveal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reveal a file or folder in the system file manager (Finder/Explorer)."
+        },
+        {
+          "info": {
+            "name": "Open With Default Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/open-with-default",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Open a file with the system's default application."
+        },
+        {
+          "info": {
+            "name": "Get Session Required Variables Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/session/:session_id/required_variables",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get required variables for a session from Task DAG state."
+        },
+        {
+          "info": {
+            "name": "Export Notebook Standalone Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_standalone",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export a notebook with qualia.get(...) calls inlined for standalone use.\n\nTODO: Because notebooks can be attached/detached across sessions,\na notebook may reference variables from arbitrary projects/tasks.\nRight now we call ``query_all_task_variables()`` which fetches\n*every* variable in the database rather than scoping to the\nvariables relevant to this notebook.  Revisit once we can\nefficiently resolve notebook_id -> relevant task variable set."
+        },
+        {
+          "info": {
+            "name": "Export Notebook Content Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_content",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export notebook content with qualia.get(...) calls inlined for standalone use."
+        },
+        {
+          "info": {
+            "name": "Export Folder Notebooks Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_folder",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export all notebooks in a folder with qualia.get(...) calls inlined."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

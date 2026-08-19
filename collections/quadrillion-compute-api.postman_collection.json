@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "9ba26c3a-ee2e-4278-acd5-aca9b39e8c97",
+      "name": "compute",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bf5f5a74-f465-4fe5-bab0-bd8369e2a566",
+          "name": "List Compute Capabilities",
+          "request": {
+            "name": "List Compute Capabilities",
+            "description": {
+              "content": "Return parsed partition capabilities loaded in current runtime.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compute",
+                "capabilities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fd54cbb5-ef75-431b-9309-95d9d4fee50a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compute",
+                    "capabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"env_present\": false,\n  \"capabilities\": [\n    {\n      \"key_0\": 1937.0160441494977,\n      \"key_1\": 5437\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 1055\n    }\n  ],\n  \"capabilities_version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52ec75b9-9866-41ec-9e95-9e7541741a62",
+          "name": "Resolve Compute Resources",
+          "request": {
+            "name": "Resolve Compute Resources",
+            "description": {
+              "content": "Resolve compute traits to the best-fit partition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "compute",
+                "resolve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compute_traits\": {\n    \"gpu_type\": \"<string>\",\n    \"gpu_count\": \"<integer>\",\n    \"cpu_count\": \"<integer>\",\n    \"memory_gb\": \"<integer>\"\n  },\n  \"count\": 1,\n  \"mode\": \"single\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b66d395-9112-4a02-9ff7-9f0c4f3a132c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compute",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compute_traits\": {\n    \"gpu_type\": \"a10g\",\n    \"gpu_count\": 6292,\n    \"cpu_count\": 5181,\n    \"memory_gb\": 7014\n  },\n  \"count\": 1,\n  \"mode\": \"single\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"partition\": \"string\",\n  \"decision\": {\n    \"policy\": \"string\",\n    \"matched_capability\": {\n      \"key_0\": 3785.89075044688,\n      \"key_1\": true,\n      \"key_2\": 1778.0932903857426\n    },\n    \"fallback_used\": false\n  },\n  \"capabilities_version\": \"string\",\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0514b818-2520-406b-85a5-bf6d54bcb159",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "compute",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compute_traits\": {\n    \"gpu_type\": \"a10g\",\n    \"gpu_count\": 6292,\n    \"cpu_count\": 5181,\n    \"memory_gb\": 7014\n  },\n  \"count\": 1,\n  \"mode\": \"single\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "03b3a2db-fa2c-4c4f-b359-701f2b637d64",
+    "name": "Quadrillion Cloud account compute API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "item": [
+    {
+      "id": "d82d9fd8-4992-4000-b310-65d60ec19008",
+      "name": "autocomplete",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee3eced7-b80a-4583-babd-ee6a562ac320",
+          "name": "Get Autocomplete Models Endpoint",
+          "request": {
+            "name": "Get Autocomplete Models Endpoint",
+            "description": {
+              "content": "Get list of available models for autocomplete.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "autocomplete",
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ba0064c-3b22-4fd7-a5c6-9d1eef6967bf",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocomplete",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"models\": [\n    {\n      \"key\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"key\": \"string\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47d0a119-c97b-4de9-983f-b03d8cfd0286",
+          "name": "Autocomplete",
+          "request": {
+            "name": "Autocomplete",
+            "description": {
+              "content": "Start LM autocomplete generation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "autocomplete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"notebook_path\": \"<string>\",\n  \"cursor_position\": \"<integer>\",\n  \"current_cell_content\": \"<string>\",\n  \"current_cell_id\": \"<string>\",\n  \"language\": \"<string>\",\n  \"cells\": [\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"<string>\",\n          \"content\": {},\n          \"execution_time_ms\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"content\": {},\n          \"execution_time_ms\": \"<integer>\"\n        }\n      ],\n      \"cellId\": \"<string>\",\n      \"executionCount\": \"<integer>\",\n      \"executionTimeMs\": \"<integer>\",\n      \"executedAtMs\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": true,\n        \"key_2\": \"string\"\n      }\n    },\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"<string>\",\n          \"content\": {},\n          \"execution_time_ms\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"content\": {},\n          \"execution_time_ms\": \"<integer>\"\n        }\n      ],\n      \"cellId\": \"<string>\",\n      \"executionCount\": \"<integer>\",\n      \"executionTimeMs\": \"<integer>\",\n      \"executedAtMs\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": 225.39984092972642\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13c119c3-56b6-470b-a07e-a8882559ad3a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "autocomplete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"notebook_path\": \"<string>\",\n  \"cursor_position\": \"<integer>\",\n  \"current_cell_content\": \"<string>\",\n  \"current_cell_id\": \"<string>\",\n  \"language\": \"<string>\",\n  \"cells\": [\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 4334\n        },\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 7089\n        }\n      ],\n      \"cellId\": \"string\",\n      \"executionCount\": 6305,\n      \"executionTimeMs\": 3834,\n      \"executedAtMs\": 8007,\n      \"metadata\": {\n        \"key_0\": 2619,\n        \"key_1\": 466\n      }\n    },\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 1205\n        },\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 6760\n        }\n      ],\n      \"cellId\": \"string\",\n      \"executionCount\": 8023,\n      \"executionTimeMs\": 2415,\n      \"executedAtMs\": 9646,\n      \"metadata\": {\n        \"key_0\": 7277.652827864407\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6bd4ccd-37f8-4bea-88f8-f97be8b5779d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "autocomplete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"notebook_path\": \"<string>\",\n  \"cursor_position\": \"<integer>\",\n  \"current_cell_content\": \"<string>\",\n  \"current_cell_id\": \"<string>\",\n  \"language\": \"<string>\",\n  \"cells\": [\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 4334\n        },\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 7089\n        }\n      ],\n      \"cellId\": \"string\",\n      \"executionCount\": 6305,\n      \"executionTimeMs\": 3834,\n      \"executedAtMs\": 8007,\n      \"metadata\": {\n        \"key_0\": 2619,\n        \"key_1\": 466\n      }\n    },\n    {\n      \"type\": \"code\",\n      \"content\": \"\",\n      \"outputs\": [\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 1205\n        },\n        {\n          \"type\": \"string\",\n          \"content\": {},\n          \"execution_time_ms\": 6760\n        }\n      ],\n      \"cellId\": \"string\",\n      \"executionCount\": 8023,\n      \"executionTimeMs\": 2415,\n      \"executedAtMs\": 9646,\n      \"metadata\": {\n        \"key_0\": 7277.652827864407\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8c350c66-f44f-4505-b0f4-9b57f3610ba2",
+    "name": "Quadrillion Cloud account autocomplete API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

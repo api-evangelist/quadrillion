@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account task_dag_mutations API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "task_dag_mutations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Project Endpoint"
+        },
+        {
+          "info": {
+            "name": "Update Project Title Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Project Title Endpoint"
+        },
+        {
+          "info": {
+            "name": "Delete Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a project and all agents (chat sessions) within it for the current user."
+        },
+        {
+          "info": {
+            "name": "Reassign Task Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects/:project_id/tasks/:task_id/reassign",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reassign Task Endpoint"
+        },
+        {
+          "info": {
+            "name": "Update Task Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/projects/:project_id/tasks/:task_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Task Endpoint"
+        },
+        {
+          "info": {
+            "name": "Delete Task Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/projects/:project_id/tasks/:task_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query",
+                "description": "Chat session ID of the caller (must be assignee or creator)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete Task Endpoint"
+        },
+        {
+          "info": {
+            "name": "Serialize And Submit Task Variables Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/task_variables/serialize_and_submit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Persist variable values captured by the kernel after cell execution.\n\nInternal-principal only: the value must originate from the kernel runtime, never\nan agent/session (see ``quadrillion.services.VARIABLE_EVIDENCE_INVARIANT``)."
+        },
+        {
+          "info": {
+            "name": "Kernel Post Run Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel/post_run",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accept a full post-run snapshot: evidence values + namespace inventory.\n\nDEPRECATED: only legacy injected ``Q_VARS`` clients post here (qualia\nuses ``/serialize_and_submit`` + the inventory Comm). Remove with the\nlocal handler and ``KernelPostRunRequest`` once the\n``kernel_post_run.start`` log goes quiet; the drain window is bounded\nby app-update uptake, not kernel churn.\n\nInternal-principal only: evidence values must originate from the\nkernel runtime (see ``VARIABLE_EVIDENCE_INVARIANT``)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

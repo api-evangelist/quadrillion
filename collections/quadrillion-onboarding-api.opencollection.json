@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account onboarding API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "onboarding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Onboarding Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/onboarding/status"
+          },
+          "docs": "Get the current user's onboarding status.\n\nReturns:\n    {\n        \"onboarding_completed\": false\n    }"
+        },
+        {
+          "info": {
+            "name": "Complete Onboarding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/onboarding/complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete the onboarding process for a new user.\n\nUpdates user profile with name, job type, and company name.\n\nArgs:\n    request: {name, job_type, company_name}\n\nReturns:\n    {\"success\": true, \"message\": \"Onboarding completed\"}"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

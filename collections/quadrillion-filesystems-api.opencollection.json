@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account filesystems API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "filesystems",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Filesystems",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/filesystems"
+          },
+          "docs": "List all filesystems for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Create Filesystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/filesystems"
+          },
+          "docs": "Create the default filesystem for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get Default",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/filesystems/default"
+          },
+          "docs": "Get the authenticated user's default filesystem, creating if needed."
+        },
+        {
+          "info": {
+            "name": "Delete Filesystem",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/filesystems/:fs_id",
+            "params": [
+              {
+                "name": "fs_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a filesystem by ID. Only the owning user can delete it."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

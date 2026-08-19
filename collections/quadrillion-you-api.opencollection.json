@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account You API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "You",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Proxy Response You Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/you/v1/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Proxy you.com Search API requests. Requires valid Quadrillion API key.\n\nUnlike the LM provider routes, this one is non-streaming and returns\nthe upstream JSON body as-is."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

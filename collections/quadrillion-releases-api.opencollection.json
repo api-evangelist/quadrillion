@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account releases API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "releases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Supported Platforms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/releases/supported-platforms"
+          },
+          "docs": "Get list of currently supported platform IDs.\n\nThis endpoint returns which platforms have releases available for download.\nThe frontend uses this to gray out unsupported platforms in the download UI.\n\nThis is public data for the marketing download page, so no authentication\nis required. CDN-friendly caching is enabled to reduce backend load.\n\nReturns:\n    SupportedPlatformsResponse with list of supported platform IDs\n\nExample:\n    GET /v1/releases/supported-platforms\n\n    Response:\n    {\n       "
+        },
+        {
+          "info": {
+            "name": "Download Release",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/releases/:filename",
+            "params": [
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a presigned S3 URL and redirect the user's browser to download directly from S3.\n\nThis endpoint validates the file exists, generates a short-lived presigned\nURL (1 minute), and redirects the browser to download directly from S3\n(avoiding bandwidth costs on backend and Vercel).\n\nFiles are stored gzipped on S3 with Content-Encoding metadata (no extra .gz\nsuffix on the S3 key). Browsers and HTTP clients automatically decompress\nduring download, saving 30-60% bandwidth.\n\nArgs:\n    filename: Name"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account Fireworks API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fireworks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Proxy Response Fireworks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fireworks/chat/completions"
+          },
+          "docs": "Proxy Fireworks AI inference requests (BMT-291).\n\nTargets RFT-trained models served on Fireworks via OpenAI-compatible\n/inference/v1/chat/completions. The ``model`` field in the request body\nis a full deployment resource name like\n``accounts/<acct>/deployments/<deployment-id>``."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,2147 @@
+{
+  "item": [
+    {
+      "id": "b7129e47-0226-4f7a-b0ad-f84fa06ca09f",
+      "name": "ckg",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3b076fc9-9a03-4b2f-b902-849e01de5c80",
+          "name": "Get Project Knowledge Summary",
+          "request": {
+            "name": "Get Project Knowledge Summary",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "knowledge-summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recent_limit",
+                  "value": "30"
+                },
+                {
+                  "disabled": false,
+                  "key": "refresh",
+                  "value": "false"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1c2da26e-f7bc-497b-bf24-010f45be7b22",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "knowledge-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recent_limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "refresh",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"counts\": {\n    \"key_0\": 4486\n  },\n  \"recent\": [\n    {\n      \"claim_id\": \"string\",\n      \"claim_type\": \"notebook-captured\",\n      \"label\": \"string\",\n      \"created_at\": \"string\",\n      \"review_status\": \"accepted\"\n    },\n    {\n      \"claim_id\": \"string\",\n      \"claim_type\": \"notebook-captured\",\n      \"label\": \"string\",\n      \"created_at\": \"string\",\n      \"review_status\": \"accepted\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3674a1be-b977-4f7f-96bb-1dbea7c3c114",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "knowledge-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recent_limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "refresh",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5953156c-9b44-4686-9a46-b75317a4c205",
+          "name": "Add Evidence Endpoint",
+          "request": {
+            "name": "Add Evidence Endpoint",
+            "description": {
+              "content": "Add a notebook-captured evidence claim for an untracked variable.\n\nKernel-only on both mounts: this local route requires the kernel API\nbearer token; the cloud mirror requires an internal principal.\n\nRejections (unsupported value type, no session for the notebook,\nbad variable name) come back in ``rejected_reason`` rather than\nvia HTTP error so the client can surface them in-cell without\nraising.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "evidence"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"variable_name\": \"<string>\",\n  \"value\": {},\n  \"cell_id\": \"<string>\",\n  \"task_id\": \"<string>\",\n  \"is_high_level\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "181a68e9-1a6a-4c95-a9f2-a8da32b3913e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "evidence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"variable_name\": \"<string>\",\n  \"value\": {},\n  \"cell_id\": \"<string>\",\n  \"task_id\": \"<string>\",\n  \"is_high_level\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"claim_id\": \"string\",\n  \"rejected_reason\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6aa8c600-6ca8-4ebc-a6b4-066ad7685090",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "evidence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notebook_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"variable_name\": \"<string>\",\n  \"value\": {},\n  \"cell_id\": \"<string>\",\n  \"task_id\": \"<string>\",\n  \"is_high_level\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65652b0e-9e7a-43b3-9ef9-31baff37c445",
+          "name": "List Project Claims",
+          "request": {
+            "name": "List Project Claims",
+            "description": {
+              "content": "List claims for a project with optional filters and DAG expansion.\n\nHTTP callers receive every matching claim — the per-call recency cap\nthat ``get_claims`` applies to the LLM tool path is intentionally not\npropagated here, since UI surfaces (CKG sidebar, task-DAG coloring,\nwriteup tables) need the full set. ``claim_ids`` is repeatable\n(``?claim_ids=C-1&claim_ids=C-2``) for bulk lookup of a known set\nwithout re-scanning the project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "claims"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "claim_type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "high_level_only",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_by_task_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "degree",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_ids",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_ids",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "35abea1d-dd38-4345-a7ae-ee074e33bf11",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "claim_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "high_level_only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_by_task_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "degree",
+                      "value": "0"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"claims\": [\n    {\n      \"claim_id\": \"string\",\n      \"project_id\": \"string\",\n      \"claim_type\": \"string\",\n      \"content\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"title\": \"string\",\n      \"review_status\": \"accepted\",\n      \"is_high_level\": false,\n      \"created_by_session_id\": \"string\",\n      \"created_by_task_id\": \"string\",\n      \"updated_by_session_id\": \"string\",\n      \"linked_variable\": {\n        \"key_0\": 3847,\n        \"key_1\": 9965,\n        \"key_2\": 957.8603504427618\n      },\n      \"tabular_data\": {\n        \"key_0\": 5664.757111666661\n      },\n      \"figure_metadata\": {\n        \"key_0\": 5809,\n        \"key_1\": 9964.159190477809\n      },\n      \"sources\": [\n        {\n          \"id\": 724,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        },\n        {\n          \"id\": 5068,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        }\n      ],\n      \"associated_tasks\": [\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        },\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        }\n      ],\n      \"associated_notebooks\": [\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        },\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        }\n      ]\n    },\n    {\n      \"claim_id\": \"string\",\n      \"project_id\": \"string\",\n      \"claim_type\": \"string\",\n      \"content\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"title\": \"string\",\n      \"review_status\": \"accepted\",\n      \"is_high_level\": false,\n      \"created_by_session_id\": \"string\",\n      \"created_by_task_id\": \"string\",\n      \"updated_by_session_id\": \"string\",\n      \"linked_variable\": {\n        \"key_0\": 1418.2245358831958,\n        \"key_1\": false\n      },\n      \"tabular_data\": {\n        \"key_0\": false\n      },\n      \"figure_metadata\": {\n        \"key_0\": 9844\n      },\n      \"sources\": [\n        {\n          \"id\": 1206,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        },\n        {\n          \"id\": 6475,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        }\n      ],\n      \"associated_tasks\": [\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        },\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        }\n      ],\n      \"associated_notebooks\": [\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        },\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"related\": [\n    {\n      \"key_0\": true\n    },\n    {\n      \"key_0\": 6576.6562183564565\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b746570d-95d4-4fb3-9c38-621624708f2b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "claim_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "high_level_only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "created_by_task_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "degree",
+                      "value": "0"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a0c9758-253d-43b4-b241-4a67dd7ad7cb",
+          "name": "Get Claim Endpoint",
+          "request": {
+            "name": "Get Claim Endpoint",
+            "description": {
+              "content": "Get a single claim with its sources.\n\n``project_id`` is optional when the caller only has ``claim_id`` (for example\nwriteup previews); the store resolves by claim id alone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "claims",
+                ":claim_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4aa74d22-ede7-4df3-b07c-662292c7a61b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"claim_id\": \"string\",\n  \"project_id\": \"string\",\n  \"claim_type\": \"string\",\n  \"content\": \"string\",\n  \"status\": \"string\",\n  \"created_at\": \"string\",\n  \"updated_at\": \"string\",\n  \"title\": \"string\",\n  \"review_status\": \"accepted\",\n  \"is_high_level\": false,\n  \"created_by_session_id\": \"string\",\n  \"created_by_task_id\": \"string\",\n  \"updated_by_session_id\": \"string\",\n  \"linked_variable\": {\n    \"key_0\": 1912.0860521471784,\n    \"key_1\": \"string\"\n  },\n  \"tabular_data\": {\n    \"key_0\": 1799.7275712443695\n  },\n  \"figure_metadata\": {\n    \"key_0\": 2298.538199281098,\n    \"key_1\": 3244.5028885477645,\n    \"key_2\": 8832,\n    \"key_3\": false\n  },\n  \"sources\": [\n    {\n      \"id\": 8941,\n      \"claim_id\": \"string\",\n      \"source_type\": \"string\",\n      \"source_claim_id\": \"string\",\n      \"source_notebook_id\": \"string\",\n      \"source_notebook_path\": \"string\",\n      \"source_cell_id\": \"string\",\n      \"source_file_path\": \"string\",\n      \"source_section_heading\": \"string\"\n    },\n    {\n      \"id\": 6581,\n      \"claim_id\": \"string\",\n      \"source_type\": \"string\",\n      \"source_claim_id\": \"string\",\n      \"source_notebook_id\": \"string\",\n      \"source_notebook_path\": \"string\",\n      \"source_cell_id\": \"string\",\n      \"source_file_path\": \"string\",\n      \"source_section_heading\": \"string\"\n    }\n  ],\n  \"associated_tasks\": [\n    {\n      \"task_id\": \"string\",\n      \"title\": \"string\",\n      \"status\": \"string\",\n      \"assigned_to_session_id\": \"string\"\n    },\n    {\n      \"task_id\": \"string\",\n      \"title\": \"string\",\n      \"status\": \"string\",\n      \"assigned_to_session_id\": \"string\"\n    }\n  ],\n  \"associated_notebooks\": [\n    {\n      \"notebook_id\": \"string\",\n      \"path\": \"string\"\n    },\n    {\n      \"notebook_id\": \"string\",\n      \"path\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a1156e7-745a-4fa4-9ee3-ec2b0d7a4a31",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52f8bda1-b7ce-495f-8cc0-663447bbc1c1",
+          "name": "Delete Claim Endpoint",
+          "request": {
+            "name": "Delete Claim Endpoint",
+            "description": {
+              "content": "Soft delete a finding.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "claims",
+                ":claim_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "250513af-3a35-431d-8284-0b40b163c799",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b55692c-131a-45a7-8c78-6c9fb0009982",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "808ce9db-c9e1-40de-9a3a-ef2451911b45",
+          "name": "Get Claim Dag Endpoint",
+          "request": {
+            "name": "Get Claim Dag Endpoint",
+            "description": {
+              "content": "Get a claim with its DAG neighborhood.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "claims",
+                ":claim_id",
+                "dag"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "degree",
+                  "value": "1"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4eaae8f-2b1a-4331-8c89-5a849846cb66",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id",
+                    "dag"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "degree",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"claims\": [\n    {\n      \"claim_id\": \"string\",\n      \"project_id\": \"string\",\n      \"claim_type\": \"string\",\n      \"content\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"title\": \"string\",\n      \"review_status\": \"accepted\",\n      \"is_high_level\": false,\n      \"created_by_session_id\": \"string\",\n      \"created_by_task_id\": \"string\",\n      \"updated_by_session_id\": \"string\",\n      \"linked_variable\": {\n        \"key_0\": 3847,\n        \"key_1\": 9965,\n        \"key_2\": 957.8603504427618\n      },\n      \"tabular_data\": {\n        \"key_0\": 5664.757111666661\n      },\n      \"figure_metadata\": {\n        \"key_0\": 5809,\n        \"key_1\": 9964.159190477809\n      },\n      \"sources\": [\n        {\n          \"id\": 724,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        },\n        {\n          \"id\": 5068,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        }\n      ],\n      \"associated_tasks\": [\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        },\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        }\n      ],\n      \"associated_notebooks\": [\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        },\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        }\n      ]\n    },\n    {\n      \"claim_id\": \"string\",\n      \"project_id\": \"string\",\n      \"claim_type\": \"string\",\n      \"content\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"string\",\n      \"updated_at\": \"string\",\n      \"title\": \"string\",\n      \"review_status\": \"accepted\",\n      \"is_high_level\": false,\n      \"created_by_session_id\": \"string\",\n      \"created_by_task_id\": \"string\",\n      \"updated_by_session_id\": \"string\",\n      \"linked_variable\": {\n        \"key_0\": 1418.2245358831958,\n        \"key_1\": false\n      },\n      \"tabular_data\": {\n        \"key_0\": false\n      },\n      \"figure_metadata\": {\n        \"key_0\": 9844\n      },\n      \"sources\": [\n        {\n          \"id\": 1206,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        },\n        {\n          \"id\": 6475,\n          \"claim_id\": \"string\",\n          \"source_type\": \"string\",\n          \"source_claim_id\": \"string\",\n          \"source_notebook_id\": \"string\",\n          \"source_notebook_path\": \"string\",\n          \"source_cell_id\": \"string\",\n          \"source_file_path\": \"string\",\n          \"source_section_heading\": \"string\"\n        }\n      ],\n      \"associated_tasks\": [\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        },\n        {\n          \"task_id\": \"string\",\n          \"title\": \"string\",\n          \"status\": \"string\",\n          \"assigned_to_session_id\": \"string\"\n        }\n      ],\n      \"associated_notebooks\": [\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        },\n        {\n          \"notebook_id\": \"string\",\n          \"path\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"related\": [\n    {\n      \"key_0\": true\n    },\n    {\n      \"key_0\": 6576.6562183564565\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "964c8bbd-2c94-451a-93ea-7cee502998d6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id",
+                    "dag"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "degree",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d88e08db-a881-45e1-be13-ad6ad1ff8da8",
+          "name": "Update Tabular Sort Endpoint",
+          "request": {
+            "name": "Update Tabular Sort Endpoint",
+            "description": {
+              "content": "Update the persisted row sort for a tabular claim.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "claims",
+                ":claim_id",
+                "tabular-sort"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sort\": {\n    \"key_0\": 5269,\n    \"key_1\": 6072\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b9828d8-a201-44fb-a65d-eb1ac8e17edc",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "claims",
+                    ":claim_id",
+                    "tabular-sort"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sort\": {\n    \"key_0\": 754.0114835965561,\n    \"key_1\": 4263.129136570474\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"claim_id\": \"string\",\n  \"project_id\": \"string\",\n  \"claim_type\": \"string\",\n  \"content\": \"string\",\n  \"status\": \"string\",\n  \"created_at\": \"string\",\n  \"updated_at\": \"string\",\n  \"title\": \"string\",\n  \"review_status\": \"accepted\",\n  \"is_high_level\": false,\n  \"created_by_session_id\": \"string\",\n  \"created_by_task_id\": \"string\",\n  \"updated_by_session_id\": \"string\",\n  \"linked_variable\": {\n    \"key_0\": 1912.0860521471784,\n    \"key_1\": \"string\"\n  },\n  \"tabular_data\": {\n    \"key_0\": 1799.7275712443695\n  },\n  \"figure_metadata\": {\n    \"key_0\": 2298.538199281098,\n    \"key_1\": 3244.5028885477645,\n    \"key_2\": 8832,\n    \"key_3\": false\n  },\n  \"sources\": [\n    {\n      \"id\": 8941,\n      \"claim_id\": \"string\",\n      \"source_type\": \"string\",\n      \"source_claim_id\": \"string\",\n      \"source_notebook_id\": \"string\",\n      \"source_notebook_path\": \"string\",\n      \"source_cell_id\": \"string\",\n      \"source_file_path\": \"string\",\n      \"source_section_heading\": \"string\"\n    },\n    {\n      \"id\": 6581,\n      \"claim_id\": \"string\",\n      \"source_type\": \"string\",\n      \"source_claim_id\": \"string\",\n      \"source_notebook_id\": \"string\",\n      \"source_notebook_path\": \"string\",\n      \"source_cell_id\": \"string\",\n      \"source_file_path\": \"string\",\n      \"source_section_heading\": \"string\"\n    }\n  ],\n  \"associated_tasks\": [\n    {\n      \"task_id\": \"string\",\n      \"title\": \"string\",\n      \"status\": \"string\",\n      \"assigned_to_session_id\": \"string\"\n    },\n    {\n      \"task_id\": \"string\",\n      \"title\": \"string\",\n      \"status\": \"string\",\n      \"assigned_to_session_id\": \"string\"\n    }\n  ],\n  \"associated_notebooks\": [\n    {\n      \"notebook_id\": \"string\",\n      \"path\": \"string\"\n    },\n    {\n      \"notebook_id\": \"string\",\n      \"path\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c66cf6d-53f7-46e5-be42-fe834e100755",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "claims",
+                    ":claim_id",
+                    "tabular-sort"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sort\": {\n    \"key_0\": 754.0114835965561,\n    \"key_1\": 4263.129136570474\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "70012732-463b-46ab-8060-f0aa4526e68c",
+          "name": "Review Claim Endpoint",
+          "request": {
+            "name": "Review Claim Endpoint",
+            "description": {
+              "content": "Record a user's accept/reject decision on a finding from the knowledge panel.\n\nThe decision lives on the claim's ``review_status`` column. ``accepted`` keeps\nthe finding and clears its affordances; ``rejected`` reuses the existing\nsoft-delete; ``pending`` is the undo state. A soft-deleted finding can only\nre-enter review via ``pending`` (undo); accepting one directly is rejected so\nthe row can never end up accepted while still soft-deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "claims",
+                ":claim_id",
+                "review"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": \"<string>\",\n  \"decision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "95120d8f-acfb-4869-b4af-d83931b2cc3d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id",
+                    "review"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<string>\",\n  \"decision\": \"accepted\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5796fd59-2669-4576-92d1-1feaf3692a7a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    ":claim_id",
+                    "review"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<string>\",\n  \"decision\": \"accepted\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4096cd9-1cdd-466a-be49-3ca0a61bb089",
+          "name": "Review Claims Bulk Endpoint",
+          "request": {
+            "name": "Review Claims Bulk Endpoint",
+            "description": {
+              "content": "Apply one decision to many findings — Accept all / Reject all and undo.\n\nActs only on the explicit ``claim_ids`` the client passes (the rows the user\nis looking at), skipping non-findings and any ``accepted`` that can't apply\nbecause the finding is already soft-deleted. Returns the claim ids actually\naffected so the client can offer a precise batch undo.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "claims",
+                "review_bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": \"<string>\",\n  \"claim_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"decision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2f3c56dd-01da-493b-bad4-f7d77879be1f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    "review_bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<string>\",\n  \"claim_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"decision\": \"pending\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"affected\": [\n    \"string\",\n    \"string\"\n  ],\n  \"decision\": \"pending\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6abef9d-0493-4016-958e-5b677207e8aa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "claims",
+                    "review_bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<string>\",\n  \"claim_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"decision\": \"pending\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8628df42-d09f-4a19-a1b5-c97af69df2de",
+          "name": "Fetch Url Endpoint",
+          "request": {
+            "name": "Fetch Url Endpoint",
+            "description": {
+              "content": "Fetch a URL and persist its raw body as a blob. Used for optimistic\nprefetch in the Import Knowledge UI so users get immediate feedback\nabout size/network errors before starting an import.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "fetch-url"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b6fac71-c06f-445d-b2d6-354175c9fcc2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "fetch-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"blob_uuid\": \"string\",\n  \"mime_type\": \"string\",\n  \"size\": 9128,\n  \"preview\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0b82da9-4fcc-4b5b-8a3a-63b71b6441d8",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "fetch-url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f471f551-99de-455f-a821-e000dc6bbde2",
+          "name": "Import Knowledge Endpoint",
+          "request": {
+            "name": "Import Knowledge Endpoint",
+            "description": {
+              "content": "Start a knowledge import. Returns immediately; progress via socket events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "import-knowledge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "chat_session_id",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sources\": [\n    {\n      \"source_type\": \"<string>\",\n      \"content\": \"<string>\",\n      \"blob_uuid\": \"<string>\",\n      \"file_name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "62234814-0a05-410b-82d2-dfd34fbb57c1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-knowledge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sources\": [\n    {\n      \"source_type\": \"file\",\n      \"content\": \"string\",\n      \"blob_uuid\": \"string\",\n      \"file_name\": \"string\",\n      \"url\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 4612,\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8970b8b8-ce82-4425-82d4-55acbf2d7f61",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-knowledge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chat_session_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sources\": [\n    {\n      \"source_type\": \"file\",\n      \"content\": \"string\",\n      \"blob_uuid\": \"string\",\n      \"file_name\": \"string\",\n      \"url\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91f5c8fd-d612-45f0-807a-34cc3cbfcad3",
+          "name": "List Import Sources Endpoint",
+          "request": {
+            "name": "List Import Sources Endpoint",
+            "description": {
+              "content": "List every source ever submitted for this project, oldest first.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "import-sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a5a891c1-e0b3-4671-9993-1dca8ac6868b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"import_id\": \"string\",\n    \"project_id\": \"string\",\n    \"source_type\": \"string\",\n    \"label\": \"string\",\n    \"status\": \"string\",\n    \"batch_status\": \"string\",\n    \"created_at\": \"string\",\n    \"updated_at\": \"string\",\n    \"file_name\": \"string\",\n    \"url\": \"string\",\n    \"blob_uuid\": \"string\",\n    \"error_message\": \"string\",\n    \"claim_count\": 0,\n    \"batch_summary\": \"string\",\n    \"batch_error\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"import_id\": \"string\",\n    \"project_id\": \"string\",\n    \"source_type\": \"string\",\n    \"label\": \"string\",\n    \"status\": \"string\",\n    \"batch_status\": \"string\",\n    \"created_at\": \"string\",\n    \"updated_at\": \"string\",\n    \"file_name\": \"string\",\n    \"url\": \"string\",\n    \"blob_uuid\": \"string\",\n    \"error_message\": \"string\",\n    \"claim_count\": 0,\n    \"batch_summary\": \"string\",\n    \"batch_error\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a642b1d1-8eed-467c-bc26-9be997148bfc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6635c740-ddab-462a-b422-06ab74eecc0e",
+          "name": "Import Knowledge Status Endpoint",
+          "request": {
+            "name": "Import Knowledge Status Endpoint",
+            "description": {
+              "content": "Get current state of an in-flight or recently completed import.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "projects",
+                ":project_id",
+                "import-knowledge",
+                ":import_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "import_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6de7f9a9-9fae-49ef-8426-99dfe7a2888a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-knowledge",
+                    ":import_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "import_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea6112c2-7098-40b5-9bf7-716bcb506bae",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "projects",
+                    ":project_id",
+                    "import-knowledge",
+                    ":import_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "import_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "59b721db-c590-451b-a536-1a2cd9cafc6d",
+    "name": "Quadrillion Cloud account ckg API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account modal-filewatcher API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "modal-filewatcher",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ingest Fs Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/internal/fs-events",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Ingest filesystem events from the proxy and emit to Socket.IO."
+        },
+        {
+          "info": {
+            "name": "Emit Fs Stale",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/internal/fs-stale",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Emit ``fs_stale`` Socket.IO event on proxy reconnection."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

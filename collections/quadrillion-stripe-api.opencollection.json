@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account stripe API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "stripe",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/stripe/checkout-session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Stripe Checkout Session for individual subscription.\n\nMonthly billing only. Rejects org members.\nAccepts optional success_url/cancel_url from the frontend and requires an\nexplicit validated frontend origin for default billing redirects.\n\nReturns:\n    Checkout session URL to redirect the user."
+        },
+        {
+          "info": {
+            "name": "Create Portal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/stripe/portal-session",
+            "params": [
+              {
+                "name": "frontend_origin",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create a Stripe Billing Portal session.\n\nErrors if user is in an org (admin-managed billing).\n\nReturns:\n    Portal session URL to redirect the user."
+        },
+        {
+          "info": {
+            "name": "Toggle Overage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/stripe/overage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Toggle overage billing on or off.\n\nOnly available for Max plan. Rejects org members.\n\nArgs:\n    body: Overage toggle request.\n\nReturns:\n    Status message."
+        },
+        {
+          "info": {
+            "name": "Update Ceiling",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/stripe/overage/ceiling",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the overage spending ceiling.\n\nMust have overage already enabled.\n\nArgs:\n    body: New ceiling value.\n\nReturns:\n    Updated ceiling value."
+        },
+        {
+          "info": {
+            "name": "Stripe Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/stripe/webhook"
+          },
+          "docs": "Handle incoming Stripe webhook events.\n\nVerifies the Stripe signature, parses the event, and dispatches\nto the appropriate handler. No auth required -- secured by signature.\n\nReturns:\n    Acknowledgment response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

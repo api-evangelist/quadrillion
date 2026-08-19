@@ -1,0 +1,213 @@
+{
+  "item": [
+    {
+      "id": "25ea26db-1f22-47ff-8513-1c3cfb1e781d",
+      "name": "Latency Distribution",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9420688f-01ca-42db-8070-d5560a119d8c",
+          "name": "Get Latency Distribution",
+          "request": {
+            "name": "Get Latency Distribution",
+            "description": {
+              "content": "Get latency distribution with percentiles (p1, p5, p10, p25, p50, p75, p90, p95, p99)\naggregated by day and model.\n\nReturns latency percentiles for:\n- proxy_latency: Time from request received to upstream call initiated\n- ttft_latency: Time from upstream call to first byte received (Time To First Token)\n\nDefaults to the caller's own data. Admin users (with @quadrillion.io email)\nmay opt into cross-user data by passing user_id (specific user) or\nall_users=true (everyone). Non-admin requests for other users' data are\nsilently scoped to the caller.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "latency_distribution"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<integer>",
+                  "description": "Filter by user ID (admin only)"
+                },
+                {
+                  "disabled": false,
+                  "key": "all_users",
+                  "value": "false",
+                  "description": "Return data for all users (admin only opt-in)"
+                },
+                {
+                  "disabled": false,
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "Filter by model name"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<dateTime>",
+                  "description": "Start date (ISO 8601)"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<dateTime>",
+                  "description": "End date (ISO 8601)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0cbdc11c-3a44-42bc-874a-fbda308c5dfc",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "latency_distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "all_users",
+                      "value": "false"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"buckets\": [\n    {\n      \"date\": \"1947-09-24\",\n      \"proxy_latency\": {\n        \"count\": 9430,\n        \"p1\": 1185.3255489043456,\n        \"p5\": 4785.996327044073,\n        \"p10\": 1360.011880711499,\n        \"p25\": 2675.5680927441026,\n        \"p50\": 5227.6975327815,\n        \"p75\": 7468.904597822778,\n        \"p90\": 3622.1119589371133,\n        \"p95\": 2206.1286311584404,\n        \"p99\": 96.7464300223575\n      },\n      \"ttft_latency\": {\n        \"count\": 2095,\n        \"p1\": 8868.139526550309,\n        \"p5\": 4009.349483598813,\n        \"p10\": 2945.8085598133475,\n        \"p25\": 3012.1174344626356,\n        \"p50\": 5027.794284471542,\n        \"p75\": 4485.247038754331,\n        \"p90\": 1133.2875798680786,\n        \"p95\": 7462.758970898076,\n        \"p99\": 6582.262121709008\n      },\n      \"model\": \"string\"\n    },\n    {\n      \"date\": \"1980-09-12\",\n      \"proxy_latency\": {\n        \"count\": 241,\n        \"p1\": 7984.266322730656,\n        \"p5\": 7304.609984431026,\n        \"p10\": 8518.32076471864,\n        \"p25\": 6632.002083033521,\n        \"p50\": 9181.41661125882,\n        \"p75\": 4358.718720891185,\n        \"p90\": 4111.818321772137,\n        \"p95\": 2001.4735725098187,\n        \"p99\": 4503.150638519016\n      },\n      \"ttft_latency\": {\n        \"count\": 4434,\n        \"p1\": 1049.0455261544673,\n        \"p5\": 1246.4432375755407,\n        \"p10\": 3381.7139554400187,\n        \"p25\": 3547.3229584872824,\n        \"p50\": 9222.562042697798,\n        \"p75\": 7728.700642696006,\n        \"p90\": 7051.981993644862,\n        \"p95\": 2350.132707201832,\n        \"p99\": 4782.248805777932\n      },\n      \"model\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83060aa5-294f-451d-a7ee-6187adfd6251",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "latency_distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "all_users",
+                      "value": "false"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "24949225-52c8-447d-b3aa-0b156531f4fd",
+    "name": "Quadrillion Cloud account Latency Distribution API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

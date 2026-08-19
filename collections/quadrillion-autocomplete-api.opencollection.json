@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account autocomplete API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "autocomplete",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Autocomplete Models Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/autocomplete/models"
+          },
+          "docs": "Get list of available models for autocomplete."
+        },
+        {
+          "info": {
+            "name": "Autocomplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/autocomplete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start LM autocomplete generation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

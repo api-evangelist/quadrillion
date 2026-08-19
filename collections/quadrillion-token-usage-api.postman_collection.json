@@ -1,0 +1,213 @@
+{
+  "item": [
+    {
+      "id": "196356da-9952-4d77-8ddf-9059a7e13ddc",
+      "name": "Token Usage",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "21d3ac7c-1fbc-4c47-bd67-ab6a43c113c9",
+          "name": "Get Token Usage",
+          "request": {
+            "name": "Get Token Usage",
+            "description": {
+              "content": "Get token usage aggregated into 15-minute buckets by user and model.\n\nReturns usage broken down by:\n- input_tokens: Total input tokens\n- cached_tokens: Cached input tokens\n- new_input_tokens: New input tokens (input - cached)\n- output_tokens: Total output tokens\n- reasoning_tokens: Reasoning output tokens\n\nDefaults to the caller's own data. Admin users (with @quadrillion.io email)\nmay opt into cross-user data by passing user_id (specific user) or\nall_users=true (everyone). Non-admin requests for other users' data are\nsilently scoped to the caller.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "token_usage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<integer>",
+                  "description": "Filter by user ID (admin only)"
+                },
+                {
+                  "disabled": false,
+                  "key": "all_users",
+                  "value": "false",
+                  "description": "Return data for all users (admin only opt-in)"
+                },
+                {
+                  "disabled": false,
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "Filter by model name"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<dateTime>",
+                  "description": "Start date (ISO 8601)"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<dateTime>",
+                  "description": "End date (ISO 8601)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce1fded3-c958-479a-9143-c613492b3ec9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "token_usage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "all_users",
+                      "value": "false"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"buckets\": [\n    {\n      \"time_bucket\": \"1992-05-17T15:21:08.873Z\",\n      \"user_id\": 3367,\n      \"request_count\": 2737,\n      \"input_tokens\": 2523,\n      \"cached_tokens\": 4611,\n      \"new_input_tokens\": 8902,\n      \"output_tokens\": 6003,\n      \"reasoning_tokens\": 8194,\n      \"user_email\": \"string\",\n      \"user_name\": \"string\",\n      \"provider\": \"string\",\n      \"model\": \"string\",\n      \"cache_write_tokens\": 0,\n      \"cost_usd\": 0\n    },\n    {\n      \"time_bucket\": \"2023-11-30T15:58:12.162Z\",\n      \"user_id\": 4634,\n      \"request_count\": 438,\n      \"input_tokens\": 8056,\n      \"cached_tokens\": 2637,\n      \"new_input_tokens\": 760,\n      \"output_tokens\": 908,\n      \"reasoning_tokens\": 4028,\n      \"user_email\": \"string\",\n      \"user_name\": \"string\",\n      \"provider\": \"string\",\n      \"model\": \"string\",\n      \"cache_write_tokens\": 0,\n      \"cost_usd\": 0\n    }\n  ],\n  \"total_input_tokens\": 1723,\n  \"total_cached_tokens\": 9471,\n  \"total_cache_write_tokens\": 1065,\n  \"total_new_input_tokens\": 8113,\n  \"total_output_tokens\": 2313,\n  \"total_reasoning_tokens\": 4029,\n  \"total_cost_usd\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71141e20-9db7-4bfc-aa31-906e861cbd23",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "token_usage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "all_users",
+                      "value": "false"
+                    },
+                    {
+                      "key": "model",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eaaea4a7-ad53-4e4f-9f86-6f710af8102b",
+    "name": "Quadrillion Cloud account Token Usage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account slack API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "slack",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start Slack Install",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/slack/install"
+          },
+          "docs": "Build the Slack authorize URL for the cloud Events-API app."
+        },
+        {
+          "info": {
+            "name": "Slack Oauth Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/slack/oauth-callback"
+          },
+          "docs": "Receive OAuth tokens from the proxy via browser auto-submit form."
+        },
+        {
+          "info": {
+            "name": "Get Slack Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/slack/status"
+          },
+          "docs": "Report the user's live Slack installation, if any."
+        },
+        {
+          "info": {
+            "name": "Set Slack Execution Mode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/slack/execution-mode",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set where the user's inbound Slack runs (cloud or their own machine).\n\nPer-account: applies to every one of the user's live installs so the\nchoice is consistent across workspaces. Reassigns ``config`` to a new\ndict so SQLAlchemy's JSON column detects the change."
+        },
+        {
+          "info": {
+            "name": "Disconnect Slack",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/slack/installation"
+          },
+          "docs": "Mark all of the user's installations revoked.\n\nTokens stay encrypted at rest until the user reinstalls (which\noverwrites them); Slack-side revocation is the user's uninstall in\nSlack, which the Events API webhook also records."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account Health API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          },
+          "docs": "are we alive?"
+        },
+        {
+          "info": {
+            "name": "Readiness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/ready"
+          },
+          "docs": "Readiness probe: 200 only when critical deps answer, else 503.\n\nDistinct from ``/health`` (liveness): the ALB target group points at\nthis route so a task whose Postgres or Redis is unreachable is pulled\nfrom rotation instead of serving 5xx to clients."
+        },
+        {
+          "info": {
+            "name": "Backend Health Alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          },
+          "docs": "Compatibility alias for clients expecting /api/health."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

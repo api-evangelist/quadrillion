@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Account Features",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/account/features"
+          },
+          "docs": "Get feature eligibility flags for the authenticated account.\n\nAuthenticates via session token (JWT/cookie) or API key.\nReturns plan-based entitlements; omitted keys are unavailable.  The\n``is_admin`` flag is surfaced separately so the desktop can grant\nQuadrillion staff access to every gated feature via a single, explicit\noverride rather than piggybacking on ``ollama``."
+        },
+        {
+          "info": {
+            "name": "Get Model Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/account/models",
+            "headers": [
+              {
+                "name": "if-none-match",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Return the authoritative model catalog with an ETag for conditional GETs.\n\nThis is the source of truth the desktop backend fetches at startup and\nafter every ``QUADRILLION_API_KEY`` change, so new models ship via a cloud\nredeploy without requiring a desktop release.  Availability filtering by\nthe user's own credentials happens on the desktop, with one exception:\n``eap: true`` models are omitted server-side for accounts without the\n``eap_access`` entitlement, because shipped desktop builds cannot"
+        },
+        {
+          "info": {
+            "name": "Get Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/account/subscription"
+          },
+          "docs": "Get subscription, usage, and overage info for the authenticated user.\n\n``is_admin_managed=True`` when user is an org member (billed by org admin)\nor has no stripe_data on their subscription (manually provisioned)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

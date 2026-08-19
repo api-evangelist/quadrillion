@@ -1,0 +1,678 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account settings API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update Single Setting Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a single setting."
+        },
+        {
+          "info": {
+            "name": "Apply Model Family Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/apply-model-family",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a model family by fanning it out into the per-role model settings.\n\nPersists concrete values for the agent roles (flagship) and knowledge\nimport (economy tier). The family itself is not persisted — it is only a\ntransient way to propagate these per-role defaults. Re-running this\noverwrites those roles; users can still set explicit per-role overrides\nafterwards."
+        },
+        {
+          "info": {
+            "name": "Get All Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/values"
+          },
+          "docs": "Get all setting values."
+        },
+        {
+          "info": {
+            "name": "Get Base Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/base-path"
+          },
+          "docs": "Get the current base path for notebooks."
+        },
+        {
+          "info": {
+            "name": "Switch Workspace Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/workspace/switch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Switch Workspace Handler"
+        },
+        {
+          "info": {
+            "name": "Get Environment Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/status"
+          },
+          "docs": "Return current environment profile metadata for stale-runtime UI."
+        },
+        {
+          "info": {
+            "name": "Get Environment Preparation Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/preparation-status",
+            "params": [
+              {
+                "name": "profile_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "advanced",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Environment Preparation Status Handler"
+        },
+        {
+          "info": {
+            "name": "Prepare Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/prepare",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Prepare Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Cancel Prepare Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/cancel-prepare",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel Prepare Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Cleanup Prepared Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/cleanup-prepared"
+          },
+          "docs": "Cleanup Prepared Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Get Environment Config Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/config"
+          },
+          "docs": "Get Environment Config Handler"
+        },
+        {
+          "info": {
+            "name": "Update Environment Config Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/settings/environment/config",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Environment Config Handler"
+        },
+        {
+          "info": {
+            "name": "Update Environment Private Values Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/settings/environment/private-values",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Environment Private Values Handler"
+        },
+        {
+          "info": {
+            "name": "Check Venv Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/check-venv",
+            "params": [
+              {
+                "name": "location",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Check if .venv exists in the provided directory."
+        },
+        {
+          "info": {
+            "name": "Get Create Environment Location Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/create-location"
+          },
+          "docs": "Get the default location where .venv will be created."
+        },
+        {
+          "info": {
+            "name": "Get Slack Configured Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/slack/configured"
+          },
+          "docs": "Check whether Slack settings are configured."
+        },
+        {
+          "info": {
+            "name": "Slack Oauth Init Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/slack/install",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Proxy POST request to Slack OAuth initiation endpoint."
+        },
+        {
+          "info": {
+            "name": "Slack Oauth Callback Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/slack/oauth-callback"
+          },
+          "docs": "Receive OAuth tokens from the website via browser auto-submit form.\n\nThe website returns an HTML form that auto-POSTs tokens to this endpoint\nthrough the user's browser.  On success the tokens are persisted to\nsettings and the browser is redirected to the success page on the website."
+        },
+        {
+          "info": {
+            "name": "Get Github Configured Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/github/configured"
+          },
+          "docs": "Return whether a GitHub OAuth token is stored and the flow is enabled."
+        },
+        {
+          "info": {
+            "name": "Github Oauth Init Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/github/install",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Proxy POST request to GitHub OAuth initiation endpoint."
+        },
+        {
+          "info": {
+            "name": "Github Oauth Callback Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/github/oauth-callback"
+          },
+          "docs": "Receive OAuth token from the website via browser auto-submit form."
+        },
+        {
+          "info": {
+            "name": "Validate Kernel Setting Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/validate-kernel"
+          },
+          "docs": "Validate that DEFAULT_KERNEL setting is valid."
+        },
+        {
+          "info": {
+            "name": "List Kernel Discovery Paths Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths"
+          },
+          "docs": "List Kernel Discovery Paths Handler"
+        },
+        {
+          "info": {
+            "name": "Add Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Preview Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/preview",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Preview Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Set Kernel Discovery Path Enabled Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/:path_id/enabled",
+            "params": [
+              {
+                "name": "path_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set Kernel Discovery Path Enabled Handler"
+        },
+        {
+          "info": {
+            "name": "Remove Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/:path_id",
+            "params": [
+              {
+                "name": "path_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Select Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/python-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select a Python environment and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Select Julia Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/julia-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select a Julia installation and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Select R Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/r-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select an R installation and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Get Create Environment Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/create-status",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get status for an environment creation job."
+        },
+        {
+          "info": {
+            "name": "Create Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/python-environments/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new .venv virtual environment using stdlib venv."
+        },
+        {
+          "info": {
+            "name": "Delete Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/python-environments/workspace-venv",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete Python Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Get Matplotlibrc Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc"
+          },
+          "docs": "Get current matplotlibrc settings."
+        },
+        {
+          "info": {
+            "name": "Update Matplotlibrc Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update matplotlibrc settings."
+        },
+        {
+          "info": {
+            "name": "Get Matplotlibrc Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/path"
+          },
+          "docs": "Get the path to the matplotlibrc file."
+        },
+        {
+          "info": {
+            "name": "Get Color Cycle Schemes Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles"
+          },
+          "docs": "Get available color cycle schemes."
+        },
+        {
+          "info": {
+            "name": "Save Custom Color Scheme Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles/custom",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a custom color scheme."
+        },
+        {
+          "info": {
+            "name": "Delete Custom Color Scheme Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles/custom/:scheme_id",
+            "params": [
+              {
+                "name": "scheme_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a custom color scheme."
+        },
+        {
+          "info": {
+            "name": "Get Colormap Preview Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/colormaps"
+          },
+          "docs": "Get colormap preview data for all available colormaps."
+        },
+        {
+          "info": {
+            "name": "Get Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist"
+          },
+          "docs": "Return the user-managed bash command allowlist."
+        },
+        {
+          "info": {
+            "name": "Add Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a command to the user bash allowlist.\n\nIf the command has known dangerous flags (e.g. ``rm``), denied-flag\ndefaults are auto-applied so that dangerous variants still require\nconfirmation."
+        },
+        {
+          "info": {
+            "name": "Clear Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist"
+          },
+          "docs": "Remove all user-added bash command allowlist entries."
+        },
+        {
+          "info": {
+            "name": "Remove Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist/:command",
+            "params": [
+              {
+                "name": "command",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a single command token from the user bash allowlist."
+        },
+        {
+          "info": {
+            "name": "Get Sandbox Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/sandbox"
+          },
+          "docs": "Return the current sandbox configuration."
+        },
+        {
+          "info": {
+            "name": "Update Sandbox Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/sandbox",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update sandbox settings (partial update). Returns the full new settings payload."
+        },
+        {
+          "info": {
+            "name": "Get Sandbox Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/sandbox/status"
+          },
+          "docs": "Return platform sandbox availability details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,169 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account rules API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rules",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Create Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Update Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Delete Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Reveal Rules Folder Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/reveal-folder"
+          },
+          "docs": "Reveal Rules Folder Handler"
+        },
+        {
+          "info": {
+            "name": "Import Cursor Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/cursor"
+          },
+          "docs": "Import Cursor Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Import Claude Code Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/claude-code",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import Claude Code Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Import Rules From File Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/file",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a rule from an arbitrary file on the backend host.\n\nThe file's full contents become the rule body. Reading an arbitrary\npath is only safe on a single-user local backend, so it is refused in\nmulti-tenant cloud mode where the filesystem is shared across clients."
+        },
+        {
+          "info": {
+            "name": "List Personas Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rules/personas"
+          },
+          "docs": "List Personas Handler"
+        },
+        {
+          "info": {
+            "name": "Activate Persona Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/personas/activate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Activate Persona Handler"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

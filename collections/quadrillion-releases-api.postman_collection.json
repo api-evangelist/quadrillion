@@ -1,0 +1,241 @@
+{
+  "item": [
+    {
+      "id": "cac4e59b-cec1-4134-b892-863e0c4b5e16",
+      "name": "releases",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "48b2390c-25fb-48f5-aa79-7597a593f79b",
+          "name": "Get Supported Platforms",
+          "request": {
+            "name": "Get Supported Platforms",
+            "description": {
+              "content": "Get list of currently supported platform IDs.\n\nThis endpoint returns which platforms have releases available for download.\nThe frontend uses this to gray out unsupported platforms in the download UI.\n\nThis is public data for the marketing download page, so no authentication\nis required. CDN-friendly caching is enabled to reduce backend load.\n\nReturns:\n    SupportedPlatformsResponse with list of supported platform IDs\n\nExample:\n    GET /v1/releases/supported-platforms\n\n    Response:\n    {\n        \"supported\": [\n            \"macos-intel\",\n            \"macos-apple-silicon\",\n            \"windows-x64\",\n            \"linux-x64\"\n        ]\n    }",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "releases",
+                "supported-platforms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11e78316-90af-4c4d-bfe3-ee1a15db8011",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "releases",
+                    "supported-platforms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"supported\": [\n    \"linux-x64\",\n    \"macos-apple-silicon\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da3abeb4-9177-4534-b1ca-8fdd08f05d23",
+          "name": "Download Release",
+          "request": {
+            "name": "Download Release",
+            "description": {
+              "content": "Get a presigned S3 URL and redirect the user's browser to download directly from S3.\n\nThis endpoint validates the file exists, generates a short-lived presigned\nURL (1 minute), and redirects the browser to download directly from S3\n(avoiding bandwidth costs on backend and Vercel).\n\nFiles are stored gzipped on S3 with Content-Encoding metadata (no extra .gz\nsuffix on the S3 key). Browsers and HTTP clients automatically decompress\nduring download, saving 30-60% bandwidth.\n\nArgs:\n    filename: Name of the release file to download\n    request: FastAPI request object (to access app state)\n\nReturns:\n    RedirectResponse to presigned S3 URL (browser downloads directly)\n\nExamples:\n    GET /v1/releases/qualia-v1.2.3-macos-apple-silicon.app\n\n    Response: 307 Redirect to https://bucket.s3.amazonaws.com/qualia-v1.2.3-macos-apple-silicon.app?X-Amz-...",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "releases",
+                ":filename"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "filename",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e7a8525e-369c-4970-9a33-896879176cc1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "releases",
+                    ":filename"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b041aad2-de2a-49fa-bf1a-5bd369d3d254",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "releases",
+                    ":filename"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "filename",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e21bb902-62fe-45bf-a704-fcb87d79d5f9",
+    "name": "Quadrillion Cloud account releases API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

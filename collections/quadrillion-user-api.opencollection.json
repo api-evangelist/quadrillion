@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account user API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "user",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/user/profile"
+          },
+          "docs": "Get the authenticated user's profile.\n\nRequires: JWT token (session cookie or Authorization header)\n\nReturns:\n    {\n        \"id\": 123,\n        \"email\": \"user@example.com\",\n        \"name\": \"John Doe\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"last_login\": \"2025-01-16T14:20:00Z\"\n    }"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

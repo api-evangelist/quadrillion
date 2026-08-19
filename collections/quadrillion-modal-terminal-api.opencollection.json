@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account modal-terminal API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "modal-terminal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Record Terminal Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/internal/terminal-activity",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Refresh workspace-environment activity from coalesced terminal I/O."
+        },
+        {
+          "info": {
+            "name": "Create Terminal Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new terminal session backed by a workspace sandbox."
+        },
+        {
+          "info": {
+            "name": "Reconnect Terminal Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/session/:session_id/reconnect",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Reconnect to an existing terminal session."
+        },
+        {
+          "info": {
+            "name": "Disconnect Terminal Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/session/:session_id/disconnect",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disconnect and remove a terminal session."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account runtime-session API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "runtime-session",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Bootstrap Runtime Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/session"
+          },
+          "docs": "Bootstrap Runtime Session"
+        },
+        {
+          "info": {
+            "name": "Refresh Runtime Csrf",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/session/csrf"
+          },
+          "docs": "Refresh Runtime Csrf"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

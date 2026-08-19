@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account auth API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me"
+          },
+          "docs": "Get current authenticated user information.\n\nRequires: Bearer token or session cookie\n\nReturns:\n    {\n        \"id\": 123,\n        \"email\": \"user@example.com\",\n        \"name\": \"John Doe\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"last_login\": \"2025-01-16T14:20:00Z\",\n        \"job_type\": \"Data Scientist\",\n        \"company_name\": \"Acme Corp\",\n        \"onboarding_completed\": true,\n        \"organization_role\": \"owner\"\n    }"
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/logout",
+            "params": [
+              {
+                "name": "frontend_origin",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Logout endpoint - clears the session cookie.\n\nReturns:\n    {\"message\": \"Logged out successfully\"}"
+        },
+        {
+          "info": {
+            "name": "Preview Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/orgs/invitations/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Preview an invitation by token — no auth required.\n\nReturns org name, role, and invited email so the frontend can show\na confirmation screen before the user accepts."
+        },
+        {
+          "info": {
+            "name": "Accept Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/orgs/invitations/:token/accept",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Accept Invitation"
+        },
+        {
+          "info": {
+            "name": "Start",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/workos/start",
+            "params": [
+              {
+                "name": "org_slug",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "frontend_origin",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "callback_port",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "login_hint",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Build the WorkOS authorization URL and redirect.\n\n* ``org_slug`` — when present, the start endpoint looks up the\n  Organization's WorkOS organization id and routes through the\n  tenant SSO connection. When absent, falls back to personal\n  Google OAuth via WorkOS's built-in ``GoogleOAuth`` provider.\n* ``frontend_origin`` — explicit browser origin. Required for\n  browser logins and must match ``ALLOWED_FRONTEND_ORIGINS``. Used\n  to pick the callback host for dashboard-vs-cloud logins.\n* ``next`` —"
+        },
+        {
+          "info": {
+            "name": "Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/workos/callback",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "error",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Exchange the WorkOS code for a profile and finalise the session."
+        },
+        {
+          "info": {
+            "name": "Discover",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/workos/discover",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "frontend_origin",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Email-domain SSO routing.\n\nLooks up whether the email's domain belongs to a WorkOS Organization\nthat's wired to one of our ``Organization`` rows. Returns the org\nslug + the ``/start`` URL the caller should redirect to. Returns\n``{org_slug: null, login_url: null}`` when no SSO is configured for\nthe domain — the caller falls back to global Google login.\n\nWhen the caller supplies ``frontend_origin``, it must match\n``ALLOWED_FRONTEND_ORIGINS`` and is round-tripped into ``login_url``\nso hosted browse"
+        },
+        {
+          "info": {
+            "name": "Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/workos/webhook"
+          },
+          "docs": "WorkOS event delivery endpoint.\n\nSubscribed events:\n* ``dsync.user.created`` — eager membership provisioning. Customer's\n  IdP pushed a new user via SCIM; create the local User +\n  OrganizationMember rows so the user can sign in directly without\n  an admin invite.\n* ``dsync.user.deleted`` — per-user revocation (offboard)\n* ``dsync.user.updated`` (state=inactive) — per-user revocation\n  (suspend / disable; covers Okta DEPROVISIONED, Azure Disabled, etc.)\n* ``connection.deactivated`` / ``connectio"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

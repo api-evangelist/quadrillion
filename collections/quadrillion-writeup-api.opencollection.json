@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account writeup API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "writeup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Load Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/writeup/load",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "writeup_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "kernel_name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Load a writeup file (.qua)."
+        },
+        {
+          "info": {
+            "name": "Save Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/writeup/save",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a writeup file (.qua)."
+        },
+        {
+          "info": {
+            "name": "Export Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/writeup/export",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Export a writeup to Markdown (.zip), PDF, or LaTeX (.zip)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

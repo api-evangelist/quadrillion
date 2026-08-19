@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account api-keys API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "api-keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Api Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/keys"
+          },
+          "docs": "List all API keys for the authenticated user.\n\nRequires: JWT token (session cookie or Authorization header)\n\nReturns:\n    [\n        {\n            \"id\": 123,\n            \"name\": \"Production Key\",\n            \"prefix\": \"qd_live_abc123\",\n            \"created_at\": \"2025-01-15T10:30:00Z\",\n            \"last_used\": \"2025-01-16T14:20:00Z\",\n            \"revoked\": false\n        }\n    ]\n\nNote: Full API keys are not returned for security."
+        },
+        {
+          "info": {
+            "name": "Create Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new API key for the authenticated user.\n\nRequires: JWT token (session cookie or Authorization header)\n\nRequest body:\n    {\n        \"name\": \"Production Key\"\n    }\n\nReturns:\n    {\n        \"id\": 123,\n        \"key\": \"qd_live_abc123...\",\n        \"name\": \"Production Key\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"warning\": \"Save this key now. You won't be able to see it again!\"\n    }\n\nNote: The full API key is only shown once. Store it securely!"
+        },
+        {
+          "info": {
+            "name": "Validate Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/keys/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validate an API key and check if it belongs to an associated user.\n\nRequest body:\n    {\n        \"key\": \"qd_live_abc123...\"\n    }\n\nReturns:\n    {\n        \"valid\": true\n    }\n\nNote: Returns true if the key is valid and not revoked, false otherwise."
+        },
+        {
+          "info": {
+            "name": "Delete Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete (revoke) an API key.\n\nRequires: JWT token (session cookie or Authorization header)\n\nPath parameters:\n    key_id: The ID of the API key to delete\n\nReturns:\n    204 No Content on success\n\nRaises:\n    404: If key not found or not owned by user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

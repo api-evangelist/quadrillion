@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account terminal API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "terminal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new terminal."
+        },
+        {
+          "info": {
+            "name": "Write Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/write",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Write data to terminal stdin."
+        },
+        {
+          "info": {
+            "name": "Read Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/read",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Read data from terminal stdout (polling fallback)."
+        },
+        {
+          "info": {
+            "name": "Resize Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/resize",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resize terminal."
+        },
+        {
+          "info": {
+            "name": "Delete Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Kill terminal process."
+        },
+        {
+          "info": {
+            "name": "Get Python Env",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/terminal/python-env"
+          },
+          "docs": "Get Python environment info for terminal."
+        },
+        {
+          "info": {
+            "name": "Qualia Command",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/qualia",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Handle qualia command to open a file in Qualia."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account blobs API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "blobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/blobs/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a file as a blob with streaming status updates.\n\nArgs:\n    file: The file to upload\n\nReturns:\n    Server-Sent Events stream with upload progress and final UUID"
+        },
+        {
+          "info": {
+            "name": "Serve Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/blobs/:uuid_str",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Serve a blob (image) by UUID from the database.\n\nRequires an authenticated session. In cloud mode the caller's user_id is\nderived from the request principal so the store scopes the lookup by owner\nand cross-tenant access is impossible even with a leaked blob UUID."
+        },
+        {
+          "info": {
+            "name": "Download Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/blobs/:uuid_str/download",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Download a blob by UUID with proper filename.\n\nRequires an authenticated session; in cloud mode the lookup is scoped to\nthe caller's user_id."
+        },
+        {
+          "info": {
+            "name": "Save Blob As File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/blobs/:uuid_str/save-as-file",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a blob from storage as a file in the workspace."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

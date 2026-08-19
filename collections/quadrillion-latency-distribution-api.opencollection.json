@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account Latency Distribution API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Latency Distribution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Latency Distribution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/latency_distribution",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user ID (admin only)"
+              },
+              {
+                "name": "all_users",
+                "value": "",
+                "type": "query",
+                "description": "Return data for all users (admin only opt-in)"
+              },
+              {
+                "name": "model",
+                "value": "",
+                "type": "query",
+                "description": "Filter by model name"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (ISO 8601)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (ISO 8601)"
+              }
+            ]
+          },
+          "docs": "Get latency distribution with percentiles (p1, p5, p10, p25, p50, p75, p90, p95, p99)\naggregated by day and model.\n\nReturns latency percentiles for:\n- proxy_latency: Time from request received to upstream call initiated\n- ttft_latency: Time from upstream call to first byte received (Time To First Token)\n\nDefaults to the caller's own data. Admin users (with @quadrillion.io email)\nmay opt into cross-user data by passing user_id (specific user) or\nall_users=true (everyone). Non-admin requests for o"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

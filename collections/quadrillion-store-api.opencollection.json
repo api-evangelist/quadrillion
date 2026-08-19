@@ -1,0 +1,680 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account store API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "store",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Chat Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/chat-sessions"
+          },
+          "docs": "List Chat Sessions"
+        },
+        {
+          "info": {
+            "name": "Create Chat Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Chat Session"
+        },
+        {
+          "info": {
+            "name": "Get Execution Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/execution-statuses/:execution_id",
+            "params": [
+              {
+                "name": "execution_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Execution Status"
+        },
+        {
+          "info": {
+            "name": "Upsert Execution Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/execution-statuses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upsert Execution Status"
+        },
+        {
+          "info": {
+            "name": "Get Chat Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Chat Session"
+        },
+        {
+          "info": {
+            "name": "Update Chat Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Chat Session"
+        },
+        {
+          "info": {
+            "name": "Get Notebook Kernel Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/notebooks/:notebook_id/kernel-config",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Notebook Kernel Config"
+        },
+        {
+          "info": {
+            "name": "Attach Notebook To Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/attach-notebook",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach Notebook To Session"
+        },
+        {
+          "info": {
+            "name": "Detach Notebook From Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/detach-notebook",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Detach Notebook From Session"
+        },
+        {
+          "info": {
+            "name": "List Pending Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "kinds",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List queued pending-message rows for a chat session in queue order."
+        },
+        {
+          "info": {
+            "name": "Enqueue Pending Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Append a queued pending message at the tail of the session's queue."
+        },
+        {
+          "info": {
+            "name": "Get Oldest Drainable Pending Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/oldest-drainable",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "honor_hold",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Return the oldest queued row of *kind* eligible to drain, or null."
+        },
+        {
+          "info": {
+            "name": "Claim Oldest Drainable Pending Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/claim-oldest-drainable",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Atomically lease and return the oldest drainable row of *kind*, or null.\n\nThe row is leased, not removed: the caller promotes it into history and then\ndeletes it, so a crash mid-promotion leaves it recoverable."
+        },
+        {
+          "info": {
+            "name": "Release Pending Message Lease",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/release-lease",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Clear a drain lease so a row whose promotion failed is drainable again."
+        },
+        {
+          "info": {
+            "name": "Update Pending Message Payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/update-payload",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rewrite a queued row's payload in place."
+        },
+        {
+          "info": {
+            "name": "Set Pending Message Hold",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/set-hold",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set or clear the durable editing hold on a queued row."
+        },
+        {
+          "info": {
+            "name": "Reorder Pending Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/reorder",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rewrite queue positions for *kind* rows to match the given order."
+        },
+        {
+          "info": {
+            "name": "Delete Pending Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/store/chat-sessions/:chat_session_id/pending-messages/:pending_id",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pending_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a single queued pending-message row. No-op when already gone."
+        },
+        {
+          "info": {
+            "name": "Get Notebook Owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/notebooks/:notebook_id/owner",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Notebook Owner"
+        },
+        {
+          "info": {
+            "name": "List Projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects"
+          },
+          "docs": "List Projects"
+        },
+        {
+          "info": {
+            "name": "Get Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Project"
+        },
+        {
+          "info": {
+            "name": "Export Project Rows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/export-rows",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return every DB-backed row of an owned project for a .qualia export."
+        },
+        {
+          "info": {
+            "name": "Ingest Project Rows",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/projects/ingest-rows",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Insert the remapped rows of an imported .qualia archive.\n\nThe imported project and sessions are re-homed to the authenticated\nuser regardless of the identity recorded in the archive."
+        },
+        {
+          "info": {
+            "name": "Get Project Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/tasks",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_variables",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Tasks"
+        },
+        {
+          "info": {
+            "name": "Get Project Knowledge Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/knowledge-summary",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recent_limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Knowledge Summary"
+        },
+        {
+          "info": {
+            "name": "Get Project Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/sessions",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_user_input",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Sessions"
+        },
+        {
+          "info": {
+            "name": "Get Project Task Statuses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/task-statuses",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Project Task Statuses"
+        },
+        {
+          "info": {
+            "name": "Get Project Session Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/projects/:project_id/sessions/:session_id/tasks",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_variables",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_planned_created_by_session",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "guidance_only",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Session Tasks"
+        },
+        {
+          "info": {
+            "name": "Get Session Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/sessions/:session_id/project",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Session Project"
+        },
+        {
+          "info": {
+            "name": "Get Session State",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/sessions/:session_id/state",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Session State"
+        },
+        {
+          "info": {
+            "name": "Save Project Artifact Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/project_artifacts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save Project Artifact Route"
+        },
+        {
+          "info": {
+            "name": "Get Project Artifact By Call Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/store/project_artifacts/by_call/:call_id",
+            "params": [
+              {
+                "name": "call_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Artifact By Call Route"
+        },
+        {
+          "info": {
+            "name": "Get Project Artifact Metadata Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/store/project_artifacts/metadata",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Project Artifact Metadata Route"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

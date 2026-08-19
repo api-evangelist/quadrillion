@@ -1,0 +1,309 @@
+{
+  "item": [
+    {
+      "id": "d48a584a-7663-42f7-a8fc-82358784c731",
+      "name": "account",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "871edc9a-7ead-4d80-8f69-0e9b6bd5c80e",
+          "name": "Get Account Features",
+          "request": {
+            "name": "Get Account Features",
+            "description": {
+              "content": "Get feature eligibility flags for the authenticated account.\n\nAuthenticates via session token (JWT/cookie) or API key.\nReturns plan-based entitlements; omitted keys are unavailable.  The\n``is_admin`` flag is surfaced separately so the desktop can grant\nQuadrillion staff access to every gated feature via a single, explicit\noverride rather than piggybacking on ``ollama``.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "account",
+                "features"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e17aa7ff-3887-4275-8b3e-ff2ae5591055",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "account",
+                    "features"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"is_admin\": true,\n  \"max_parallel_agents\": 8\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4573fbbf-dbf2-403e-af0d-01f88d27ce3f",
+          "name": "Get Model Catalog",
+          "request": {
+            "name": "Get Model Catalog",
+            "description": {
+              "content": "Return the authoritative model catalog with an ETag for conditional GETs.\n\nThis is the source of truth the desktop backend fetches at startup and\nafter every ``QUADRILLION_API_KEY`` change, so new models ship via a cloud\nredeploy without requiring a desktop release.  Availability filtering by\nthe user's own credentials happens on the desktop, with one exception:\n``eap: true`` models are omitted server-side for accounts without the\n``eap_access`` entitlement, because shipped desktop builds cannot be\ntrusted to hide them.  The ETag is therefore stable per entitlement\nvariant rather than across all accounts.\n\nServer-only data is stripped first: ``listed: false`` billing-only models\nand the inline ``pricing`` block never leave the server.\n\nThe ETag is derived from the stripped catalog content; an unchanged catalog\nreturns ``304 Not Modified`` so the desktop leaves its local store\nuntouched.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "account",
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "if-none-match",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5a6c79f8-be77-4248-940c-1e5456f042ce",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "account",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "key": "if-none-match",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bee90284-ba06-4606-966a-fe9d5f2fff64",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "account",
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "key": "if-none-match",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4042515e-7f40-46c2-bc06-ae08b75ec29d",
+          "name": "Get Subscription",
+          "request": {
+            "name": "Get Subscription",
+            "description": {
+              "content": "Get subscription, usage, and overage info for the authenticated user.\n\n``is_admin_managed=True`` when user is an org member (billed by org admin)\nor has no stripe_data on their subscription (manually provisioned).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "account",
+                "subscription"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25a41ac3-7360-40b6-afb1-a7db9290ef10",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "account",
+                    "subscription"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"plan_tier\": \"string\",\n  \"status\": \"string\",\n  \"usage_percentage\": 6398.771912873817,\n  \"is_limited\": true,\n  \"overage_enabled\": true,\n  \"overage_limit_usd\": 66.25906879874077,\n  \"overage_spend_usd\": 7092.309086023728,\n  \"overage_percentage\": 9316.525247670921,\n  \"is_in_overage\": true,\n  \"is_org_member\": false,\n  \"is_admin_managed\": true,\n  \"cancel_at_period_end\": false,\n  \"current_period_start\": \"string\",\n  \"current_period_end\": \"string\",\n  \"overage_eligible\": false,\n  \"organization\": {\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"role\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "88148071-9815-4481-b5a7-5efd0a5e26d8",
+    "name": "Quadrillion Cloud account API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account execution API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "execution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Replay Execution Output",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/execute/:execution_id/replay",
+            "params": [
+              {
+                "name": "execution_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "after_seq",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Return buffered ``execution_output`` chunks for a live cell run.\n\nUsed by the frontend on reconnect/reload to recover any chunks it\nmissed while disconnected from the notebook socket room. Authorized\nby the same notebook-lock check as ``/execute``: the caller must\nown the lock on the handle's notebook.\n\n``after_seq`` lets clients page incrementally — pass the highest\n``seq`` they've already rendered (live or replayed) and only newer\nchunks are returned. Returns ``404`` when the per-cell replay r"
+        },
+        {
+          "info": {
+            "name": "Execute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/execute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

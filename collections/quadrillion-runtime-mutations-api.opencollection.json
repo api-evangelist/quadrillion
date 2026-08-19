@@ -1,0 +1,2335 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account runtime_mutations API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "runtime_mutations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Project Knowledge Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/knowledge-summary",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recent_limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "refresh",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Project Knowledge Summary"
+        },
+        {
+          "info": {
+            "name": "Add Evidence Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/evidence",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a notebook-captured evidence claim for an untracked variable.\n\nKernel-only on both mounts: this local route requires the kernel API\nbearer token; the cloud mirror requires an internal principal.\n\nRejections (unsupported value type, no session for the notebook,\nbad variable name) come back in ``rejected_reason`` rather than\nvia HTTP error so the client can surface them in-cell without\nraising."
+        },
+        {
+          "info": {
+            "name": "Get Available Models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/models"
+          },
+          "docs": "Get Available Models"
+        },
+        {
+          "info": {
+            "name": "List Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/sessions",
+            "params": [
+              {
+                "name": "project_path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Sessions"
+        },
+        {
+          "info": {
+            "name": "Update Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/sessions/:chat_session_id",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update Session"
+        },
+        {
+          "info": {
+            "name": "Stop Chat Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat/:chat_session_id/stop",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop Chat Session"
+        },
+        {
+          "info": {
+            "name": "Resume Chat Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat/:chat_session_id/resume",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Resume Chat Session"
+        },
+        {
+          "info": {
+            "name": "Get Chat Session Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat-sessions/:chat_session_id/info",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Chat Session Info"
+        },
+        {
+          "info": {
+            "name": "Replay Chat History",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat-sessions/:chat_session_id/replay",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Replay Chat History"
+        },
+        {
+          "info": {
+            "name": "List Pending User Inputs For Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat-sessions/:chat_session_id/pending-user-inputs",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Pending User Inputs For Session"
+        },
+        {
+          "info": {
+            "name": "Delete Chat Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat-sessions/delete"
+          },
+          "docs": "Delete Chat Sessions"
+        },
+        {
+          "info": {
+            "name": "Attach Notebook To Chat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat/:chat_session_id/attach",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Attach Notebook To Chat"
+        },
+        {
+          "info": {
+            "name": "Detach Notebook From Chat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/chat/:chat_session_id/detach",
+            "params": [
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Detach Notebook From Chat"
+        },
+        {
+          "info": {
+            "name": "Get Active Session Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebooks/:notebook_id/active-session-id",
+            "params": [
+              {
+                "name": "notebook_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Active Session Id"
+        },
+        {
+          "info": {
+            "name": "Get Skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/skills"
+          },
+          "docs": "Get Skills"
+        },
+        {
+          "info": {
+            "name": "Read Notebook Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "GET version of /notebook endpoint for serving files in markdown img tags."
+        },
+        {
+          "info": {
+            "name": "Read Notebook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Load a file by path, checking for a session draft first.\n\nIf a session draft exists for this notebook:\n- Returns the draft state instead of the canonical file.\n- If the draft's canonical base revision has drifted, includes a\n  ``draft_conflict`` field so the frontend can prompt the user.\n\nNon-notebook files bypass draft logic entirely.\n\nReturns:\n- .ipynb  -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }\n- text    -> raw UTF-8 text (text/plain or application/json)\n- binary  ->"
+        },
+        {
+          "info": {
+            "name": "Get Draft Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/manifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Manifest"
+        },
+        {
+          "info": {
+            "name": "Get Draft Manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/manifest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Manifest"
+        },
+        {
+          "info": {
+            "name": "Get Draft Cells",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/cells",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Cells"
+        },
+        {
+          "info": {
+            "name": "Get Draft Cells",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/cells",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Draft Cells"
+        },
+        {
+          "info": {
+            "name": "Submit Draft Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/beta/draft/operations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Draft Operations"
+        },
+        {
+          "info": {
+            "name": "Submit Draft Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/operations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit Draft Operations"
+        },
+        {
+          "info": {
+            "name": "Patch Notebook Cell",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/cell",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a user cell-content edit to draft + live notebook state.\n\nSynchronous HTTP equivalent of the ``notebook_cell_user_edit``\nsocket event. Used by the frontend to flush a pending edit before\ninvoking ``/execute`` so cell-id execution sees the user's latest\ncontent. A missed patch is a failed precondition for execution because\ncontinuing would run stale backend state."
+        },
+        {
+          "info": {
+            "name": "Add Notebook Cell",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/cell/add",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Insert a new user-authored cell into the draft + live notebook state.\n\nUsed by the frontend so that subsequent same-session HTTP writes\n(``/notebook/cell``, ``/execute``) are guaranteed to see the cell.\n\nIdempotent: re-adding an existing ``cell_id`` returns success\nwithout mutating the draft."
+        },
+        {
+          "info": {
+            "name": "Save Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a session draft (debounced autosave path).\n\nNo-ops when a generation is active: the agent's turn notebook is\nthe sole draft writer, and user edits flow over the\n``notebook_cell_user_*`` socket events."
+        },
+        {
+          "info": {
+            "name": "Reset Draft To Canonical",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/reset-to-canonical",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset a live session draft to canonical file state without deleting it."
+        },
+        {
+          "info": {
+            "name": "Save Draft To Canonical",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/draft/save-to-canonical",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Promote a session draft to canonical.\n\nOutside generation: CAS conflict detection (or ``force=True``). During\ngeneration, ``save_to_canonical`` force-writes the live draft because the\ndraft store is the notebook source of truth for user and agent edits. Either\nway the draft is preserved on success with a refreshed\n``canonical_base_revision``.\n\nAny ``pending_user_edits`` are applied first via the same per-cell write\npath the ``notebook_cell_user_edit`` socket handler uses, so an explicit\nsave ins"
+        },
+        {
+          "info": {
+            "name": "Save Or Export Notebook Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/save",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save handler for notebooks and text files.\n\nFor notebooks, this now saves to the session draft store first, then\npromotes to canonical with CAS conflict detection."
+        },
+        {
+          "info": {
+            "name": "Create File Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new notebook or text file, failing if the path already exists.\n\nUnlike ``/notebook/save`` (an upsert), this endpoint refuses to overwrite\nan existing file and returns ``409 Conflict`` when ``path`` is taken.\n\nFor ``.ipynb`` files this writes a starter notebook containing one empty\ncode cell whose ``cell_id`` is minted on the backend. That avoids the\nfrontend (``useNotebookLoader.makeEmptyCell``) fabricating a phantom cell\nwith a client-side id when it loads a zero-cell notebook."
+        },
+        {
+          "info": {
+            "name": "Delete Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebook/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a file or folder under NOTEBOOK_BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "List Notebooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebooks",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists all files in a given path relative to BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "Create Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notebooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a folder under the given relative 'path' within BASE_PATH."
+        },
+        {
+          "info": {
+            "name": "List Recent Notebooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebooks/recent",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists the most recently modified notebooks."
+        },
+        {
+          "info": {
+            "name": "Check Path Exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook/check-path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Check if a file path exists."
+        },
+        {
+          "info": {
+            "name": "List Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/list-files",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Unified endpoint for listing files and folders in a directory."
+        },
+        {
+          "info": {
+            "name": "List All Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/list-all-files"
+          },
+          "docs": "Return a flat, sorted list of workspace-relative file paths.\n\nUsed by the chat composer's ``@path:`` autocomplete. Local mode only\nfor now; remote/cloud flavors return an empty list until they grow a\nproper implementation."
+        },
+        {
+          "info": {
+            "name": "Rename Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/rename",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rename/move a file or folder."
+        },
+        {
+          "info": {
+            "name": "Get Notebook Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notebook/id",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "GET /notebook/id?path=<relative_path_to_ipynb>"
+        },
+        {
+          "info": {
+            "name": "Duplicate Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/duplicate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Duplicate a file or folder."
+        },
+        {
+          "info": {
+            "name": "Reveal Path Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/reveal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reveal a file or folder in the system file manager (Finder/Explorer)."
+        },
+        {
+          "info": {
+            "name": "Open With Default Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fs/open-with-default",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Open a file with the system's default application."
+        },
+        {
+          "info": {
+            "name": "Get Session Required Variables Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/session/:session_id/required_variables",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get required variables for a session from Task DAG state."
+        },
+        {
+          "info": {
+            "name": "Export Notebook Standalone Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_standalone",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export a notebook with qualia.get(...) calls inlined for standalone use.\n\nTODO: Because notebooks can be attached/detached across sessions,\na notebook may reference variables from arbitrary projects/tasks.\nRight now we call ``query_all_task_variables()`` which fetches\n*every* variable in the database rather than scoping to the\nvariables relevant to this notebook.  Revisit once we can\nefficiently resolve notebook_id -> relevant task variable set."
+        },
+        {
+          "info": {
+            "name": "Export Notebook Content Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_content",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export notebook content with qualia.get(...) calls inlined for standalone use."
+        },
+        {
+          "info": {
+            "name": "Export Folder Notebooks Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notebook/export_folder",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Export all notebooks in a folder with qualia.get(...) calls inlined."
+        },
+        {
+          "info": {
+            "name": "Upload File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/files/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a file into the workspace at ``dest_dir/<filename>``.\n\nName conflicts are auto-renamed (``name (1).ext``) unless\n``overwrite`` is set; the final path is returned either way."
+        },
+        {
+          "info": {
+            "name": "Download File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/files/download",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Download a single workspace file as an attachment."
+        },
+        {
+          "info": {
+            "name": "Export Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/export",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Export a project as a .qualia archive (ZIP).\n\nWhen some notebooks cannot be read the archive is still produced,\nwith the skip count surfaced in the ``X-Export-Incomplete`` header\nand the skipped paths recorded in ``project.json``."
+        },
+        {
+          "info": {
+            "name": "Import Project Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects/import",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Import a .qualia archive as a new project.\n\nKernel-state restore and agent resume are local-only: cloud kernels\nrun in remote sandboxes, so cloud imports land with every session\nidle and no restored kernel state."
+        },
+        {
+          "info": {
+            "name": "Replay Execution Output",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/execute/:execution_id/replay",
+            "params": [
+              {
+                "name": "execution_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "after_seq",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Return buffered ``execution_output`` chunks for a live cell run.\n\nUsed by the frontend on reconnect/reload to recover any chunks it\nmissed while disconnected from the notebook socket room. Authorized\nby the same notebook-lock check as ``/execute``: the caller must\nown the lock on the handle's notebook.\n\n``after_seq`` lets clients page incrementally — pass the highest\n``seq`` they've already rendered (live or replayed) and only newer\nchunks are returned. Returns ``404`` when the per-cell replay r"
+        },
+        {
+          "info": {
+            "name": "Execute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/execute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute"
+        },
+        {
+          "info": {
+            "name": "Create Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new terminal."
+        },
+        {
+          "info": {
+            "name": "Write Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/write",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Write data to terminal stdin."
+        },
+        {
+          "info": {
+            "name": "Read Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/read",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Read data from terminal stdout (polling fallback)."
+        },
+        {
+          "info": {
+            "name": "Resize Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/resize",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resize terminal."
+        },
+        {
+          "info": {
+            "name": "Delete Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Kill terminal process."
+        },
+        {
+          "info": {
+            "name": "Get Python Env",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/terminal/python-env"
+          },
+          "docs": "Get Python environment info for terminal."
+        },
+        {
+          "info": {
+            "name": "Qualia Command",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/terminal/:terminal_id/qualia",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Handle qualia command to open a file in Qualia."
+        },
+        {
+          "info": {
+            "name": "Update Single Setting Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a single setting."
+        },
+        {
+          "info": {
+            "name": "Apply Model Family Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/apply-model-family",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a model family by fanning it out into the per-role model settings.\n\nPersists concrete values for the agent roles (flagship) and knowledge\nimport (economy tier). The family itself is not persisted — it is only a\ntransient way to propagate these per-role defaults. Re-running this\noverwrites those roles; users can still set explicit per-role overrides\nafterwards."
+        },
+        {
+          "info": {
+            "name": "Get All Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/values"
+          },
+          "docs": "Get all setting values."
+        },
+        {
+          "info": {
+            "name": "Get Base Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/base-path"
+          },
+          "docs": "Get the current base path for notebooks."
+        },
+        {
+          "info": {
+            "name": "Switch Workspace Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/workspace/switch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Switch Workspace Handler"
+        },
+        {
+          "info": {
+            "name": "Get Environment Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/status"
+          },
+          "docs": "Return current environment profile metadata for stale-runtime UI."
+        },
+        {
+          "info": {
+            "name": "Get Environment Preparation Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/preparation-status",
+            "params": [
+              {
+                "name": "profile_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "advanced",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Environment Preparation Status Handler"
+        },
+        {
+          "info": {
+            "name": "Prepare Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/prepare",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Prepare Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Cancel Prepare Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/cancel-prepare",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel Prepare Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Cleanup Prepared Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/environment/cleanup-prepared"
+          },
+          "docs": "Cleanup Prepared Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Get Environment Config Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/environment/config"
+          },
+          "docs": "Get Environment Config Handler"
+        },
+        {
+          "info": {
+            "name": "Update Environment Config Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/settings/environment/config",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Environment Config Handler"
+        },
+        {
+          "info": {
+            "name": "Update Environment Private Values Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/settings/environment/private-values",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Environment Private Values Handler"
+        },
+        {
+          "info": {
+            "name": "Check Venv Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/check-venv",
+            "params": [
+              {
+                "name": "location",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Check if .venv exists in the provided directory."
+        },
+        {
+          "info": {
+            "name": "Get Create Environment Location Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/create-location"
+          },
+          "docs": "Get the default location where .venv will be created."
+        },
+        {
+          "info": {
+            "name": "Get Slack Configured Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/slack/configured"
+          },
+          "docs": "Check whether Slack settings are configured."
+        },
+        {
+          "info": {
+            "name": "Slack Oauth Init Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/slack/install",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Proxy POST request to Slack OAuth initiation endpoint."
+        },
+        {
+          "info": {
+            "name": "Slack Oauth Callback Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/slack/oauth-callback"
+          },
+          "docs": "Receive OAuth tokens from the website via browser auto-submit form.\n\nThe website returns an HTML form that auto-POSTs tokens to this endpoint\nthrough the user's browser.  On success the tokens are persisted to\nsettings and the browser is redirected to the success page on the website."
+        },
+        {
+          "info": {
+            "name": "Get Github Configured Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/github/configured"
+          },
+          "docs": "Return whether a GitHub OAuth token is stored and the flow is enabled."
+        },
+        {
+          "info": {
+            "name": "Github Oauth Init Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/github/install",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Proxy POST request to GitHub OAuth initiation endpoint."
+        },
+        {
+          "info": {
+            "name": "Github Oauth Callback Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/github/oauth-callback"
+          },
+          "docs": "Receive OAuth token from the website via browser auto-submit form."
+        },
+        {
+          "info": {
+            "name": "Validate Kernel Setting Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/validate-kernel"
+          },
+          "docs": "Validate that DEFAULT_KERNEL setting is valid."
+        },
+        {
+          "info": {
+            "name": "List Kernel Discovery Paths Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths"
+          },
+          "docs": "List Kernel Discovery Paths Handler"
+        },
+        {
+          "info": {
+            "name": "Add Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Preview Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/preview",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Preview Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Set Kernel Discovery Path Enabled Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/:path_id/enabled",
+            "params": [
+              {
+                "name": "path_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set Kernel Discovery Path Enabled Handler"
+        },
+        {
+          "info": {
+            "name": "Remove Kernel Discovery Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/kernel-discovery/paths/:path_id",
+            "params": [
+              {
+                "name": "path_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove Kernel Discovery Path Handler"
+        },
+        {
+          "info": {
+            "name": "Select Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/python-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select a Python environment and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Select Julia Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/julia-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select a Julia installation and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Select R Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/r-environments/select",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Select an R installation and create kernel spec for it."
+        },
+        {
+          "info": {
+            "name": "Get Create Environment Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/python-environments/create-status",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get status for an environment creation job."
+        },
+        {
+          "info": {
+            "name": "Create Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/python-environments/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new .venv virtual environment using stdlib venv."
+        },
+        {
+          "info": {
+            "name": "Delete Python Environment Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/python-environments/workspace-venv",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete Python Environment Handler"
+        },
+        {
+          "info": {
+            "name": "Get Matplotlibrc Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc"
+          },
+          "docs": "Get current matplotlibrc settings."
+        },
+        {
+          "info": {
+            "name": "Update Matplotlibrc Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update matplotlibrc settings."
+        },
+        {
+          "info": {
+            "name": "Get Matplotlibrc Path Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/path"
+          },
+          "docs": "Get the path to the matplotlibrc file."
+        },
+        {
+          "info": {
+            "name": "Get Color Cycle Schemes Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles"
+          },
+          "docs": "Get available color cycle schemes."
+        },
+        {
+          "info": {
+            "name": "Save Custom Color Scheme Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles/custom",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a custom color scheme."
+        },
+        {
+          "info": {
+            "name": "Delete Custom Color Scheme Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/color-cycles/custom/:scheme_id",
+            "params": [
+              {
+                "name": "scheme_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a custom color scheme."
+        },
+        {
+          "info": {
+            "name": "Get Colormap Preview Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/matplotlibrc/colormaps"
+          },
+          "docs": "Get colormap preview data for all available colormaps."
+        },
+        {
+          "info": {
+            "name": "Get Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist"
+          },
+          "docs": "Return the user-managed bash command allowlist."
+        },
+        {
+          "info": {
+            "name": "Add Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a command to the user bash allowlist.\n\nIf the command has known dangerous flags (e.g. ``rm``), denied-flag\ndefaults are auto-applied so that dangerous variants still require\nconfirmation."
+        },
+        {
+          "info": {
+            "name": "Clear Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist"
+          },
+          "docs": "Remove all user-added bash command allowlist entries."
+        },
+        {
+          "info": {
+            "name": "Remove Bash Allowlist Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/settings/bash-allowlist/:command",
+            "params": [
+              {
+                "name": "command",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a single command token from the user bash allowlist."
+        },
+        {
+          "info": {
+            "name": "Get Sandbox Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/sandbox"
+          },
+          "docs": "Return the current sandbox configuration."
+        },
+        {
+          "info": {
+            "name": "Update Sandbox Settings Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/settings/sandbox",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update sandbox settings (partial update). Returns the full new settings payload."
+        },
+        {
+          "info": {
+            "name": "Get Sandbox Status Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/settings/sandbox/status"
+          },
+          "docs": "Return platform sandbox availability details."
+        },
+        {
+          "info": {
+            "name": "Get Credentials Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/credentials/status"
+          },
+          "docs": "Return ``{key: {set: bool, hint: str | null}}`` for every credential.\n\nReports the active user's visible credential state for each known key."
+        },
+        {
+          "info": {
+            "name": "Store Credential Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/credentials/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Store a credential in ``settings.json``."
+        },
+        {
+          "info": {
+            "name": "Delete Credential Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/credentials/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a credential from ``settings.json``."
+        },
+        {
+          "info": {
+            "name": "Get Available Tags Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tags"
+          },
+          "docs": "Return list of available cell tags with their descriptions."
+        },
+        {
+          "info": {
+            "name": "Create Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new tag."
+        },
+        {
+          "info": {
+            "name": "Update Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing tag."
+        },
+        {
+          "info": {
+            "name": "Delete Tag Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tags/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a tag."
+        },
+        {
+          "info": {
+            "name": "Get Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rules",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Create Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Update Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Delete Rule Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Rule Handler"
+        },
+        {
+          "info": {
+            "name": "Reveal Rules Folder Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/reveal-folder"
+          },
+          "docs": "Reveal Rules Folder Handler"
+        },
+        {
+          "info": {
+            "name": "Import Cursor Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/cursor"
+          },
+          "docs": "Import Cursor Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Import Claude Code Rules Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/claude-code",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import Claude Code Rules Handler"
+        },
+        {
+          "info": {
+            "name": "Import Rules From File Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/import/file",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a rule from an arbitrary file on the backend host.\n\nThe file's full contents become the rule body. Reading an arbitrary\npath is only safe on a single-user local backend, so it is refused in\nmulti-tenant cloud mode where the filesystem is shared across clients."
+        },
+        {
+          "info": {
+            "name": "List Personas Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rules/personas"
+          },
+          "docs": "List Personas Handler"
+        },
+        {
+          "info": {
+            "name": "Activate Persona Handler",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rules/personas/activate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Activate Persona Handler"
+        },
+        {
+          "info": {
+            "name": "Load Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/writeup/load",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "writeup_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "kernel_name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Load a writeup file (.qua)."
+        },
+        {
+          "info": {
+            "name": "Save Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/writeup/save",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a writeup file (.qua)."
+        },
+        {
+          "info": {
+            "name": "Export Writeup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/writeup/export",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Export a writeup to Markdown (.zip), PDF, or LaTeX (.zip)."
+        },
+        {
+          "info": {
+            "name": "List Project Claims",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/claims",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "claim_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "high_level_only",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_by_task_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "degree",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "claim_ids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List claims for a project with optional filters and DAG expansion.\n\nHTTP callers receive every matching claim — the per-call recency cap\nthat ``get_claims`` applies to the LLM tool path is intentionally not\npropagated here, since UI surfaces (CKG sidebar, task-DAG coloring,\nwriteup tables) need the full set. ``claim_ids`` is repeatable\n(``?claim_ids=C-1&claim_ids=C-2``) for bulk lookup of a known set\nwithout re-scanning the project."
+        },
+        {
+          "info": {
+            "name": "Get Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/claims/:claim_id",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a single claim with its sources.\n\n``project_id`` is optional when the caller only has ``claim_id`` (for example\nwriteup previews); the store resolves by claim id alone."
+        },
+        {
+          "info": {
+            "name": "Delete Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/claims/:claim_id",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Soft delete a finding."
+        },
+        {
+          "info": {
+            "name": "Get Claim Dag Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/claims/:claim_id/dag",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "degree",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a claim with its DAG neighborhood."
+        },
+        {
+          "info": {
+            "name": "Update Tabular Sort Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/projects/:project_id/claims/:claim_id/tabular-sort",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the persisted row sort for a tabular claim."
+        },
+        {
+          "info": {
+            "name": "Review Claim Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/claims/:claim_id/review",
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record a user's accept/reject decision on a finding from the knowledge panel.\n\nThe decision lives on the claim's ``review_status`` column. ``accepted`` keeps\nthe finding and clears its affordances; ``rejected`` reuses the existing\nsoft-delete; ``pending`` is the undo state. A soft-deleted finding can only\nre-enter review via ``pending`` (undo); accepting one directly is rejected so\nthe row can never end up accepted while still soft-deleted."
+        },
+        {
+          "info": {
+            "name": "Review Claims Bulk Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/claims/review_bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply one decision to many findings — Accept all / Reject all and undo.\n\nActs only on the explicit ``claim_ids`` the client passes (the rows the user\nis looking at), skipping non-findings and any ``accepted`` that can't apply\nbecause the finding is already soft-deleted. Returns the claim ids actually\naffected so the client can offer a precise batch undo."
+        },
+        {
+          "info": {
+            "name": "Fetch Url Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/fetch-url",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a URL and persist its raw body as a blob. Used for optimistic\nprefetch in the Import Knowledge UI so users get immediate feedback\nabout size/network errors before starting an import."
+        },
+        {
+          "info": {
+            "name": "Import Knowledge Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-knowledge",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "chat_session_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a knowledge import. Returns immediately; progress via socket events."
+        },
+        {
+          "info": {
+            "name": "List Import Sources Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-sources",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List every source ever submitted for this project, oldest first."
+        },
+        {
+          "info": {
+            "name": "Import Knowledge Status Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/projects/:project_id/import-knowledge/:import_id/status",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "import_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get current state of an in-flight or recently completed import."
+        },
+        {
+          "info": {
+            "name": "Upload Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/blobs/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a file as a blob with streaming status updates.\n\nArgs:\n    file: The file to upload\n\nReturns:\n    Server-Sent Events stream with upload progress and final UUID"
+        },
+        {
+          "info": {
+            "name": "Serve Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/blobs/:uuid_str",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Serve a blob (image) by UUID from the database.\n\nRequires an authenticated session. In cloud mode the caller's user_id is\nderived from the request principal so the store scopes the lookup by owner\nand cross-tenant access is impossible even with a leaked blob UUID."
+        },
+        {
+          "info": {
+            "name": "Download Blob",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/blobs/:uuid_str/download",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Download a blob by UUID with proper filename.\n\nRequires an authenticated session; in cloud mode the lookup is scoped to\nthe caller's user_id."
+        },
+        {
+          "info": {
+            "name": "Save Blob As File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/blobs/:uuid_str/save-as-file",
+            "params": [
+              {
+                "name": "uuid_str",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save a blob from storage as a file in the workspace."
+        },
+        {
+          "info": {
+            "name": "Get Autocomplete Models Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/autocomplete/models"
+          },
+          "docs": "Get list of available models for autocomplete."
+        },
+        {
+          "info": {
+            "name": "Autocomplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/autocomplete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start LM autocomplete generation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

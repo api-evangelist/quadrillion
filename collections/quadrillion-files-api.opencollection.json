@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account files API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/list"
+          },
+          "docs": "List directory contents on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Read File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/read"
+          },
+          "docs": "Read a file from the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Write File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/write"
+          },
+          "docs": "Write/save a file on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Create Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/mkdir"
+          },
+          "docs": "Create a folder on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Delete Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/delete"
+          },
+          "docs": "Delete a file or folder on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Rename Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/rename"
+          },
+          "docs": "Rename/move a file or folder on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Duplicate Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/duplicate"
+          },
+          "docs": "Duplicate a file or folder on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Check Path",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/kernel/files/check"
+          },
+          "docs": "Check if a path exists on the user's NFS filesystem."
+        },
+        {
+          "info": {
+            "name": "Upload File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/files/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a file into the workspace at ``dest_dir/<filename>``.\n\nName conflicts are auto-renamed (``name (1).ext``) unless\n``overwrite`` is set; the final path is returned either way."
+        },
+        {
+          "info": {
+            "name": "Download File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/files/download",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Download a single workspace file as an attachment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

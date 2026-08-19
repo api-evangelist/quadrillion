@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quadrillion Cloud account compute API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "compute",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Compute Capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/compute/capabilities"
+          },
+          "docs": "Return parsed partition capabilities loaded in current runtime."
+        },
+        {
+          "info": {
+            "name": "Resolve Compute Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/compute/resolve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resolve compute traits to the best-fit partition."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

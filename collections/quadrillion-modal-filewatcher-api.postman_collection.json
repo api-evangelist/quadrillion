@@ -1,0 +1,294 @@
+{
+  "item": [
+    {
+      "id": "830fac1a-31ba-4a46-90f5-8e7d33f8496f",
+      "name": "modal-filewatcher",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e6e68071-99ec-4ccc-a80c-1d4e7cfbeec5",
+          "name": "Ingest Fs Events",
+          "request": {
+            "name": "Ingest Fs Events",
+            "description": {
+              "content": "Ingest filesystem events from the proxy and emit to Socket.IO.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "internal",
+                "fs-events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"events\": [\n    {\n      \"path\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"timestamp_ns\": \"<integer>\",\n      \"old_path\": \"<string>\",\n      \"entity_type\": \"FILE\"\n    },\n    {\n      \"path\": \"<string>\",\n      \"event_type\": \"<string>\",\n      \"timestamp_ns\": \"<integer>\",\n      \"old_path\": \"<string>\",\n      \"entity_type\": \"FILE\"\n    }\n  ],\n  \"sandbox_alias\": \"<string>\",\n  \"api_version\": \"v1\",\n  \"stale\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fd60c4ef-fec5-4263-a369-23a27f16d9fa",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "internal",
+                    "fs-events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"events\": [\n    {\n      \"path\": \"string\",\n      \"event_type\": \"DELETED\",\n      \"timestamp_ns\": 9508,\n      \"old_path\": \"string\",\n      \"entity_type\": \"FILE\"\n    },\n    {\n      \"path\": \"string\",\n      \"event_type\": \"CREATED\",\n      \"timestamp_ns\": 6384,\n      \"old_path\": \"string\",\n      \"entity_type\": \"FILE\"\n    }\n  ],\n  \"sandbox_alias\": \"<string>\",\n  \"api_version\": \"v1\",\n  \"stale\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b4910c29-3cb6-415a-a591-0e55f394690a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "internal",
+                    "fs-events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"events\": [\n    {\n      \"path\": \"string\",\n      \"event_type\": \"DELETED\",\n      \"timestamp_ns\": 9508,\n      \"old_path\": \"string\",\n      \"entity_type\": \"FILE\"\n    },\n    {\n      \"path\": \"string\",\n      \"event_type\": \"CREATED\",\n      \"timestamp_ns\": 6384,\n      \"old_path\": \"string\",\n      \"entity_type\": \"FILE\"\n    }\n  ],\n  \"sandbox_alias\": \"<string>\",\n  \"api_version\": \"v1\",\n  \"stale\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f79a2987-f324-4b1c-9832-470009d47420",
+          "name": "Emit Fs Stale",
+          "request": {
+            "name": "Emit Fs Stale",
+            "description": {
+              "content": "Emit ``fs_stale`` Socket.IO event on proxy reconnection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "internal",
+                "fs-stale"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"<string>\",\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"sandbox_alias\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b15b267c-59a5-4c72-9443-3123b009f9dd",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "internal",
+                    "fs-stale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\",\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"sandbox_alias\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1381af30-f1ba-4b74-9011-b333b9958232",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "internal",
+                    "fs-stale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\",\n  \"sandbox_id\": \"<string>\",\n  \"workspace_id\": \"<string>\",\n  \"sandbox_alias\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cfbe9cf9-6a82-4564-a6a6-0caf67b3cc9d",
+    "name": "Quadrillion Cloud account modal-filewatcher API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public cloud API service for cloud-safe backend endpoints",
+      "type": "text/plain"
+    }
+  }
+}
