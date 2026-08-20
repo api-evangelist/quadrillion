@@ -48,6 +48,16 @@ tags:
 - Notebooks
 - LLM
 - Developer Tools
+- Machine-Learning
+tags_raw:
+- Company
+- Artificial Intelligence
+- AI Agents
+- Research
+- Data Science
+- Notebooks
+- LLM
+- Developer Tools
 - Machine Learning
 apis:
 - aid: quadrillion:quadrillion-account-api
@@ -56,6 +66,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Account
+  tags_raw:
   - account
   properties:
   - type: OpenAPI
@@ -66,6 +78,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Admin
+  tags_raw:
   - admin
   properties:
   - type: OpenAPI
@@ -76,6 +90,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - APIKeys
+  tags_raw:
   - api-keys
   properties:
   - type: OpenAPI
@@ -86,6 +102,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -96,6 +114,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Autocomplete
+  tags_raw:
   - autocomplete
   properties:
   - type: OpenAPI
@@ -106,6 +126,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Blobs
+  tags_raw:
   - blobs
   properties:
   - type: OpenAPI
@@ -136,6 +158,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Compute
+  tags_raw:
   - compute
   properties:
   - type: OpenAPI
@@ -146,6 +170,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Credentials
+  tags_raw:
   - credentials
   properties:
   - type: OpenAPI
@@ -156,6 +182,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Execution
+  tags_raw:
   - execution
   properties:
   - type: OpenAPI
@@ -166,6 +194,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - File
+  tags_raw:
   - files
   properties:
   - type: OpenAPI
@@ -176,6 +206,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Filesystem
+  tags_raw:
   - filesystems
   properties:
   - type: OpenAPI
@@ -216,6 +248,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Kernel
+  tags_raw:
   - kernel
   properties:
   - type: OpenAPI
@@ -236,6 +270,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Linear
+  tags_raw:
   - linear
   properties:
   - type: OpenAPI
@@ -246,6 +282,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -286,6 +324,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Notebook
+  tags_raw:
   - notebook
   properties:
   - type: OpenAPI
@@ -296,6 +336,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Onboarding
+  tags_raw:
   - onboarding
   properties:
   - type: OpenAPI
@@ -306,6 +348,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - OpenRouter
+  tags_raw:
   - Openrouter
   properties:
   - type: OpenAPI
@@ -316,6 +360,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Org
+  tags_raw:
   - org
   properties:
   - type: OpenAPI
@@ -326,6 +372,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Project
+  tags_raw:
   - project
   properties:
   - type: OpenAPI
@@ -347,6 +395,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Releases
+  tags_raw:
   - releases
   properties:
   - type: OpenAPI
@@ -367,6 +417,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Rules
+  tags_raw:
   - rules
   properties:
   - type: OpenAPI
@@ -376,7 +428,8 @@ apis:
   description: The runtime_mutations API from Quadrillion — 131 operation(s) for runtime_mutations.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
-  tags:
+  tags: []
+  tags_raw:
   - runtime_mutations
   properties:
   - type: OpenAPI
@@ -397,6 +450,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Settings
+  tags_raw:
   - settings
   properties:
   - type: OpenAPI
@@ -407,6 +462,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Slack
+  tags_raw:
   - slack
   properties:
   - type: OpenAPI
@@ -427,6 +484,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Store
+  tags_raw:
   - store
   properties:
   - type: OpenAPI
@@ -437,6 +496,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Stripe
+  tags_raw:
   - stripe
   properties:
   - type: OpenAPI
@@ -447,6 +508,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Tags
+  tags_raw:
   - tags
   properties:
   - type: OpenAPI
@@ -456,7 +519,8 @@ apis:
   description: The task_dag_mutations API from Quadrillion — 6 operation(s) for task_dag_mutations.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
-  tags:
+  tags: []
+  tags_raw:
   - task_dag_mutations
   properties:
   - type: OpenAPI
@@ -466,7 +530,8 @@ apis:
   description: The task_dag_reads API from Quadrillion — 9 operation(s) for task_dag_reads.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
-  tags:
+  tags: []
+  tags_raw:
   - task_dag_reads
   properties:
   - type: OpenAPI
@@ -477,6 +542,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - Terminal
+  tags_raw:
   - terminal
   properties:
   - type: OpenAPI
@@ -496,7 +563,8 @@ apis:
   description: The tool_results API from Quadrillion — 2 operation(s) for tool_results.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
-  tags:
+  tags: []
+  tags_raw:
   - tool_results
   properties:
   - type: OpenAPI
@@ -507,6 +575,8 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
