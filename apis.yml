@@ -126,7 +126,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - autocomplete
+  - Autocomplete
   tags_raw:
   - autocomplete
   properties:
@@ -138,7 +138,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - blobs
+  - Blobs
   tags_raw:
   - blobs
   properties:
@@ -182,7 +182,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - credentials
+  - Credentials
   tags_raw:
   - credentials
   properties:
@@ -260,7 +260,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - kernel
+  - Kernel
   tags_raw:
   - kernel
   properties:
@@ -282,7 +282,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - linear
+  - Linear
   tags_raw:
   - linear
   properties:
@@ -336,7 +336,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - notebook
+  - Notebook
   tags_raw:
   - notebook
   properties:
@@ -360,7 +360,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - Openrouter
+  - OpenRouter
   tags_raw:
   - Openrouter
   properties:
@@ -372,7 +372,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - org
+  - Org
   tags_raw:
   - org
   properties:
@@ -407,7 +407,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - releases
+  - Releases
   tags_raw:
   - releases
   properties:
@@ -429,7 +429,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - rules
+  - Rules
   tags_raw:
   - rules
   properties:
@@ -496,7 +496,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - store
+  - Store
   tags_raw:
   - store
   properties:
@@ -508,7 +508,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - stripe
+  - Stripe
   tags_raw:
   - stripe
   properties:
