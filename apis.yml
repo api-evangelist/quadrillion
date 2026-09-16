@@ -26,17 +26,13 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/quadrillion.png
 name: Quadrillion
-description: >-
-  Quadrillion Labs builds Qualia, an AI coding agent for researchers that runs
-  hundreds of agents in parallel to compress weeks of research into hours. Qualia
-  is a Jupyter-compatible notebook IDE with autonomous mode, a central knowledge
-  graph, reusable skills, and MCP integrations to tools like Snowflake, arXiv,
-  Google Drive, Slack, and Atlassian. The Quadrillion Cloud API is the public
-  cloud backend behind the desktop app, exposing cloud-safe endpoints for LLM
-  provider proxying (OpenAI, Anthropic, Gemini, Cerebras, OpenRouter, Fireworks),
-  API-key and session management, org/WorkOS SSO administration, compute and
-  kernel orchestration, notebooks, projects/tasks, the knowledge graph, and
-  Stripe billing.
+description: Quadrillion Labs builds Qualia, an AI coding agent for researchers that runs hundreds of
+  agents in parallel to compress weeks of research into hours. Qualia is a Jupyter-compatible notebook
+  IDE with autonomous mode, a central knowledge graph, reusable skills, and MCP integrations to tools
+  like Snowflake, arXiv, Google Drive, Slack, and Atlassian. The Quadrillion Cloud API is the public cloud
+  backend behind the desktop app, exposing cloud-safe endpoints for LLM provider proxying (OpenAI, Anthropic,
+  Gemini, Cerebras, OpenRouter, Fireworks), API-key and session management, org/WorkOS SSO administration,
+  compute and kernel orchestration, notebooks, projects/tasks, the knowledge graph, and Stripe billing.
 url: https://raw.githubusercontent.com/api-evangelist/quadrillion/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -46,7 +42,7 @@ x-tier: profiled
 x-tier-reason: has-public-api
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-09-16'
 x-enrichment:
   date: '2026-07-20'
   status: enriched
@@ -392,9 +388,8 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-project-api-openapi.yml
 - aid: quadrillion:quadrillion-quadrillion-cloud-api-api
-  name: Quadrillion Quadrillion Cloud API API
-  description: >-
-    The Quadrillion Cloud API API from Quadrillion — 1 operation(s) for quadrillion cloud api.
+  name: Quadrillion Cloud API
+  description: The Quadrillion Cloud API API from Quadrillion — 1 operation(s) for quadrillion cloud api.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
@@ -616,8 +611,7 @@ apis:
     url: openapi/quadrillion-workos-api-openapi.yml
 - aid: quadrillion:quadrillion-workspace-credentials-api
   name: Quadrillion workspace-credentials API
-  description: >-
-    The workspace-credentials API from Quadrillion — 1 operation(s) for workspace-credentials.
+  description: The workspace-credentials API from Quadrillion — 1 operation(s) for workspace-credentials.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
@@ -702,7 +696,10 @@ common:
   url: overlays/quadrillion-cloud-overlay.yaml
 - type: X-MCPServerCandidate
   url: mcp/quadrillion-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: AgentSkill
   url: skills/_index.yml
 - type: LLMsTxt
