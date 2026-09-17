@@ -351,18 +351,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/quadrillion-onboarding-api-openapi.yml
-- aid: quadrillion:quadrillion-openrouter-api
-  name: Quadrillion Openrouter API
-  description: The Openrouter API from Quadrillion — 1 operation(s) for openrouter.
-  humanURL: https://docs.quadrillion.io
-  baseURL: https://api.quadrillion.io
-  tags:
-  - OpenRouter
-  tags_raw:
-  - Openrouter
-  properties:
-  - type: OpenAPI
-    url: openapi/quadrillion-openrouter-api-openapi.yml
 - aid: quadrillion:quadrillion-org-api
   name: Quadrillion org API
   description: The org API from Quadrillion — 8 operation(s) for org.
@@ -389,7 +377,8 @@ apis:
     url: openapi/quadrillion-project-api-openapi.yml
 - aid: quadrillion:quadrillion-quadrillion-cloud-api-api
   name: Quadrillion Cloud API
-  description: The Quadrillion Cloud API API from Quadrillion — 1 operation(s) for quadrillion cloud api.
+  description: >-
+    The Quadrillion Cloud API API from Quadrillion — 1 operation(s) for quadrillion cloud api.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
@@ -611,7 +600,8 @@ apis:
     url: openapi/quadrillion-workos-api-openapi.yml
 - aid: quadrillion:quadrillion-workspace-credentials-api
   name: Quadrillion workspace-credentials API
-  description: The workspace-credentials API from Quadrillion — 1 operation(s) for workspace-credentials.
+  description: >-
+    The workspace-credentials API from Quadrillion — 1 operation(s) for workspace-credentials.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
@@ -639,6 +629,16 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/quadrillion-you-api-openapi.yml
+- aid: quadrillion:quadrillion-open-router-api
+  name: Quadrillion Open Router API
+  description: The Open Router API from Quadrillion — 1 operation(s) for open router.
+  humanURL: https://docs.quadrillion.io
+  baseURL: https://api.quadrillion.io
+  tags:
+  - Open Router
+  properties:
+  - type: OpenAPI
+    url: openapi/quadrillion-open-router-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
