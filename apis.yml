@@ -333,7 +333,7 @@ apis:
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
   tags:
-  - Notebook
+  - Notebooks
   tags_raw:
   - notebook
   properties:
