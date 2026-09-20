@@ -1,0 +1,46 @@
+slug: quadrillion
+provider: Quadrillion
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Education
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: api-keys
+  spec_file: quadrillion-api-keys-api-openapi.yml
+  capability_id: BC-4270.40
+  capability_id_l1: BC-4270
+  capability_name: Developer Identity & Credential Management
+  confidence: 0.75
+  evidence: POST /api/keys  Create Api Key; POST /api/keys/validate  Validate Api Key; DELETE /api/keys/{key_id}  Delete
+    Api Key
+  reason: Issuance, validation and revocation of API keys used to call the platform — developer credential
+    management. Could also be read as generic IAM, hence not higher.
+- tag: stripe
+  spec_file: quadrillion-stripe-api-openapi.yml
+  capability_id: BC-4250
+  capability_id_l1: BC-4250
+  capability_name: Subscription Billing & Revenue Management
+  confidence: 0.75
+  evidence: POST /api/stripe/checkout-session Create Checkout; POST /api/stripe/overage Toggle Overage;
+    PUT /api/stripe/overage/ceiling Update Ceiling
+  reason: Operations create payment checkout and billing-portal sessions and control usage overage limits/ceilings
+    for the SaaS subscription — subscription billing and revenue management. Split across payment collection
+    and usage rating, so no single L2 is asserted.
+- tag: auth
+  spec_file: quadrillion-auth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /api/auth/me  Get Current User; POST /api/auth/logout; GET /api/auth/workos/start; GET
+    /api/auth/workos/callback
+  reason: SSO login/logout flows via WorkOS, session revocation and org invitation acceptance — identity
+    and access management plumbing. Authentication is often pure plumbing, so moderate confidence only.
