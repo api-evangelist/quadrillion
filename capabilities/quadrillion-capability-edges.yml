@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 3
+edge_count: 4
 edges:
 - tag: api-keys
   spec_file: quadrillion-api-keys-api-openapi.yml
@@ -34,6 +34,19 @@ edges:
   reason: Operations create payment checkout and billing-portal sessions and control usage overage limits/ceilings
     for the SaaS subscription — subscription billing and revenue management. Split across payment collection
     and usage rating, so no single L2 is asserted.
+- tag: admin
+  spec_file: quadrillion-admin-api-openapi.yml
+  capability_id: BC-4230.10
+  capability_id_l1: BC-4230
+  capability_name: Tenant Provisioning & Lifecycle
+  confidence: 0.7
+  evidence: POST /api/admin/organizations  create_org ... DELETE /api/admin/organizations/{org_id}  Delete
+    Org; UpdateSubscriptionRequest, OrgSubscriptionResponse, FeatureOverrideResponse
+  reason: Backend admin surface that creates, updates and deletes organisations (tenants), manages their
+    subscription and feature overrides, and revokes user sessions — tenant provisioning/lifecycle in a
+    multi-tenant SaaS. Subscription and entitlement elements also present, hence not full confidence on
+    the sub-capability.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: auth
   spec_file: quadrillion-auth-api-openapi.yml
   capability_id: BC-620.20
