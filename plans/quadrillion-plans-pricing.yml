@@ -1,0 +1,43 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://quadrillion.ai/pricing
+sources:
+- https://quadrillion.ai/pricing
+- https://quadrillion.io/pricing
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+note: Tiered subscription plans for the Qualia product; Enterprise tier is quote-based.
+plan_count: 4
+currency: USD
+plans:
+- name: Free
+  price_text: $0 forever
+  price: 0
+  currency: USD
+  period: month
+  included_quota: Chat-based notebook analysis; Limited monthly usage; Community support
+- name: Pro
+  price_text: $20 per month
+  price: 20
+  currency: USD
+  period: month
+  included_quota: Everything in Free, plus Generous monthly usage; GPU nodes Coming soon; Priority support
+- name: Max
+  price_text: $100 per person, billed monthly
+  price: 100
+  currency: USD
+  period: month
+  unit: per person
+  included_quota: Everything in Pro, plus Significantly more usage; Dedicated support
+  overage: No hard stop — keep running past your monthly limit
+- name: Enterprise
+  price_text: Contact for pricing
+  period: none
+  included_quota: SOC 2 Type II and HIPAA compliance; zero data retention; on-prem integrations; SSO;
+    dedicated support and 24/7 SLAs
