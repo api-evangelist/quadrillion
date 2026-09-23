@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account linear API
+  title: Quadrillion Cloud Linear API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: linear
+- name: Linear
 paths:
   /api/linear/webhook:
     post:
       tags:
-      - linear
+      - Linear
       summary: Linear Webhook
       description: 'Receive a Linear webhook and dispatch the configured triage path.
 

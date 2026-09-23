@@ -1,17 +1,45 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account auth API
+  title: Quadrillion Cloud Auth API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: auth
+- name: Auth
 paths:
   /api/auth/me:
     get:
       tags:
-      - auth
+      - Auth
       summary: Get Current User
-      description: "Get current authenticated user information.\n\nRequires: Bearer token or session cookie\n\nReturns:\n    {\n        \"id\": 123,\n        \"email\": \"user@example.com\",\n        \"name\": \"John Doe\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"last_login\": \"2025-01-16T14:20:00Z\",\n        \"job_type\": \"Data Scientist\",\n        \"company_name\": \"Acme Corp\",\n        \"onboarding_completed\": true,\n        \"organization_role\": \"owner\"\n    }"
+      description: 'Get current authenticated user information.
+
+
+        Requires: Bearer token or session cookie
+
+
+        Returns:
+
+        {
+
+        "id": 123,
+
+        "email": "user@example.com",
+
+        "name": "John Doe",
+
+        "created_at": "2025-01-15T10:30:00Z",
+
+        "last_login": "2025-01-16T14:20:00Z",
+
+        "job_type": "Data Scientist",
+
+        "company_name": "Acme Corp",
+
+        "onboarding_completed": true,
+
+        "organization_role": "owner"
+
+        }'
       operationId: get_current_user_api_auth_me_get
       responses:
         '200':
@@ -22,9 +50,14 @@ paths:
   /api/auth/logout:
     post:
       tags:
-      - auth
+      - Auth
       summary: Logout
-      description: "Logout endpoint - clears the session cookie.\n\nReturns:\n    {\"message\": \"Logged out successfully\"}"
+      description: 'Logout endpoint - clears the session cookie.
+
+
+        Returns:
+
+        {"message": "Logged out successfully"}'
       operationId: logout_api_auth_logout_post
       parameters:
       - name: frontend_origin
@@ -50,7 +83,7 @@ paths:
   /api/auth/orgs/invitations/{token}:
     get:
       tags:
-      - auth
+      - Auth
       summary: Preview Invitation
       description: 'Preview an invitation by token — no auth required.
 
@@ -81,7 +114,7 @@ paths:
   /api/auth/orgs/invitations/{token}/accept:
     post:
       tags:
-      - auth
+      - Auth
       summary: Accept Invitation
       operationId: accept_invitation_api_auth_orgs_invitations__token__accept_post
       parameters:
@@ -106,9 +139,34 @@ paths:
   /api/auth/workos/start:
     get:
       tags:
-      - auth
+      - Auth
       summary: Start
-      description: "Build the WorkOS authorization URL and redirect.\n\n* ``org_slug`` — when present, the start endpoint looks up the\n  Organization's WorkOS organization id and routes through the\n  tenant SSO connection. When absent, falls back to personal\n  Google OAuth via WorkOS's built-in ``GoogleOAuth`` provider.\n* ``frontend_origin`` — explicit browser origin. Required for\n  browser logins and must match ``ALLOWED_FRONTEND_ORIGINS``. Used\n  to pick the callback host for dashboard-vs-cloud logins.\n* ``next`` — post-login redirect target on the frontend. Validated\n  to root-relative paths only.\n* ``callback_port`` — when present, the success path will redirect\n  to ``http://localhost:<port>/callback`` instead of setting a\n  browser cookie. Used by ``qli login`` and the Electron app."
+      description: 'Build the WorkOS authorization URL and redirect.
+
+
+        * ``org_slug`` — when present, the start endpoint looks up the
+
+        Organization''s WorkOS organization id and routes through the
+
+        tenant SSO connection. When absent, falls back to personal
+
+        Google OAuth via WorkOS''s built-in ``GoogleOAuth`` provider.
+
+        * ``frontend_origin`` — explicit browser origin. Required for
+
+        browser logins and must match ``ALLOWED_FRONTEND_ORIGINS``. Used
+
+        to pick the callback host for dashboard-vs-cloud logins.
+
+        * ``next`` — post-login redirect target on the frontend. Validated
+
+        to root-relative paths only.
+
+        * ``callback_port`` — when present, the success path will redirect
+
+        to ``http://localhost:/callback`` instead of setting a
+
+        browser cookie. Used by ``qli login`` and the Electron app.'
       operationId: start_api_auth_workos_start_get
       parameters:
       - name: org_slug
@@ -166,7 +224,7 @@ paths:
   /api/auth/workos/callback:
     get:
       tags:
-      - auth
+      - Auth
       summary: Callback
       description: Exchange the WorkOS code for a profile and finalise the session.
       operationId: callback_api_auth_workos_callback_get
@@ -210,7 +268,7 @@ paths:
   /api/auth/workos/discover:
     get:
       tags:
-      - auth
+      - Auth
       summary: Discover
       description: 'Email-domain SSO routing.
 
@@ -274,9 +332,39 @@ paths:
   /api/auth/workos/webhook:
     post:
       tags:
-      - auth
+      - Auth
       summary: Webhook
-      description: "WorkOS event delivery endpoint.\n\nSubscribed events:\n* ``dsync.user.created`` — eager membership provisioning. Customer's\n  IdP pushed a new user via SCIM; create the local User +\n  OrganizationMember rows so the user can sign in directly without\n  an admin invite.\n* ``dsync.user.deleted`` — per-user revocation (offboard)\n* ``dsync.user.updated`` (state=inactive) — per-user revocation\n  (suspend / disable; covers Okta DEPROVISIONED, Azure Disabled, etc.)\n* ``connection.deactivated`` / ``connection.deleted`` /\n  ``dsync.deleted`` — org-wide revocation. Customer's IT admin\n  pulled the SSO plug; force-log-out every member of the affected\n  organization (memberships preserved so a later reconnect lets\n  them log back in).\n\nIdempotent on the WorkOS event id via ``processed_webhook_events``."
+      description: 'WorkOS event delivery endpoint.
+
+
+        Subscribed events:
+
+        * ``dsync.user.created`` — eager membership provisioning. Customer''s
+
+        IdP pushed a new user via SCIM; create the local User +
+
+        OrganizationMember rows so the user can sign in directly without
+
+        an admin invite.
+
+        * ``dsync.user.deleted`` — per-user revocation (offboard)
+
+        * ``dsync.user.updated`` (state=inactive) — per-user revocation
+
+        (suspend / disable; covers Okta DEPROVISIONED, Azure Disabled, etc.)
+
+        * ``connection.deactivated`` / ``connection.deleted`` /
+
+        ``dsync.deleted`` — org-wide revocation. Customer''s IT admin
+
+        pulled the SSO plug; force-log-out every member of the affected
+
+        organization (memberships preserved so a later reconnect lets
+
+        them log back in).
+
+
+        Idempotent on the WorkOS event id via ``processed_webhook_events``.'
       operationId: webhook_api_auth_workos_webhook_post
       responses:
         '200':
@@ -303,6 +391,15 @@ components:
       - org_slug
       - login_url
       title: DiscoverResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -324,12 +421,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

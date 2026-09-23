@@ -1,17 +1,29 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account stripe API
+  title: Quadrillion Cloud Stripe API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: stripe
+- name: Stripe
 paths:
   /api/stripe/checkout-session:
     post:
       tags:
-      - stripe
+      - Stripe
       summary: Create Checkout
-      description: "Create a Stripe Checkout Session for individual subscription.\n\nMonthly billing only. Rejects org members.\nAccepts optional success_url/cancel_url from the frontend and requires an\nexplicit validated frontend origin for default billing redirects.\n\nReturns:\n    Checkout session URL to redirect the user."
+      description: 'Create a Stripe Checkout Session for individual subscription.
+
+
+        Monthly billing only. Rejects org members.
+
+        Accepts optional success_url/cancel_url from the frontend and requires an
+
+        explicit validated frontend origin for default billing redirects.
+
+
+        Returns:
+
+        Checkout session URL to redirect the user.'
       operationId: create_checkout_api_stripe_checkout_session_post
       requestBody:
         content:
@@ -35,9 +47,17 @@ paths:
   /api/stripe/portal-session:
     post:
       tags:
-      - stripe
+      - Stripe
       summary: Create Portal
-      description: "Create a Stripe Billing Portal session.\n\nErrors if user is in an org (admin-managed billing).\n\nReturns:\n    Portal session URL to redirect the user."
+      description: 'Create a Stripe Billing Portal session.
+
+
+        Errors if user is in an org (admin-managed billing).
+
+
+        Returns:
+
+        Portal session URL to redirect the user.'
       operationId: create_portal_api_stripe_portal_session_post
       parameters:
       - name: frontend_origin
@@ -64,9 +84,22 @@ paths:
   /api/stripe/overage:
     post:
       tags:
-      - stripe
+      - Stripe
       summary: Toggle Overage
-      description: "Toggle overage billing on or off.\n\nOnly available for Max plan. Rejects org members.\n\nArgs:\n    body: Overage toggle request.\n\nReturns:\n    Status message."
+      description: 'Toggle overage billing on or off.
+
+
+        Only available for Max plan. Rejects org members.
+
+
+        Args:
+
+        body: Overage toggle request.
+
+
+        Returns:
+
+        Status message.'
       operationId: toggle_overage_api_stripe_overage_post
       requestBody:
         content:
@@ -92,9 +125,22 @@ paths:
   /api/stripe/overage/ceiling:
     put:
       tags:
-      - stripe
+      - Stripe
       summary: Update Ceiling
-      description: "Update the overage spending ceiling.\n\nMust have overage already enabled.\n\nArgs:\n    body: New ceiling value.\n\nReturns:\n    Updated ceiling value."
+      description: 'Update the overage spending ceiling.
+
+
+        Must have overage already enabled.
+
+
+        Args:
+
+        body: New ceiling value.
+
+
+        Returns:
+
+        Updated ceiling value.'
       operationId: update_ceiling_api_stripe_overage_ceiling_put
       requestBody:
         content:
@@ -120,9 +166,19 @@ paths:
   /api/stripe/webhook:
     post:
       tags:
-      - stripe
+      - Stripe
       summary: Stripe Webhook
-      description: "Handle incoming Stripe webhook events.\n\nVerifies the Stripe signature, parses the event, and dispatches\nto the appropriate handler. No auth required -- secured by signature.\n\nReturns:\n    Acknowledgment response."
+      description: 'Handle incoming Stripe webhook events.
+
+
+        Verifies the Stripe signature, parses the event, and dispatches
+
+        to the appropriate handler. No auth required -- secured by signature.
+
+
+        Returns:
+
+        Acknowledgment response.'
       operationId: stripe_webhook_api_stripe_webhook_post
       responses:
         '200':
@@ -135,6 +191,27 @@ paths:
                 title: Response Stripe Webhook Api Stripe Webhook Post
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CheckoutSessionRequest:
       properties:
         plan:
@@ -160,6 +237,45 @@ components:
       - plan
       title: CheckoutSessionRequest
       description: Request body for creating a checkout session.
+    CheckoutSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: CheckoutSessionResponse
+      description: Response with checkout session URL.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PortalSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: PortalSessionResponse
+      description: Response with portal session URL.
+    OverageCeilingRequest:
+      properties:
+        overage_limit_usd:
+          type: integer
+          title: Overage Limit Usd
+      type: object
+      required:
+      - overage_limit_usd
+      title: OverageCeilingRequest
+      description: Request body for updating overage ceiling.
     OverageRequest:
       properties:
         enabled:
@@ -175,63 +291,3 @@ components:
       - enabled
       title: OverageRequest
       description: Request body for toggling overage.
-    CheckoutSessionResponse:
-      properties:
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: CheckoutSessionResponse
-      description: Response with checkout session URL.
-    PortalSessionResponse:
-      properties:
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: PortalSessionResponse
-      description: Response with portal session URL.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OverageCeilingRequest:
-      properties:
-        overage_limit_usd:
-          type: integer
-          title: Overage Limit Usd
-      type: object
-      required:
-      - overage_limit_usd
-      title: OverageCeilingRequest
-      description: Request body for updating overage ceiling.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

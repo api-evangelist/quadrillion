@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account execution API
+  title: Quadrillion Cloud Execution API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: execution
+- name: Execution
 paths:
   /execute/{execution_id}/replay:
     get:
       tags:
-      - execution
+      - Execution
       summary: Replay Execution Output
       description: 'Return buffered ``execution_output`` chunks for a live cell run.
 
@@ -62,7 +62,7 @@ paths:
   /execute:
     post:
       tags:
-      - execution
+      - Execution
       summary: Execute
       operationId: execute_execute_post
       requestBody:
@@ -85,6 +85,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -127,12 +136,3 @@ components:
       - notebook_path
       - cell_id
       title: _ExecuteRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

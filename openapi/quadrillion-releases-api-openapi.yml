@@ -1,17 +1,56 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account releases API
+  title: Quadrillion Cloud Releases API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: releases
+- name: Releases
 paths:
   /v1/releases/supported-platforms:
     get:
       tags:
-      - releases
+      - Releases
       summary: Get Supported Platforms
-      description: "Get list of currently supported platform IDs.\n\nThis endpoint returns which platforms have releases available for download.\nThe frontend uses this to gray out unsupported platforms in the download UI.\n\nThis is public data for the marketing download page, so no authentication\nis required. CDN-friendly caching is enabled to reduce backend load.\n\nReturns:\n    SupportedPlatformsResponse with list of supported platform IDs\n\nExample:\n    GET /v1/releases/supported-platforms\n\n    Response:\n    {\n        \"supported\": [\n            \"macos-intel\",\n            \"macos-apple-silicon\",\n            \"windows-x64\",\n            \"linux-x64\"\n        ]\n    }"
+      description: 'Get list of currently supported platform IDs.
+
+
+        This endpoint returns which platforms have releases available for download.
+
+        The frontend uses this to gray out unsupported platforms in the download UI.
+
+
+        This is public data for the marketing download page, so no authentication
+
+        is required. CDN-friendly caching is enabled to reduce backend load.
+
+
+        Returns:
+
+        SupportedPlatformsResponse with list of supported platform IDs
+
+
+        Example:
+
+        GET /v1/releases/supported-platforms
+
+
+        Response:
+
+        {
+
+        "supported": [
+
+        "macos-intel",
+
+        "macos-apple-silicon",
+
+        "windows-x64",
+
+        "linux-x64"
+
+        ]
+
+        }'
       operationId: get_supported_platforms_v1_releases_supported_platforms_get
       responses:
         '200':
@@ -23,9 +62,43 @@ paths:
   /v1/releases/{filename}:
     get:
       tags:
-      - releases
+      - Releases
       summary: Download Release
-      description: "Get a presigned S3 URL and redirect the user's browser to download directly from S3.\n\nThis endpoint validates the file exists, generates a short-lived presigned\nURL (1 minute), and redirects the browser to download directly from S3\n(avoiding bandwidth costs on backend and Vercel).\n\nFiles are stored gzipped on S3 with Content-Encoding metadata (no extra .gz\nsuffix on the S3 key). Browsers and HTTP clients automatically decompress\nduring download, saving 30-60% bandwidth.\n\nArgs:\n    filename: Name of the release file to download\n    request: FastAPI request object (to access app state)\n\nReturns:\n    RedirectResponse to presigned S3 URL (browser downloads directly)\n\nExamples:\n    GET /v1/releases/qualia-v1.2.3-macos-apple-silicon.app\n\n    Response: 307 Redirect to https://bucket.s3.amazonaws.com/qualia-v1.2.3-macos-apple-silicon.app?X-Amz-..."
+      description: 'Get a presigned S3 URL and redirect the user''s browser to download directly from S3.
+
+
+        This endpoint validates the file exists, generates a short-lived presigned
+
+        URL (1 minute), and redirects the browser to download directly from S3
+
+        (avoiding bandwidth costs on backend and Vercel).
+
+
+        Files are stored gzipped on S3 with Content-Encoding metadata (no extra .gz
+
+        suffix on the S3 key). Browsers and HTTP clients automatically decompress
+
+        during download, saving 30-60% bandwidth.
+
+
+        Args:
+
+        filename: Name of the release file to download
+
+        request: FastAPI request object (to access app state)
+
+
+        Returns:
+
+        RedirectResponse to presigned S3 URL (browser downloads directly)
+
+
+        Examples:
+
+        GET /v1/releases/qualia-v1.2.3-macos-apple-silicon.app
+
+
+        Response: 307 Redirect to https://bucket.s3.amazonaws.com/qualia-v1.2.3-macos-apple-silicon.app?X-Amz-...'
       operationId: download_release_v1_releases__filename__get
       parameters:
       - name: filename
@@ -48,6 +121,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -69,15 +151,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SupportedPlatformsResponse:
       properties:
         supported:

@@ -1,22 +1,22 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account API
+  title: Quadrillion Cloud Account API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: account
+- name: Account
 paths:
   /api/account/features:
     get:
       tags:
-      - account
+      - Account
       summary: Get Account Features
       description: 'Get feature eligibility flags for the authenticated account.
 
 
         Authenticates via session token (JWT/cookie) or API key.
 
-        Returns plan-based entitlements; omitted keys are unavailable.  The
+        Returns plan-based entitlements; omitted keys are unavailable. The
 
         ``is_admin`` flag is surfaced separately so the desktop can grant
 
@@ -34,7 +34,7 @@ paths:
   /api/account/models:
     get:
       tags:
-      - account
+      - Account
       summary: Get Model Catalog
       description: 'Return the authoritative model catalog with an ETag for conditional GETs.
 
@@ -43,7 +43,7 @@ paths:
 
         after every ``QUADRILLION_API_KEY`` change, so new models ship via a cloud
 
-        redeploy without requiring a desktop release.  Availability filtering by
+        redeploy without requiring a desktop release. Availability filtering by
 
         the user''s own credentials happens on the desktop, with one exception:
 
@@ -51,7 +51,7 @@ paths:
 
         ``eap_access`` entitlement, because shipped desktop builds cannot be
 
-        trusted to hide them.  The ETag is therefore stable per entitlement
+        trusted to hide them. The ETag is therefore stable per entitlement
 
         variant rather than across all accounts.
 
@@ -91,7 +91,7 @@ paths:
   /api/account/subscription:
     get:
       tags:
-      - account
+      - Account
       summary: Get Subscription
       description: 'Get subscription, usage, and overage info for the authenticated user.
 
@@ -109,87 +109,6 @@ paths:
                 $ref: '#/components/schemas/SubscriptionResponse'
 components:
   schemas:
-    SubscriptionResponse:
-      properties:
-        plan_tier:
-          type: string
-          title: Plan Tier
-        status:
-          type: string
-          title: Status
-        cancel_at_period_end:
-          type: boolean
-          title: Cancel At Period End
-          default: false
-        current_period_start:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Period Start
-        current_period_end:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Period End
-        usage_percentage:
-          type: number
-          title: Usage Percentage
-        is_limited:
-          type: boolean
-          title: Is Limited
-        overage_eligible:
-          type: boolean
-          title: Overage Eligible
-          default: false
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-        overage_spend_usd:
-          type: number
-          title: Overage Spend Usd
-        overage_percentage:
-          type: number
-          title: Overage Percentage
-        is_in_overage:
-          type: boolean
-          title: Is In Overage
-        is_org_member:
-          type: boolean
-          title: Is Org Member
-        is_admin_managed:
-          type: boolean
-          title: Is Admin Managed
-        organization:
-          anyOf:
-          - $ref: '#/components/schemas/OrgInfoResponse'
-          - type: 'null'
-      type: object
-      required:
-      - plan_tier
-      - status
-      - usage_percentage
-      - is_limited
-      - overage_enabled
-      - overage_limit_usd
-      - overage_spend_usd
-      - overage_percentage
-      - is_in_overage
-      - is_org_member
-      - is_admin_managed
-      title: SubscriptionResponse
-      description: 'Response model for subscription info.
-
-
-        Base usage is percentage-only — internal compute credit limits are not
-
-        exposed as USD to avoid revealing plan economics.  Overage amounts are
-
-        in USD because users are directly billed for them.'
     ValidationError:
       properties:
         loc:
@@ -276,15 +195,6 @@ components:
       - is_admin: true
         max_parallel_agents: 8
       - max_parallel_agents: 2
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     OrgInfoResponse:
       properties:
         name:
@@ -303,3 +213,93 @@ components:
       - role
       title: OrgInfoResponse
       description: Organization context returned in the subscription response.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SubscriptionResponse:
+      properties:
+        plan_tier:
+          type: string
+          title: Plan Tier
+        status:
+          type: string
+          title: Status
+        cancel_at_period_end:
+          type: boolean
+          title: Cancel At Period End
+          default: false
+        current_period_start:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period Start
+        current_period_end:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period End
+        usage_percentage:
+          type: number
+          title: Usage Percentage
+        is_limited:
+          type: boolean
+          title: Is Limited
+        overage_eligible:
+          type: boolean
+          title: Overage Eligible
+          default: false
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        overage_spend_usd:
+          type: number
+          title: Overage Spend Usd
+        overage_percentage:
+          type: number
+          title: Overage Percentage
+        is_in_overage:
+          type: boolean
+          title: Is In Overage
+        is_org_member:
+          type: boolean
+          title: Is Org Member
+        is_admin_managed:
+          type: boolean
+          title: Is Admin Managed
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/OrgInfoResponse'
+          - type: 'null'
+      type: object
+      required:
+      - plan_tier
+      - status
+      - usage_percentage
+      - is_limited
+      - overage_enabled
+      - overage_limit_usd
+      - overage_spend_usd
+      - overage_percentage
+      - is_in_overage
+      - is_org_member
+      - is_admin_managed
+      title: SubscriptionResponse
+      description: 'Response model for subscription info.
+
+
+        Base usage is percentage-only — internal compute credit limits are not
+
+        exposed as USD to avoid revealing plan economics.  Overage amounts are
+
+        in USD because users are directly billed for them.'

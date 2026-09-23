@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account Quadrillion Cloud API API
+  title: Quadrillion Cloud API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:

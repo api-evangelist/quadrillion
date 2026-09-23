@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account store API
+  title: Quadrillion Cloud Store API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: store
+- name: Store
 paths:
   /v1/store/chat-sessions:
     get:
       tags:
-      - store
+      - Store
       summary: List Chat Sessions
       operationId: list_chat_sessions_v1_store_chat_sessions_get
       responses:
@@ -20,7 +20,7 @@ paths:
               schema: {}
     post:
       tags:
-      - store
+      - Store
       summary: Create Chat Session
       operationId: create_chat_session_v1_store_chat_sessions_post
       requestBody:
@@ -44,7 +44,7 @@ paths:
   /v1/store/execution-statuses/{execution_id}:
     get:
       tags:
-      - store
+      - Store
       summary: Get Execution Status
       operationId: get_execution_status_v1_store_execution_statuses__execution_id__get
       parameters:
@@ -69,7 +69,7 @@ paths:
   /v1/store/execution-statuses:
     post:
       tags:
-      - store
+      - Store
       summary: Upsert Execution Status
       operationId: upsert_execution_status_v1_store_execution_statuses_post
       requestBody:
@@ -93,7 +93,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}:
     get:
       tags:
-      - store
+      - Store
       summary: Get Chat Session
       operationId: get_chat_session_v1_store_chat_sessions__chat_session_id__get
       parameters:
@@ -117,7 +117,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     patch:
       tags:
-      - store
+      - Store
       summary: Update Chat Session
       operationId: update_chat_session_v1_store_chat_sessions__chat_session_id__patch
       parameters:
@@ -148,7 +148,7 @@ paths:
   /v1/store/notebooks/{notebook_id}/kernel-config:
     get:
       tags:
-      - store
+      - Store
       summary: Get Notebook Kernel Config
       operationId: get_notebook_kernel_config_v1_store_notebooks__notebook_id__kernel_config_get
       parameters:
@@ -173,7 +173,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/attach-notebook:
     post:
       tags:
-      - store
+      - Store
       summary: Attach Notebook To Session
       operationId: attach_notebook_to_session_v1_store_chat_sessions__chat_session_id__attach_notebook_post
       parameters:
@@ -204,7 +204,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/detach-notebook:
     post:
       tags:
-      - store
+      - Store
       summary: Detach Notebook From Session
       operationId: detach_notebook_from_session_v1_store_chat_sessions__chat_session_id__detach_notebook_post
       parameters:
@@ -229,7 +229,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages:
     post:
       tags:
-      - store
+      - Store
       summary: Enqueue Pending Message
       description: Append a queued pending message at the tail of the session's queue.
       operationId: enqueue_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages_post
@@ -260,7 +260,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-      - store
+      - Store
       summary: List Pending Messages
       description: List queued pending-message rows for a chat session in queue order.
       operationId: list_pending_messages_v1_store_chat_sessions__chat_session_id__pending_messages_get
@@ -294,7 +294,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/oldest-drainable:
     get:
       tags:
-      - store
+      - Store
       summary: Get Oldest Drainable Pending Message
       description: Return the oldest queued row of *kind* eligible to drain, or null.
       operationId: get_oldest_drainable_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages_oldest_drainable_get
@@ -334,7 +334,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/claim-oldest-drainable:
     post:
       tags:
-      - store
+      - Store
       summary: Claim Oldest Drainable Pending Message
       description: 'Atomically lease and return the oldest drainable row of *kind*, or null.
 
@@ -371,7 +371,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/release-lease:
     post:
       tags:
-      - store
+      - Store
       summary: Release Pending Message Lease
       description: Clear a drain lease so a row whose promotion failed is drainable again.
       operationId: release_pending_message_lease_v1_store_chat_sessions__chat_session_id__pending_messages_release_lease_post
@@ -403,7 +403,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/update-payload:
     post:
       tags:
-      - store
+      - Store
       summary: Update Pending Message Payload
       description: Rewrite a queued row's payload in place.
       operationId: update_pending_message_payload_v1_store_chat_sessions__chat_session_id__pending_messages_update_payload_post
@@ -435,7 +435,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/set-hold:
     post:
       tags:
-      - store
+      - Store
       summary: Set Pending Message Hold
       description: Set or clear the durable editing hold on a queued row.
       operationId: set_pending_message_hold_v1_store_chat_sessions__chat_session_id__pending_messages_set_hold_post
@@ -467,7 +467,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/reorder:
     post:
       tags:
-      - store
+      - Store
       summary: Reorder Pending Messages
       description: Rewrite queue positions for *kind* rows to match the given order.
       operationId: reorder_pending_messages_v1_store_chat_sessions__chat_session_id__pending_messages_reorder_post
@@ -499,7 +499,7 @@ paths:
   /v1/store/chat-sessions/{chat_session_id}/pending-messages/{pending_id}:
     delete:
       tags:
-      - store
+      - Store
       summary: Delete Pending Message
       description: Delete a single queued pending-message row. No-op when already gone.
       operationId: delete_pending_message_v1_store_chat_sessions__chat_session_id__pending_messages__pending_id__delete
@@ -531,7 +531,7 @@ paths:
   /v1/store/notebooks/{notebook_id}/owner:
     get:
       tags:
-      - store
+      - Store
       summary: Get Notebook Owner
       operationId: get_notebook_owner_v1_store_notebooks__notebook_id__owner_get
       parameters:
@@ -556,7 +556,7 @@ paths:
   /v1/store/projects:
     get:
       tags:
-      - store
+      - Store
       summary: List Projects
       operationId: list_projects_v1_store_projects_get
       responses:
@@ -568,7 +568,7 @@ paths:
   /v1/store/projects/{project_id}:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project
       operationId: get_project_v1_store_projects__project_id__get
       parameters:
@@ -593,7 +593,7 @@ paths:
   /v1/store/projects/{project_id}/export-rows:
     get:
       tags:
-      - store
+      - Store
       summary: Export Project Rows
       description: Return every DB-backed row of an owned project for a .qualia export.
       operationId: export_project_rows_v1_store_projects__project_id__export_rows_get
@@ -619,7 +619,7 @@ paths:
   /v1/store/projects/ingest-rows:
     post:
       tags:
-      - store
+      - Store
       summary: Ingest Project Rows
       description: 'Insert the remapped rows of an imported .qualia archive.
 
@@ -649,7 +649,7 @@ paths:
   /v1/store/projects/{project_id}/tasks:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Tasks
       operationId: get_project_tasks_v1_store_projects__project_id__tasks_get
       parameters:
@@ -681,7 +681,7 @@ paths:
   /v1/store/projects/{project_id}/knowledge-summary:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Knowledge Summary
       operationId: get_project_knowledge_summary_v1_store_projects__project_id__knowledge_summary_get
       parameters:
@@ -715,7 +715,7 @@ paths:
   /v1/store/projects/{project_id}/sessions:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Sessions
       operationId: get_project_sessions_v1_store_projects__project_id__sessions_get
       parameters:
@@ -747,7 +747,7 @@ paths:
   /v1/store/projects/{project_id}/task-statuses:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Task Statuses
       operationId: get_project_task_statuses_v1_store_projects__project_id__task_statuses_get
       parameters:
@@ -772,7 +772,7 @@ paths:
   /v1/store/projects/{project_id}/sessions/{session_id}/tasks:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Session Tasks
       operationId: get_project_session_tasks_v1_store_projects__project_id__sessions__session_id__tasks_get
       parameters:
@@ -824,7 +824,7 @@ paths:
   /v1/store/sessions/{session_id}/project:
     get:
       tags:
-      - store
+      - Store
       summary: Get Session Project
       operationId: get_session_project_v1_store_sessions__session_id__project_get
       parameters:
@@ -849,7 +849,7 @@ paths:
   /v1/store/sessions/{session_id}/state:
     get:
       tags:
-      - store
+      - Store
       summary: Get Session State
       operationId: get_session_state_v1_store_sessions__session_id__state_get
       parameters:
@@ -874,7 +874,7 @@ paths:
   /v1/store/project_artifacts:
     post:
       tags:
-      - store
+      - Store
       summary: Save Project Artifact Route
       operationId: save_project_artifact_route_v1_store_project_artifacts_post
       requestBody:
@@ -898,7 +898,7 @@ paths:
   /v1/store/project_artifacts/by_call/{call_id}:
     get:
       tags:
-      - store
+      - Store
       summary: Get Project Artifact By Call Route
       operationId: get_project_artifact_by_call_route_v1_store_project_artifacts_by_call__call_id__get
       parameters:
@@ -939,7 +939,7 @@ paths:
   /v1/store/project_artifacts/metadata:
     post:
       tags:
-      - store
+      - Store
       summary: Get Project Artifact Metadata Route
       operationId: get_project_artifact_metadata_route_v1_store_project_artifacts_metadata_post
       requestBody:
@@ -962,6 +962,139 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SaveProjectArtifactRequest:
+      properties:
+        artifact_id:
+          type: string
+          title: Artifact Id
+        project_id:
+          type: string
+          title: Project Id
+        source_chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Chat Session Id
+        source_call_id:
+          type: string
+          title: Source Call Id
+        tool_name:
+          type: string
+          title: Tool Name
+        mime_type:
+          type: string
+          title: Mime Type
+        data_b64:
+          type: string
+          title: Data B64
+      type: object
+      required:
+      - artifact_id
+      - project_id
+      - source_call_id
+      - tool_name
+      - mime_type
+      - data_b64
+      title: SaveProjectArtifactRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReorderPendingMessagesRequest:
+      properties:
+        ordered_pending_ids:
+          items:
+            type: string
+          type: array
+          title: Ordered Pending Ids
+        kind:
+          type: string
+          title: Kind
+          default: regular
+      type: object
+      required:
+      - ordered_pending_ids
+      title: ReorderPendingMessagesRequest
+    ClaimOldestDrainablePendingMessageRequest:
+      properties:
+        kind:
+          type: string
+          title: Kind
+          default: regular
+        honor_hold:
+          type: boolean
+          title: Honor Hold
+          default: true
+      type: object
+      title: ClaimOldestDrainablePendingMessageRequest
+    SetPendingMessageHoldRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        held:
+          type: boolean
+          title: Held
+        token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
+        require_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Require Kind
+      type: object
+      required:
+      - pending_id
+      - held
+      title: SetPendingMessageHoldRequest
+    ComputeTraits:
+      properties:
+        gpu_type:
+          anyOf:
+          - $ref: '#/components/schemas/GpuType'
+          - type: 'null'
+        gpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gpu Count
+        cpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Cpu Count
+        memory_gb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Memory Gb
+      additionalProperties: false
+      type: object
+      title: ComputeTraits
+      description: 'Abstract resource requirements for a task.
+
+
+        All fields are optional; omitted fields impose no constraint.'
     UpdateChatSessionRequest:
       properties:
         title:
@@ -1007,113 +1140,6 @@ components:
           title: Last Seq At Api Call
       type: object
       title: UpdateChatSessionRequest
-    ReorderPendingMessagesRequest:
-      properties:
-        ordered_pending_ids:
-          items:
-            type: string
-          type: array
-          title: Ordered Pending Ids
-        kind:
-          type: string
-          title: Kind
-          default: regular
-      type: object
-      required:
-      - ordered_pending_ids
-      title: ReorderPendingMessagesRequest
-    IngestProjectRowsRequest:
-      properties:
-        data:
-          additionalProperties: true
-          type: object
-          title: Data
-        mapping:
-          additionalProperties:
-            type: string
-          type: object
-          title: Mapping
-      type: object
-      required:
-      - data
-      - mapping
-      title: IngestProjectRowsRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ComputeTraits:
-      properties:
-        gpu_type:
-          anyOf:
-          - $ref: '#/components/schemas/GpuType'
-          - type: 'null'
-        gpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Gpu Count
-        cpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Cpu Count
-        memory_gb:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Memory Gb
-      additionalProperties: false
-      type: object
-      title: ComputeTraits
-      description: 'Abstract resource requirements for a task.
-
-
-        All fields are optional; omitted fields impose no constraint.'
-    GpuType:
-      type: string
-      enum:
-      - a10g
-      - l4
-      - a100
-      - h100
-      title: GpuType
-      description: Supported GPU families for compute requests.
-    EnqueuePendingMessageRequest:
-      properties:
-        pending_id:
-          type: string
-          title: Pending Id
-        kind:
-          type: string
-          title: Kind
-        payload:
-          additionalProperties: true
-          type: object
-          title: Payload
-      type: object
-      required:
-      - pending_id
-      - kind
-      - payload
-      title: EnqueuePendingMessageRequest
     ProjectArtifactMetadataRequest:
       properties:
         call_ids:
@@ -1135,37 +1161,6 @@ components:
       required:
       - call_ids
       title: ProjectArtifactMetadataRequest
-    ReleasePendingMessageLeaseRequest:
-      properties:
-        pending_id:
-          type: string
-          title: Pending Id
-      type: object
-      required:
-      - pending_id
-      title: ReleasePendingMessageLeaseRequest
-    AttachNotebookRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          type: string
-          title: Notebook Path
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      title: AttachNotebookRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     CreateChatSessionRequest:
       properties:
         chat_session_id:
@@ -1195,40 +1190,95 @@ components:
           title: Project Id
       type: object
       title: CreateChatSessionRequest
-    SaveProjectArtifactRequest:
+    HTTPValidationError:
       properties:
-        artifact_id:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IngestProjectRowsRequest:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        mapping:
+          additionalProperties:
+            type: string
+          type: object
+          title: Mapping
+      type: object
+      required:
+      - data
+      - mapping
+      title: IngestProjectRowsRequest
+    ReleasePendingMessageLeaseRequest:
+      properties:
+        pending_id:
           type: string
-          title: Artifact Id
-        project_id:
+          title: Pending Id
+      type: object
+      required:
+      - pending_id
+      title: ReleasePendingMessageLeaseRequest
+    UpdatePendingMessagePayloadRequest:
+      properties:
+        pending_id:
           type: string
-          title: Project Id
-        source_chat_session_id:
+          title: Pending Id
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        require_kind:
           anyOf:
           - type: string
           - type: 'null'
-          title: Source Chat Session Id
-        source_call_id:
-          type: string
-          title: Source Call Id
-        tool_name:
-          type: string
-          title: Tool Name
-        mime_type:
-          type: string
-          title: Mime Type
-        data_b64:
-          type: string
-          title: Data B64
+          title: Require Kind
+        token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
       type: object
       required:
-      - artifact_id
-      - project_id
-      - source_call_id
-      - tool_name
-      - mime_type
-      - data_b64
-      title: SaveProjectArtifactRequest
+      - pending_id
+      - payload
+      title: UpdatePendingMessagePayloadRequest
+    AttachNotebookRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      title: AttachNotebookRequest
+    EnqueuePendingMessageRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+      type: object
+      required:
+      - pending_id
+      - kind
+      - payload
+      title: EnqueuePendingMessageRequest
     UpsertExecutionStatusRequest:
       properties:
         execution_id:
@@ -1284,62 +1334,12 @@ components:
       - execution_id
       - execution_type
       title: UpsertExecutionStatusRequest
-    ClaimOldestDrainablePendingMessageRequest:
-      properties:
-        kind:
-          type: string
-          title: Kind
-          default: regular
-        honor_hold:
-          type: boolean
-          title: Honor Hold
-          default: true
-      type: object
-      title: ClaimOldestDrainablePendingMessageRequest
-    UpdatePendingMessagePayloadRequest:
-      properties:
-        pending_id:
-          type: string
-          title: Pending Id
-        payload:
-          additionalProperties: true
-          type: object
-          title: Payload
-        require_kind:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Require Kind
-        token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Token
-      type: object
-      required:
-      - pending_id
-      - payload
-      title: UpdatePendingMessagePayloadRequest
-    SetPendingMessageHoldRequest:
-      properties:
-        pending_id:
-          type: string
-          title: Pending Id
-        held:
-          type: boolean
-          title: Held
-        token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Token
-        require_kind:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Require Kind
-      type: object
-      required:
-      - pending_id
-      - held
-      title: SetPendingMessageHoldRequest
+    GpuType:
+      type: string
+      enum:
+      - a10g
+      - l4
+      - a100
+      - h100
+      title: GpuType
+      description: Supported GPU families for compute requests.

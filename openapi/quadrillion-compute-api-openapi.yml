@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account compute API
+  title: Quadrillion Cloud Compute API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: compute
+- name: Compute
 paths:
   /api/compute/capabilities:
     get:
       tags:
-      - compute
+      - Compute
       summary: List Compute Capabilities
       description: Return parsed partition capabilities loaded in current runtime.
       operationId: list_compute_capabilities_api_compute_capabilities_get
@@ -23,7 +23,7 @@ paths:
   /api/compute/resolve:
     post:
       tags:
-      - compute
+      - Compute
       summary: Resolve Compute Resources
       description: Resolve compute traits to the best-fit partition.
       operationId: resolve_compute_resources_api_compute_resolve_post
@@ -48,6 +48,106 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ComputeResolveRequest:
+      properties:
+        compute_traits:
+          anyOf:
+          - $ref: '#/components/schemas/ComputeTraits'
+          - type: 'null'
+        count:
+          type: integer
+          minimum: 1.0
+          title: Count
+          default: 1
+        mode:
+          type: string
+          enum:
+          - single
+          - batch
+          title: Mode
+          default: single
+      additionalProperties: false
+      type: object
+      title: ComputeResolveRequest
+      description: Request model for compute partition resolution.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComputeResolveDecision:
+      properties:
+        policy:
+          type: string
+          title: Policy
+        matched_capability:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Matched Capability
+        fallback_used:
+          type: boolean
+          title: Fallback Used
+          default: false
+      type: object
+      required:
+      - policy
+      title: ComputeResolveDecision
+      description: Decision metadata for partition resolution.
+    ComputeTraits:
+      properties:
+        gpu_type:
+          anyOf:
+          - $ref: '#/components/schemas/GpuType'
+          - type: 'null'
+        gpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gpu Count
+        cpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Cpu Count
+        memory_gb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Memory Gb
+      additionalProperties: false
+      type: object
+      title: ComputeTraits
+      description: 'Abstract resource requirements for a task.
+
+
+        All fields are optional; omitted fields impose no constraint.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ComputeCapabilitiesResponse:
       properties:
         env_present:
@@ -70,27 +170,6 @@ components:
       - capabilities
       title: ComputeCapabilitiesResponse
       description: Response model for effective partition capabilities.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ComputeResolveResponse:
       properties:
         partition:
@@ -123,82 +202,3 @@ components:
       - h100
       title: GpuType
       description: Supported GPU families for compute requests.
-    ComputeTraits:
-      properties:
-        gpu_type:
-          anyOf:
-          - $ref: '#/components/schemas/GpuType'
-          - type: 'null'
-        gpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Gpu Count
-        cpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Cpu Count
-        memory_gb:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Memory Gb
-      additionalProperties: false
-      type: object
-      title: ComputeTraits
-      description: 'Abstract resource requirements for a task.
-
-
-        All fields are optional; omitted fields impose no constraint.'
-    ComputeResolveDecision:
-      properties:
-        policy:
-          type: string
-          title: Policy
-        matched_capability:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Matched Capability
-        fallback_used:
-          type: boolean
-          title: Fallback Used
-          default: false
-      type: object
-      required:
-      - policy
-      title: ComputeResolveDecision
-      description: Decision metadata for partition resolution.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ComputeResolveRequest:
-      properties:
-        compute_traits:
-          anyOf:
-          - $ref: '#/components/schemas/ComputeTraits'
-          - type: 'null'
-        count:
-          type: integer
-          minimum: 1.0
-          title: Count
-          default: 1
-        mode:
-          type: string
-          enum:
-          - single
-          - batch
-          title: Mode
-          default: single
-      additionalProperties: false
-      type: object
-      title: ComputeResolveRequest
-      description: Request model for compute partition resolution.

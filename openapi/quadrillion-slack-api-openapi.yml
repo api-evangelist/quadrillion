@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account slack API
+  title: Quadrillion Cloud Slack API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: slack
+- name: Slack
 paths:
   /api/slack/install:
     post:
       tags:
-      - slack
+      - Slack
       summary: Start Slack Install
       description: Build the Slack authorize URL for the cloud Events-API app.
       operationId: start_slack_install_api_slack_install_post
@@ -23,7 +23,7 @@ paths:
   /api/slack/oauth-callback:
     post:
       tags:
-      - slack
+      - Slack
       summary: Slack Oauth Callback
       description: Receive OAuth tokens from the proxy via browser auto-submit form.
       operationId: slack_oauth_callback_api_slack_oauth_callback_post
@@ -36,7 +36,7 @@ paths:
   /api/slack/status:
     get:
       tags:
-      - slack
+      - Slack
       summary: Get Slack Status
       description: Report the user's live Slack installation, if any.
       operationId: get_slack_status_api_slack_status_get
@@ -50,7 +50,7 @@ paths:
   /api/slack/execution-mode:
     post:
       tags:
-      - slack
+      - Slack
       summary: Set Slack Execution Mode
       description: 'Set where the user''s inbound Slack runs (cloud or their own machine).
 
@@ -79,7 +79,7 @@ paths:
   /api/slack/installation:
     delete:
       tags:
-      - slack
+      - Slack
       summary: Disconnect Slack
       description: 'Mark all of the user''s installations revoked.
 
@@ -95,18 +95,6 @@ paths:
           description: Successful Response
 components:
   schemas:
-    ExecutionModeBody:
-      properties:
-        mode:
-          type: string
-          enum:
-          - cloud
-          - local
-          title: Mode
-      type: object
-      required:
-      - mode
-      title: ExecutionModeBody
     ValidationError:
       properties:
         loc:
@@ -128,6 +116,40 @@ components:
       - msg
       - type
       title: ValidationError
+    ExecutionModeBody:
+      properties:
+        mode:
+          type: string
+          enum:
+          - cloud
+          - local
+          title: Mode
+      type: object
+      required:
+      - mode
+      title: ExecutionModeBody
+    InstallResponse:
+      properties:
+        oauth_url:
+          type: string
+          title: Oauth Url
+        request_id:
+          type: string
+          title: Request Id
+      type: object
+      required:
+      - oauth_url
+      - request_id
+      title: InstallResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     InstallationStatus:
       properties:
         connected:
@@ -159,25 +181,3 @@ components:
       required:
       - connected
       title: InstallationStatus
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    InstallResponse:
-      properties:
-        oauth_url:
-          type: string
-          title: Oauth Url
-        request_id:
-          type: string
-          title: Request Id
-      type: object
-      required:
-      - oauth_url
-      - request_id
-      title: InstallResponse

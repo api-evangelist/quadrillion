@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account runtime_mutations API
+  title: Quadrillion Cloud Runtime Mutations API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
@@ -381,7 +381,28 @@ paths:
       tags:
       - runtime_mutations
       summary: Read Notebook
-      description: "Load a file by path, checking for a session draft first.\n\nIf a session draft exists for this notebook:\n- Returns the draft state instead of the canonical file.\n- If the draft's canonical base revision has drifted, includes a\n  ``draft_conflict`` field so the frontend can prompt the user.\n\nNon-notebook files bypass draft logic entirely.\n\nReturns:\n- .ipynb  -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }\n- text    -> raw UTF-8 text (text/plain or application/json)\n- binary  -> raw bytes (image/*, application/pdf, etc.)"
+      description: 'Load a file by path, checking for a session draft first.
+
+
+        If a session draft exists for this notebook:
+
+        - Returns the draft state instead of the canonical file.
+
+        - If the draft''s canonical base revision has drifted, includes a
+
+        ``draft_conflict`` field so the frontend can prompt the user.
+
+
+        Non-notebook files bypass draft logic entirely.
+
+
+        Returns:
+
+        - .ipynb -> JSON: { path, cells, metadata, draft_revision?, draft_conflict? }
+
+        - text -> raw UTF-8 text (text/plain or application/json)
+
+        - binary -> raw bytes (image/*, application/pdf, etc.)'
       operationId: read_notebook_notebook_post
       requestBody:
         required: true
@@ -1019,7 +1040,7 @@ paths:
       tags:
       - runtime_mutations
       summary: Get Notebook Id
-      description: GET /notebook/id?path=<relative_path_to_ipynb>
+      description: GET /notebook/id?path=
       operationId: get_notebook_id_notebook_id_get
       parameters:
       - name: path
@@ -1157,7 +1178,7 @@ paths:
 
         *every* variable in the database rather than scoping to the
 
-        variables relevant to this notebook.  Revisit once we can
+        variables relevant to this notebook. Revisit once we can
 
         efficiently resolve notebook_id -> relevant task variable set.'
       operationId: export_notebook_standalone_endpoint_api_notebook_export_standalone_post
@@ -1234,7 +1255,7 @@ paths:
       tags:
       - runtime_mutations
       summary: Upload File
-      description: 'Upload a file into the workspace at ``dest_dir/<filename>``.
+      description: 'Upload a file into the workspace at ``dest_dir/``.
 
 
         Name conflicts are auto-renamed (``name (1).ext``) unless
@@ -1994,7 +2015,7 @@ paths:
 
         The website returns an HTML form that auto-POSTs tokens to this endpoint
 
-        through the user''s browser.  On success the tokens are persisted to
+        through the user''s browser. On success the tokens are persisted to
 
         settings and the browser is redirected to the success page on the website.'
       operationId: slack_oauth_callback_handler_api_settings_slack_oauth_callback_post
@@ -3530,7 +3551,17 @@ paths:
       tags:
       - runtime_mutations
       summary: Upload Blob
-      description: "Upload a file as a blob with streaming status updates.\n\nArgs:\n    file: The file to upload\n\nReturns:\n    Server-Sent Events stream with upload progress and final UUID"
+      description: 'Upload a file as a blob with streaming status updates.
+
+
+        Args:
+
+        file: The file to upload
+
+
+        Returns:
+
+        Server-Sent Events stream with upload progress and final UUID'
       operationId: upload_blob_blobs_upload_post
       requestBody:
         content:
@@ -3687,95 +3718,47 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    _TagDeleteRequest:
+    _GithubOAuthInitRequest:
       properties:
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - display_name
-      title: _TagDeleteRequest
-    _CellPatchRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          type: string
-          title: Notebook Path
-        cell_id:
-          type: string
-          title: Cell Id
-        content:
-          type: string
-          title: Content
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cell_id
-      - content
-      title: _CellPatchRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    _BashAllowlistAddRequest:
-      properties:
-        command:
-          type: string
-          title: Command
-        approved_tokens:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Approved Tokens
-      type: object
-      required:
-      - command
-      title: _BashAllowlistAddRequest
-    RuleType:
-      type: string
-      enum:
-      - always
-      - manual
-      title: RuleType
-    _WorkspaceSwitchRequest:
-      properties:
-        path:
-          type: string
-          minLength: 1
-          title: Path
-        initiator_id:
+        request_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Initiator Id
+          title: Request Id
+      type: object
+      title: _GithubOAuthInitRequest
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
       type: object
       required:
-      - path
-      title: _WorkspaceSwitchRequest
-    _TagUpdateRequest:
+      - type
+      - content
+      title: SerializedOutput
+    ReviewClaimsBulkResponse:
+      properties:
+        affected:
+          items:
+            type: string
+          type: array
+          title: Affected
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - affected
+      - decision
+      title: ReviewClaimsBulkResponse
+    _TagCreateRequest:
       properties:
         display_name:
           type: string
@@ -3787,271 +3770,34 @@ components:
       required:
       - display_name
       - description
-      title: _TagUpdateRequest
-    _DraftCellsRequest:
+      title: _TagCreateRequest
+    _EnvironmentPrivateValuesRequest:
       properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        cell_ids:
-          items:
-            type: string
-          type: array
-          title: Cell Ids
-      type: object
-      required:
-      - notebook_id
-      title: _DraftCellsRequest
-    AddEvidenceResponse:
-      properties:
-        claim_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Claim Id
-          description: Created claim id, or null when the request was rejected.
-        rejected_reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rejected Reason
-          description: Why the request was rejected, when ``claim_id`` is null.
-      type: object
-      title: AddEvidenceResponse
-      description: Response for ``POST /api/evidence``.
-    AutocompleteRequest:
-      properties:
-        notebook_id:
-          type: string
-          minLength: 1
-          title: Notebook Id
-        notebook_path:
-          type: string
-          minLength: 1
-          title: Notebook Path
-        cursor_position:
-          type: integer
-          minimum: 0.0
-          title: Cursor Position
-        current_cell_content:
-          type: string
-          title: Current Cell Content
-        current_cell_id:
-          type: string
-          minLength: 1
-          title: Current Cell Id
-        language:
-          type: string
-          minLength: 1
-          title: Language
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cursor_position
-      - current_cell_content
-      - current_cell_id
-      - language
-      title: AutocompleteRequest
-    TabularSortRequest:
-      properties:
-        sort:
-          additionalProperties: true
-          type: object
-          title: Sort
-      type: object
-      required:
-      - sort
-      title: TabularSortRequest
-    _SelectPythonEnvironmentRequest:
-      properties:
-        python_path:
-          type: string
-          title: Python Path
-      type: object
-      required:
-      - python_path
-      title: _SelectPythonEnvironmentRequest
-    _SandboxSettingsUpdateRequest:
-      properties:
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-        auto_approve:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Auto Approve
-        extra_writable_paths:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Writable Paths
-        excluded_commands:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Excluded Commands
-        extra_deny_write:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Deny Write
-      type: object
-      title: _SandboxSettingsUpdateRequest
-    _ActivatePersonaRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-      type: object
-      title: _ActivatePersonaRequest
-    KnowledgeSummaryResponse:
-      properties:
-        counts:
+        values:
           additionalProperties:
-            type: integer
-          type: object
-          title: Counts
-        recent:
-          items:
-            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
-          type: array
-          title: Recent
-      type: object
-      required:
-      - counts
-      title: KnowledgeSummaryResponse
-    FetchUrlResponse:
-      properties:
-        blob_uuid:
-          type: string
-          title: Blob Uuid
-        mime_type:
-          type: string
-          title: Mime Type
-        size:
-          type: integer
-          title: Size
-        preview:
-          type: string
-          title: Preview
-      type: object
-      required:
-      - blob_uuid
-      - mime_type
-      - size
-      - preview
-      title: FetchUrlResponse
-    _DraftResetRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notebook Path
-      type: object
-      required:
-      - notebook_id
-      title: _DraftResetRequest
-    _CreateRuleRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        content:
-          type: string
-          title: Content
-          default: ''
-        rule_type:
-          $ref: '#/components/schemas/RuleType'
-          default: manual
-        globs:
-          items:
             type: string
-          type: array
-          title: Globs
-          default: []
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-        kind:
-          $ref: '#/components/schemas/RuleKind'
-          default: rule
-        file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Path
+          type: object
+          title: Values
       type: object
       required:
-      - name
-      title: _CreateRuleRequest
-    _FileCreateRequest:
+      - values
+      title: _EnvironmentPrivateValuesRequest
+    _KernelDiscoveryPathRequest:
       properties:
+        kind:
+          $ref: '#/components/schemas/KernelDiscoveryPathKind'
         path:
           type: string
           title: Path
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-      type: object
-      required:
-      - path
-      title: _FileCreateRequest
-    Body_upload_file_files_upload_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        dest_dir:
-          type: string
-          title: Dest Dir
-          default: ''
-        overwrite:
+        enabled:
           type: boolean
-          title: Overwrite
-          default: false
+          title: Enabled
+          default: true
       type: object
       required:
-      - file
-      title: Body_upload_file_files_upload_post
+      - kind
+      - path
+      title: _KernelDiscoveryPathRequest
     _CreatePythonEnvironmentRequest:
       properties:
         location:
@@ -4061,315 +3807,6 @@ components:
           title: Location
       type: object
       title: _CreatePythonEnvironmentRequest
-    _KernelDiscoveryPathEnabledRequest:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-      type: object
-      required:
-      - enabled
-      title: _KernelDiscoveryPathEnabledRequest
-    _ExportFolderRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-          description: Path to the folder containing notebooks to export
-      type: object
-      required:
-      - path
-      title: _ExportFolderRequest
-    _DeletePythonEnvironmentRequest:
-      properties:
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-      type: object
-      title: _DeletePythonEnvironmentRequest
-    ReviewClaimRequest:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
-      type: object
-      required:
-      - project_id
-      - decision
-      title: ReviewClaimRequest
-    _SelectREnvironmentRequest:
-      properties:
-        r_path:
-          type: string
-          title: R Path
-      type: object
-      required:
-      - r_path
-      title: _SelectREnvironmentRequest
-    RuleKind:
-      type: string
-      enum:
-      - rule
-      - file-path
-      title: RuleKind
-      description: 'Discriminator for which UI/dialog should render a rule.
-
-
-        ``rule`` (default) is a free-form natural-language rule. ``file_path``
-
-        is a structured rule whose body is generated from its path. The
-
-        injected prompt content is the same for both — kind only affects the
-
-        editor that opens for the rule.'
-    _ExportNotebookContentRequest:
-      properties:
-        notebook:
-          additionalProperties: true
-          type: object
-          title: Notebook
-          description: The notebook JSON content to export
-      type: object
-      required:
-      - notebook
-      title: _ExportNotebookContentRequest
-    _RevealPathRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _RevealPathRequest
-    _SaveCustomColorSchemeRequest:
-      properties:
-        scheme_id:
-          type: string
-          title: Scheme Id
-        name:
-          type: string
-          title: Name
-        colors:
-          items:
-            type: string
-          type: array
-          title: Colors
-      type: object
-      required:
-      - scheme_id
-      - name
-      - colors
-      title: _SaveCustomColorSchemeRequest
-    _DraftSaveRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - notebook_id
-      - path
-      title: _DraftSaveRequest
-    ImportSourceRequest:
-      properties:
-        source_type:
-          type: string
-          enum:
-          - text
-          - file
-          - url
-          title: Source Type
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        blob_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Blob Uuid
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - source_type
-      title: ImportSourceRequest
-    _ExportStandaloneRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-          description: Path to the notebook to export
-      type: object
-      required:
-      - path
-      title: _ExportStandaloneRequest
-    _SlackOAuthInitRequest:
-      properties:
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      title: _SlackOAuthInitRequest
-    _UpdateRuleRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        rule_type:
-          anyOf:
-          - $ref: '#/components/schemas/RuleType'
-          - type: 'null'
-        globs:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Globs
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-        file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Path
-      type: object
-      title: _UpdateRuleRequest
-    KernelDiscoveryPathKind:
-      type: string
-      enum:
-      - kernelspec_root
-      - scan_root
-      title: KernelDiscoveryPathKind
-    _FolderCreateRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - path
-      - name
-      title: _FolderCreateRequest
-    _SelectJuliaEnvironmentRequest:
-      properties:
-        julia_path:
-          type: string
-          title: Julia Path
-      type: object
-      required:
-      - julia_path
-      title: _SelectJuliaEnvironmentRequest
-    _PendingUserEdit:
-      properties:
-        cell_id:
-          type: string
-          title: Cell Id
-        content:
-          type: string
-          title: Content
-      type: object
-      required:
-      - cell_id
-      - content
-      title: _PendingUserEdit
-      description: A debounced user content edit not yet emitted via socket.
-    TerminalCreateRequest:
-      properties:
-        shell:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Shell
-        cols:
-          type: integer
-          title: Cols
-          default: 80
-        rows:
-          type: integer
-          title: Rows
-          default: 24
-        cwd:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cwd
-      type: object
-      title: TerminalCreateRequest
-    _GithubOAuthInitRequest:
-      properties:
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      title: _GithubOAuthInitRequest
-    _ApplyModelFamilyRequest:
-      properties:
-        family:
-          type: string
-          title: Family
-      type: object
-      required:
-      - family
-      title: _ApplyModelFamilyRequest
-    _ImportClaudeCodeRequest:
-      properties:
-        project_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Path
-      type: object
-      title: _ImportClaudeCodeRequest
     ClaimSourceResponse:
       properties:
         id:
@@ -4417,47 +3854,438 @@ components:
       - claim_id
       - source_type
       title: ClaimSourceResponse
-    TerminalResizeRequest:
+    _CellAddRequest:
       properties:
-        cols:
-          type: integer
-          title: Cols
-        rows:
-          type: integer
-          title: Rows
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        cell_type:
+          type: string
+          title: Cell Type
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        after_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: After Cell Id
       type: object
       required:
-      - cols
-      - rows
-      title: TerminalResizeRequest
-    ClaimType:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _CellAddRequest
+    _SlackOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _SlackOAuthInitRequest
+    KnowledgeSummaryClaimReviewStatus:
       type: string
       enum:
-      - notebook-captured
-      - synthesized
-      - tabular
-      - figure
-      - imported
-      title: ClaimType
-      description: 'Claim type constants.
+      - pending
+      - accepted
+      title: KnowledgeSummaryClaimReviewStatus
+    RuleKind:
+      type: string
+      enum:
+      - rule
+      - file-path
+      title: RuleKind
+      description: 'Discriminator for which UI/dialog should render a rule.
 
 
-        Notebook-captured evidence is created automatically by the Q_VARS system when
+        ``rule`` (default) is a free-form natural-language rule. ``file_path``
 
-        agents assign values to Q_VARS variables in code cells. These are the primary
+        is a structured rule whose body is generated from its path. The
 
-        source of evidence in the knowledge graph.
+        injected prompt content is the same for both — kind only affects the
 
-
-        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
-
-        interpret what the evidence means—not only restate source values.
-
-
-        Tabular claims store structured data matrices with per-cell source references.
-
-
-        Figure claims link to chart/visualization outputs captured from notebook cells.'
+        editor that opens for the rule.'
+    Body_upload_blob_blobs_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_blob_blobs_upload_post
+    _UpdateRuleRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        globs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Globs
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      title: _UpdateRuleRequest
+    _ExportStandaloneRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the notebook to export
+      type: object
+      required:
+      - path
+      title: _ExportStandaloneRequest
+    _EnvironmentConfigUpdateRequest:
+      properties:
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - config
+      title: _EnvironmentConfigUpdateRequest
+    _FileCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - path
+      title: _FileCreateRequest
+    QualiaCommandRequest:
+      properties:
+        file_path:
+          type: string
+          title: File Path
+      type: object
+      required:
+      - file_path
+      title: QualiaCommandRequest
+    _SelectJuliaEnvironmentRequest:
+      properties:
+        julia_path:
+          type: string
+          title: Julia Path
+      type: object
+      required:
+      - julia_path
+      title: _SelectJuliaEnvironmentRequest
+    ClaimsListResponse:
+      properties:
+        claims:
+          items:
+            $ref: '#/components/schemas/ClaimResponse'
+          type: array
+          title: Claims
+        related:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Related
+      type: object
+      required:
+      - claims
+      title: ClaimsListResponse
+    _DraftSaveToCanonicalRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        force:
+          type: boolean
+          title: Force
+          default: false
+        pending_user_edits:
+          items:
+            $ref: '#/components/schemas/_PendingUserEdit'
+          type: array
+          title: Pending User Edits
+      type: object
+      required:
+      - notebook_id
+      title: _DraftSaveToCanonicalRequest
+    _CredentialStoreRequest:
+      properties:
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - value
+      title: _CredentialStoreRequest
+    ReviewClaimRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - decision
+      title: ReviewClaimRequest
+    Body_upload_file_files_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        dest_dir:
+          type: string
+          title: Dest Dir
+          default: ''
+        overwrite:
+          type: boolean
+          title: Overwrite
+          default: false
+      type: object
+      required:
+      - file
+      title: Body_upload_file_files_upload_post
+    _MatplotlibrcUpdateRequest:
+      properties:
+        dpi:
+          type: string
+          title: Dpi
+        figsize:
+          type: string
+          title: Figsize
+        colormap:
+          type: string
+          title: Colormap
+        color_cycle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color Cycle
+        custom_colors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Colors
+        font_size:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Size
+        font_family:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Font Family
+        linewidth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linewidth
+        grid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Grid
+        savefig_dpi:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Dpi
+        savefig_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Savefig Format
+      type: object
+      required:
+      - dpi
+      - figsize
+      - colormap
+      title: _MatplotlibrcUpdateRequest
+    _CreateRuleRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        content:
+          type: string
+          title: Content
+          default: ''
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+          default: manual
+        globs:
+          items:
+            type: string
+          type: array
+          title: Globs
+          default: []
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        kind:
+          $ref: '#/components/schemas/RuleKind'
+          default: rule
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      required:
+      - name
+      title: _CreateRuleRequest
+    _ExecuteRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        execution_id:
+          type: string
+          title: Execution Id
+          default: default
+        cell_id:
+          type: string
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _ExecuteRequest
+    _PendingUserEdit:
+      properties:
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - cell_id
+      - content
+      title: _PendingUserEdit
+      description: A debounced user content edit not yet emitted via socket.
+    _FileSaveRequest:
+      properties:
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      required:
+      - path
+      title: _FileSaveRequest
+    _CellPatchRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      - content
+      title: _CellPatchRequest
+    _SelectREnvironmentRequest:
+      properties:
+        r_path:
+          type: string
+          title: R Path
+      type: object
+      required:
+      - r_path
+      title: _SelectREnvironmentRequest
     AutocompleteModelsResponse:
       properties:
         models:
@@ -4469,6 +4297,703 @@ components:
       required:
       - models
       title: AutocompleteModelsResponse
+    _ApplyModelFamilyRequest:
+      properties:
+        family:
+          type: string
+          title: Family
+      type: object
+      required:
+      - family
+      title: _ApplyModelFamilyRequest
+    _DraftSaveRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      - path
+      title: _DraftSaveRequest
+    _FileRenameRequest:
+      properties:
+        old_path:
+          type: string
+          title: Old Path
+        new_path:
+          type: string
+          title: New Path
+      type: object
+      required:
+      - old_path
+      - new_path
+      title: _FileRenameRequest
+    _ExportFolderRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the folder containing notebooks to export
+      type: object
+      required:
+      - path
+      title: _ExportFolderRequest
+    _KernelDiscoveryPathEnabledRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: _KernelDiscoveryPathEnabledRequest
+    FetchUrlResponse:
+      properties:
+        blob_uuid:
+          type: string
+          title: Blob Uuid
+        mime_type:
+          type: string
+          title: Mime Type
+        size:
+          type: integer
+          title: Size
+        preview:
+          type: string
+          title: Preview
+      type: object
+      required:
+      - blob_uuid
+      - mime_type
+      - size
+      - preview
+      title: FetchUrlResponse
+    _DraftOperation:
+      properties:
+        base_backend_checkpoint:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Backend Checkpoint
+        base_cell_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Cell Token
+        base_structure_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Structure Token
+        operation_id:
+          type: string
+          title: Operation Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+        scope:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Scope
+      type: object
+      required:
+      - operation_id
+      - kind
+      title: _DraftOperation
+    KnowledgeSummaryResponse:
+      properties:
+        counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Counts
+        recent:
+          items:
+            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
+          type: array
+          title: Recent
+      type: object
+      required:
+      - counts
+      title: KnowledgeSummaryResponse
+    _TagUpdateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagUpdateRequest
+    AddEvidenceRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+          description: Notebook the value was produced in.
+        description:
+          type: string
+          title: Description
+          description: Brief narrative of what the value shows.
+        variable_name:
+          type: string
+          title: Variable Name
+          description: Notebook variable name.
+        value:
+          title: Value
+          description: The value to record. Same shape as qualia.submit_variable.
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+          description: Producing cell id when known; cited as the source.
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+          description: Optional task to associate the evidence claim with.
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          description: If true, broadcasts this claim to all agents.
+          default: false
+      type: object
+      required:
+      - notebook_id
+      - description
+      - variable_name
+      - value
+      title: AddEvidenceRequest
+      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
+
+        variable as a notebook-captured claim).'
+    _SettingUpdateRequest:
+      properties:
+        settings_key:
+          type: string
+          title: Settings Key
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - settings_key
+      - value
+      title: _SettingUpdateRequest
+    _TagDeleteRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - display_name
+      title: _TagDeleteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReviewDecision:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    _OpenWithDefaultRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _OpenWithDefaultRequest
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    TabularSortRequest:
+      properties:
+        sort:
+          additionalProperties: true
+          type: object
+          title: Sort
+      type: object
+      required:
+      - sort
+      title: TabularSortRequest
+    _WriteupSaveRequest:
+      properties:
+        writeup_id:
+          type: string
+          title: Writeup Id
+        path:
+          type: string
+          title: Path
+        title:
+          type: string
+          title: Title
+        content:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Content
+      type: object
+      required:
+      - writeup_id
+      - path
+      - title
+      - content
+      title: _WriteupSaveRequest
+    KernelDiscoveryPathKind:
+      type: string
+      enum:
+      - kernelspec_root
+      - scan_root
+      title: KernelDiscoveryPathKind
+    _SelectPythonEnvironmentRequest:
+      properties:
+        python_path:
+          type: string
+          title: Python Path
+      type: object
+      required:
+      - python_path
+      title: _SelectPythonEnvironmentRequest
+    TerminalWriteRequest:
+      properties:
+        data:
+          type: string
+          title: Data
+      type: object
+      required:
+      - data
+      title: TerminalWriteRequest
+    ImportSourceResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        import_id:
+          type: string
+          title: Import Id
+        project_id:
+          type: string
+          title: Project Id
+        source_type:
+          type: string
+          title: Source Type
+        label:
+          type: string
+          title: Label
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        status:
+          type: string
+          title: Status
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        claim_count:
+          type: integer
+          title: Claim Count
+          default: 0
+        batch_status:
+          type: string
+          title: Batch Status
+        batch_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Summary
+        batch_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Error
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - id
+      - import_id
+      - project_id
+      - source_type
+      - label
+      - status
+      - batch_status
+      - created_at
+      - updated_at
+      title: ImportSourceResponse
+    _NotebookReadRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _NotebookReadRequest
+    Cell:
+      properties:
+        type:
+          $ref: '#/components/schemas/CellType'
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        outputs:
+          items:
+            $ref: '#/components/schemas/SerializedOutput'
+          type: array
+          title: Outputs
+        cellId:
+          type: string
+          title: Cellid
+        executionCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executioncount
+        executionTimeMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executiontimems
+        executedAtMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executedatms
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      title: Cell
+      description: Strongly typed representation of a notebook cell.
+    _ActivatePersonaRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      title: _ActivatePersonaRequest
+    ImportSourceRequest:
+      properties:
+        source_type:
+          type: string
+          enum:
+          - text
+          - file
+          - url
+          title: Source Type
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - source_type
+      title: ImportSourceRequest
+    _DuplicatePathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _DuplicatePathRequest
+    AssociatedNotebookResponse:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      title: AssociatedNotebookResponse
+    KnowledgeSummaryClaimResponse:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        claim_type:
+          $ref: '#/components/schemas/ClaimType'
+        label:
+          type: string
+          title: Label
+        review_status:
+          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
+          default: accepted
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - claim_id
+      - claim_type
+      - label
+      - created_at
+      title: KnowledgeSummaryClaimResponse
+    _DraftResetRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      title: _DraftResetRequest
+    _EnvironmentPrepareRequest:
+      properties:
+        profile_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Name
+        language:
+          type: string
+          enum:
+          - python
+          - julia
+          - r
+          title: Language
+          default: python
+      type: object
+      title: _EnvironmentPrepareRequest
+    _ExportNotebookContentRequest:
+      properties:
+        notebook:
+          additionalProperties: true
+          type: object
+          title: Notebook
+          description: The notebook JSON content to export
+      type: object
+      required:
+      - notebook
+      title: _ExportNotebookContentRequest
+    _RevealPathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _RevealPathRequest
+    _ImportFileRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - path
+      title: _ImportFileRequest
+    ReviewClaimsBulkRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        claim_ids:
+          items:
+            type: string
+          type: array
+          title: Claim Ids
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - claim_ids
+      - decision
+      title: ReviewClaimsBulkRequest
+    _DeletePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _DeletePythonEnvironmentRequest
+    _WorkspaceSwitchRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+        initiator_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Initiator Id
+      type: object
+      required:
+      - path
+      title: _WorkspaceSwitchRequest
+    RuleType:
+      type: string
+      enum:
+      - always
+      - manual
+      title: RuleType
+    _FolderCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - path
+      - name
+      title: _FolderCreateRequest
+    Body_import_project_endpoint_api_projects_import_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_import_project_endpoint_api_projects_import_post
+    FetchUrlRequest:
+      properties:
+        url:
+          type: string
+          minLength: 1
+          title: Url
+      type: object
+      required:
+      - url
+      title: FetchUrlRequest
+    TerminalCreateRequest:
+      properties:
+        shell:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Shell
+        cols:
+          type: integer
+          title: Cols
+          default: 80
+        rows:
+          type: integer
+          title: Rows
+          default: 24
+        cwd:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cwd
+      type: object
+      title: TerminalCreateRequest
     ClaimResponse:
       properties:
         claim_id:
@@ -4563,49 +5088,67 @@ components:
       - created_at
       - updated_at
       title: ClaimResponse
-    _WriteupSaveRequest:
+    AddEvidenceResponse:
       properties:
-        writeup_id:
-          type: string
-          title: Writeup Id
-        path:
-          type: string
-          title: Path
-        title:
-          type: string
-          title: Title
-        content:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Content
+        claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Id
+          description: Created claim id, or null when the request was rejected.
+        rejected_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rejected Reason
+          description: Why the request was rejected, when ``claim_id`` is null.
       type: object
-      required:
-      - writeup_id
-      - path
-      - title
-      - content
-      title: _WriteupSaveRequest
-    _DraftOperationsRequest:
+      title: AddEvidenceResponse
+      description: Response for ``POST /api/evidence``.
+    _DraftManifestRequest:
       properties:
         notebook_id:
           type: string
           title: Notebook Id
-        notebook_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notebook Path
-        operations:
-          items:
-            $ref: '#/components/schemas/_DraftOperation'
-          type: array
-          title: Operations
       type: object
       required:
       - notebook_id
-      title: _DraftOperationsRequest
+      title: _DraftManifestRequest
+    _BashAllowlistAddRequest:
+      properties:
+        command:
+          type: string
+          title: Command
+        approved_tokens:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Approved Tokens
+      type: object
+      required:
+      - command
+      title: _BashAllowlistAddRequest
+    _SaveCustomColorSchemeRequest:
+      properties:
+        scheme_id:
+          type: string
+          title: Scheme Id
+        name:
+          type: string
+          title: Name
+        colors:
+          items:
+            type: string
+          type: array
+          title: Colors
+      type: object
+      required:
+      - scheme_id
+      - name
+      - colors
+      title: _SaveCustomColorSchemeRequest
     _FileDeleteRequest:
       properties:
         path:
@@ -4619,6 +5162,28 @@ components:
       required:
       - path
       title: _FileDeleteRequest
+    AutocompleteModelInfo:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - key
+      - name
+      title: AutocompleteModelInfo
+    SaveBlobAsFileRequest:
+      properties:
+        filename:
+          type: string
+          title: Filename
+      type: object
+      required:
+      - filename
+      title: SaveBlobAsFileRequest
     HTTPValidationError:
       properties:
         detail:
@@ -4628,145 +5193,54 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ImportKnowledgeRequest:
+    _ImportClaudeCodeRequest:
       properties:
-        sources:
-          items:
-            $ref: '#/components/schemas/ImportSourceRequest'
-          type: array
-          minItems: 1
-          title: Sources
+        project_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
       type: object
-      required:
-      - sources
-      title: ImportKnowledgeRequest
-    _DraftOperation:
-      properties:
-        base_backend_checkpoint:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Backend Checkpoint
-        base_cell_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Cell Token
-        base_structure_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Structure Token
-        operation_id:
-          type: string
-          title: Operation Id
-        kind:
-          type: string
-          title: Kind
-        payload:
-          additionalProperties: true
-          type: object
-          title: Payload
-        scope:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Scope
-      type: object
-      required:
-      - operation_id
-      - kind
-      title: _DraftOperation
-    _ExecuteRequest:
+      title: _ImportClaudeCodeRequest
+    AutocompleteRequest:
       properties:
         notebook_id:
           type: string
+          minLength: 1
           title: Notebook Id
         notebook_path:
           type: string
+          minLength: 1
           title: Notebook Path
-        execution_id:
+        cursor_position:
+          type: integer
+          minimum: 0.0
+          title: Cursor Position
+        current_cell_content:
           type: string
-          title: Execution Id
-          default: default
-        cell_id:
+          title: Current Cell Content
+        current_cell_id:
           type: string
-          title: Cell Id
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cell_id
-      title: _ExecuteRequest
-    _CellAddRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          type: string
-          title: Notebook Path
-        cell_id:
-          type: string
-          title: Cell Id
-        cell_type:
-          type: string
-          title: Cell Type
-          default: code
-        content:
-          type: string
-          title: Content
-          default: ''
-        after_cell_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: After Cell Id
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cell_id
-      title: _CellAddRequest
-    _EnvironmentPrepareRequest:
-      properties:
-        profile_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Profile Name
+          minLength: 1
+          title: Current Cell Id
         language:
           type: string
-          enum:
-          - python
-          - julia
-          - r
+          minLength: 1
           title: Language
-          default: python
-      type: object
-      title: _EnvironmentPrepareRequest
-    Body_upload_blob_blobs_upload_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
       type: object
       required:
-      - file
-      title: Body_upload_blob_blobs_upload_post
-    _EnvironmentPrivateValuesRequest:
-      properties:
-        values:
-          additionalProperties:
-            type: string
-          type: object
-          title: Values
-      type: object
-      required:
-      - values
-      title: _EnvironmentPrivateValuesRequest
+      - notebook_id
+      - notebook_path
+      - cursor_position
+      - current_cell_content
+      - current_cell_id
+      - language
+      title: AutocompleteRequest
     AssociatedTaskResponse:
       properties:
         task_id:
@@ -4789,567 +5263,124 @@ components:
       - title
       - status
       title: AssociatedTaskResponse
-    AutocompleteModelInfo:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - key
-      - name
-      title: AutocompleteModelInfo
-    CellType:
+    ClaimType:
       type: string
       enum:
-      - code
-      - markdown
-      - raw
-      title: CellType
-    _ImportFileRequest:
+      - notebook-captured
+      - synthesized
+      - tabular
+      - figure
+      - imported
+      title: ClaimType
+      description: 'Claim type constants.
+
+
+        Notebook-captured evidence is created automatically by the Q_VARS system when
+
+        agents assign values to Q_VARS variables in code cells. These are the primary
+
+        source of evidence in the knowledge graph.
+
+
+        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
+
+        interpret what the evidence means—not only restate source values.
+
+
+        Tabular claims store structured data matrices with per-cell source references.
+
+
+        Figure claims link to chart/visualization outputs captured from notebook cells.'
+    TerminalResizeRequest:
       properties:
-        path:
+        cols:
+          type: integer
+          title: Cols
+        rows:
+          type: integer
+          title: Rows
+      type: object
+      required:
+      - cols
+      - rows
+      title: TerminalResizeRequest
+    _DraftCellsRequest:
+      properties:
+        notebook_id:
           type: string
-          title: Path
-        name:
+          title: Notebook Id
+        cell_ids:
+          items:
+            type: string
+          type: array
+          title: Cell Ids
+      type: object
+      required:
+      - notebook_id
+      title: _DraftCellsRequest
+    _DraftOperationsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
           anyOf:
           - type: string
           - type: 'null'
-          title: Name
+          title: Notebook Path
+        operations:
+          items:
+            $ref: '#/components/schemas/_DraftOperation'
+          type: array
+          title: Operations
       type: object
       required:
-      - path
-      title: _ImportFileRequest
-    _CredentialStoreRequest:
+      - notebook_id
+      title: _DraftOperationsRequest
+    _SandboxSettingsUpdateRequest:
       properties:
-        value:
-          type: string
-          title: Value
-      type: object
-      required:
-      - value
-      title: _CredentialStoreRequest
-    _SettingUpdateRequest:
-      properties:
-        settings_key:
-          type: string
-          title: Settings Key
-        value:
-          type: string
-          title: Value
-      type: object
-      required:
-      - settings_key
-      - value
-      title: _SettingUpdateRequest
-    KnowledgeSummaryClaimResponse:
-      properties:
-        claim_id:
-          type: string
-          title: Claim Id
-        claim_type:
-          $ref: '#/components/schemas/ClaimType'
-        label:
-          type: string
-          title: Label
-        review_status:
-          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
-          default: accepted
-        created_at:
-          type: string
-          title: Created At
-      type: object
-      required:
-      - claim_id
-      - claim_type
-      - label
-      - created_at
-      title: KnowledgeSummaryClaimResponse
-    _MatplotlibrcUpdateRequest:
-      properties:
-        dpi:
-          type: string
-          title: Dpi
-        figsize:
-          type: string
-          title: Figsize
-        colormap:
-          type: string
-          title: Colormap
-        color_cycle:
+        enabled:
           anyOf:
-          - type: string
+          - type: boolean
           - type: 'null'
-          title: Color Cycle
-        custom_colors:
+          title: Enabled
+        auto_approve:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Auto Approve
+        extra_writable_paths:
           anyOf:
           - items:
               type: string
             type: array
           - type: 'null'
-          title: Custom Colors
-        font_size:
+          title: Extra Writable Paths
+        excluded_commands:
           anyOf:
-          - type: string
+          - items:
+              type: string
+            type: array
           - type: 'null'
-          title: Font Size
-        font_family:
+          title: Excluded Commands
+        extra_deny_write:
           anyOf:
-          - type: string
+          - items:
+              type: string
+            type: array
           - type: 'null'
-          title: Font Family
-        linewidth:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Linewidth
-        grid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Grid
-        savefig_dpi:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Savefig Dpi
-        savefig_format:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Savefig Format
+          title: Extra Deny Write
       type: object
-      required:
-      - dpi
-      - figsize
-      - colormap
-      title: _MatplotlibrcUpdateRequest
-    TerminalWriteRequest:
+      title: _SandboxSettingsUpdateRequest
+    ImportKnowledgeRequest:
       properties:
-        data:
-          type: string
-          title: Data
-      type: object
-      required:
-      - data
-      title: TerminalWriteRequest
-    _DuplicatePathRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _DuplicatePathRequest
-    SerializedOutput:
-      properties:
-        type:
-          type: string
-          title: Type
-        content:
-          title: Content
-        execution_time_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Execution Time Ms
-      type: object
-      required:
-      - type
-      - content
-      title: SerializedOutput
-    ImportSourceResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-        import_id:
-          type: string
-          title: Import Id
-        project_id:
-          type: string
-          title: Project Id
-        source_type:
-          type: string
-          title: Source Type
-        label:
-          type: string
-          title: Label
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-        blob_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Blob Uuid
-        status:
-          type: string
-          title: Status
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-        claim_count:
-          type: integer
-          title: Claim Count
-          default: 0
-        batch_status:
-          type: string
-          title: Batch Status
-        batch_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Summary
-        batch_error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Error
-        created_at:
-          type: string
-          title: Created At
-        updated_at:
-          type: string
-          title: Updated At
-      type: object
-      required:
-      - id
-      - import_id
-      - project_id
-      - source_type
-      - label
-      - status
-      - batch_status
-      - created_at
-      - updated_at
-      title: ImportSourceResponse
-    ReviewDecision:
-      type: string
-      enum:
-      - pending
-      - accepted
-      - rejected
-    FetchUrlRequest:
-      properties:
-        url:
-          type: string
-          minLength: 1
-          title: Url
-      type: object
-      required:
-      - url
-      title: FetchUrlRequest
-    _EnvironmentConfigUpdateRequest:
-      properties:
-        config:
-          additionalProperties: true
-          type: object
-          title: Config
-      type: object
-      required:
-      - config
-      title: _EnvironmentConfigUpdateRequest
-    AddEvidenceRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-          description: Notebook the value was produced in.
-        description:
-          type: string
-          title: Description
-          description: Brief narrative of what the value shows.
-        variable_name:
-          type: string
-          title: Variable Name
-          description: Notebook variable name.
-        value:
-          title: Value
-          description: The value to record. Same shape as qualia.submit_variable.
-        cell_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cell Id
-          description: Producing cell id when known; cited as the source.
-        task_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Task Id
-          description: Optional task to associate the evidence claim with.
-        is_high_level:
-          type: boolean
-          title: Is High Level
-          description: If true, broadcasts this claim to all agents.
-          default: false
-      type: object
-      required:
-      - notebook_id
-      - description
-      - variable_name
-      - value
-      title: AddEvidenceRequest
-      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
-
-        variable as a notebook-captured claim).'
-    _DraftSaveToCanonicalRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        force:
-          type: boolean
-          title: Force
-          default: false
-        pending_user_edits:
+        sources:
           items:
-            $ref: '#/components/schemas/_PendingUserEdit'
+            $ref: '#/components/schemas/ImportSourceRequest'
           type: array
-          title: Pending User Edits
+          minItems: 1
+          title: Sources
       type: object
       required:
-      - notebook_id
-      title: _DraftSaveToCanonicalRequest
-    AssociatedNotebookResponse:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Path
-      type: object
-      required:
-      - notebook_id
-      title: AssociatedNotebookResponse
-    _FileSaveRequest:
-      properties:
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-        path:
-          type: string
-          title: Path
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-      type: object
-      required:
-      - path
-      title: _FileSaveRequest
-    QualiaCommandRequest:
-      properties:
-        file_path:
-          type: string
-          title: File Path
-      type: object
-      required:
-      - file_path
-      title: QualiaCommandRequest
-    _DraftManifestRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-      type: object
-      required:
-      - notebook_id
-      title: _DraftManifestRequest
-    ReviewClaimsBulkRequest:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-        claim_ids:
-          items:
-            type: string
-          type: array
-          title: Claim Ids
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
-      type: object
-      required:
-      - project_id
-      - claim_ids
-      - decision
-      title: ReviewClaimsBulkRequest
-    _NotebookReadRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _NotebookReadRequest
-    Cell:
-      properties:
-        type:
-          $ref: '#/components/schemas/CellType'
-          default: code
-        content:
-          type: string
-          title: Content
-          default: ''
-        outputs:
-          items:
-            $ref: '#/components/schemas/SerializedOutput'
-          type: array
-          title: Outputs
-        cellId:
-          type: string
-          title: Cellid
-        executionCount:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Executioncount
-        executionTimeMs:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Executiontimems
-        executedAtMs:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Executedatms
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-      type: object
-      title: Cell
-      description: Strongly typed representation of a notebook cell.
-    SaveBlobAsFileRequest:
-      properties:
-        filename:
-          type: string
-          title: Filename
-      type: object
-      required:
-      - filename
-      title: SaveBlobAsFileRequest
-    ClaimsListResponse:
-      properties:
-        claims:
-          items:
-            $ref: '#/components/schemas/ClaimResponse'
-          type: array
-          title: Claims
-        related:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Related
-      type: object
-      required:
-      - claims
-      title: ClaimsListResponse
-    ReviewClaimsBulkResponse:
-      properties:
-        affected:
-          items:
-            type: string
-          type: array
-          title: Affected
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
-      type: object
-      required:
-      - affected
-      - decision
-      title: ReviewClaimsBulkResponse
-    Body_import_project_endpoint_api_projects_import_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_import_project_endpoint_api_projects_import_post
-    _TagCreateRequest:
-      properties:
-        display_name:
-          type: string
-          title: Display Name
-        description:
-          type: string
-          title: Description
-      type: object
-      required:
-      - display_name
-      - description
-      title: _TagCreateRequest
-    _FileRenameRequest:
-      properties:
-        old_path:
-          type: string
-          title: Old Path
-        new_path:
-          type: string
-          title: New Path
-      type: object
-      required:
-      - old_path
-      - new_path
-      title: _FileRenameRequest
-    _OpenWithDefaultRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _OpenWithDefaultRequest
-    _KernelDiscoveryPathRequest:
-      properties:
-        kind:
-          $ref: '#/components/schemas/KernelDiscoveryPathKind'
-        path:
-          type: string
-          title: Path
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-      type: object
-      required:
-      - kind
-      - path
-      title: _KernelDiscoveryPathRequest
-    KnowledgeSummaryClaimReviewStatus:
-      type: string
-      enum:
-      - pending
-      - accepted
-      title: KnowledgeSummaryClaimReviewStatus
+      - sources
+      title: ImportKnowledgeRequest

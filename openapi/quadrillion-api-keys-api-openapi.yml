@@ -1,17 +1,46 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account api-keys API
+  title: Quadrillion Cloud API Keys API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: api-keys
+- name: API Keys
 paths:
   /api/keys:
     get:
       tags:
-      - api-keys
+      - API Keys
       summary: List Api Keys
-      description: "List all API keys for the authenticated user.\n\nRequires: JWT token (session cookie or Authorization header)\n\nReturns:\n    [\n        {\n            \"id\": 123,\n            \"name\": \"Production Key\",\n            \"prefix\": \"qd_live_abc123\",\n            \"created_at\": \"2025-01-15T10:30:00Z\",\n            \"last_used\": \"2025-01-16T14:20:00Z\",\n            \"revoked\": false\n        }\n    ]\n\nNote: Full API keys are not returned for security."
+      description: 'List all API keys for the authenticated user.
+
+
+        Requires: JWT token (session cookie or Authorization header)
+
+
+        Returns:
+
+        [
+
+        {
+
+        "id": 123,
+
+        "name": "Production Key",
+
+        "prefix": "qd_live_abc123",
+
+        "created_at": "2025-01-15T10:30:00Z",
+
+        "last_used": "2025-01-16T14:20:00Z",
+
+        "revoked": false
+
+        }
+
+        ]
+
+
+        Note: Full API keys are not returned for security.'
       operationId: list_api_keys_api_keys_get
       responses:
         '200':
@@ -25,9 +54,41 @@ paths:
                 title: Response List Api Keys Api Keys Get
     post:
       tags:
-      - api-keys
+      - API Keys
       summary: Create Api Key
-      description: "Create a new API key for the authenticated user.\n\nRequires: JWT token (session cookie or Authorization header)\n\nRequest body:\n    {\n        \"name\": \"Production Key\"\n    }\n\nReturns:\n    {\n        \"id\": 123,\n        \"key\": \"qd_live_abc123...\",\n        \"name\": \"Production Key\",\n        \"created_at\": \"2025-01-15T10:30:00Z\",\n        \"warning\": \"Save this key now. You won't be able to see it again!\"\n    }\n\nNote: The full API key is only shown once. Store it securely!"
+      description: 'Create a new API key for the authenticated user.
+
+
+        Requires: JWT token (session cookie or Authorization header)
+
+
+        Request body:
+
+        {
+
+        "name": "Production Key"
+
+        }
+
+
+        Returns:
+
+        {
+
+        "id": 123,
+
+        "key": "qd_live_abc123...",
+
+        "name": "Production Key",
+
+        "created_at": "2025-01-15T10:30:00Z",
+
+        "warning": "Save this key now. You won''t be able to see it again!"
+
+        }
+
+
+        Note: The full API key is only shown once. Store it securely!'
       operationId: create_api_key_api_keys_post
       requestBody:
         content:
@@ -51,9 +112,30 @@ paths:
   /api/keys/validate:
     post:
       tags:
-      - api-keys
+      - API Keys
       summary: Validate Api Key
-      description: "Validate an API key and check if it belongs to an associated user.\n\nRequest body:\n    {\n        \"key\": \"qd_live_abc123...\"\n    }\n\nReturns:\n    {\n        \"valid\": true\n    }\n\nNote: Returns true if the key is valid and not revoked, false otherwise."
+      description: 'Validate an API key and check if it belongs to an associated user.
+
+
+        Request body:
+
+        {
+
+        "key": "qd_live_abc123..."
+
+        }
+
+
+        Returns:
+
+        {
+
+        "valid": true
+
+        }
+
+
+        Note: Returns true if the key is valid and not revoked, false otherwise.'
       operationId: validate_api_key_api_keys_validate_post
       requestBody:
         content:
@@ -77,9 +159,27 @@ paths:
   /api/keys/{key_id}:
     delete:
       tags:
-      - api-keys
+      - API Keys
       summary: Delete Api Key
-      description: "Delete (revoke) an API key.\n\nRequires: JWT token (session cookie or Authorization header)\n\nPath parameters:\n    key_id: The ID of the API key to delete\n\nReturns:\n    204 No Content on success\n\nRaises:\n    404: If key not found or not owned by user"
+      description: 'Delete (revoke) an API key.
+
+
+        Requires: JWT token (session cookie or Authorization header)
+
+
+        Path parameters:
+
+        key_id: The ID of the API key to delete
+
+
+        Returns:
+
+        204 No Content on success
+
+
+        Raises:
+
+        404: If key not found or not owned by user'
       operationId: delete_api_key_api_keys__key_id__delete
       parameters:
       - name: key_id
@@ -130,6 +230,32 @@ components:
       - msg
       - type
       title: ValidationError
+    CreateKeyResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        warning:
+          type: string
+          title: Warning
+          default: Save this key now. You won't be able to see it again!
+      type: object
+      required:
+      - id
+      - key
+      - name
+      - created_at
+      title: CreateKeyResponse
+      description: Response model for created API key.
     ListKeyResponse:
       properties:
         id:
@@ -162,42 +288,15 @@ components:
       - revoked
       title: ListKeyResponse
       description: Response model for listing API keys.
-    CreateKeyRequest:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      title: CreateKeyRequest
-      description: Request model for creating an API key.
-    CreateKeyResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        created_at:
-          type: string
-          title: Created At
-        warning:
-          type: string
-          title: Warning
-          default: Save this key now. You won't be able to see it again!
-      type: object
-      required:
-      - id
-      - key
-      - name
-      - created_at
-      title: CreateKeyResponse
-      description: Response model for created API key.
+      title: HTTPValidationError
     ValidateKeyRequest:
       properties:
         key:
@@ -208,12 +307,13 @@ components:
       - key
       title: ValidateKeyRequest
       description: Request model for validating an API key.
-    HTTPValidationError:
+    CreateKeyRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: CreateKeyRequest
+      description: Request model for creating an API key.

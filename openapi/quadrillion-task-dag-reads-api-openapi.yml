@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account task_dag_reads API
+  title: Quadrillion Cloud Task Dag Reads API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
@@ -307,6 +307,126 @@ components:
       - project_id
       - tasks
       title: DagResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SessionTasksResponse:
+      properties:
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: SessionTasksResponse
+    NormalizedTaskVariablesResponse:
+      properties:
+        kind:
+          type: string
+          title: Kind
+        columns:
+          items:
+            type: string
+          type: array
+          title: Columns
+        rows:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Rows
+      type: object
+      required:
+      - kind
+      - columns
+      - rows
+      title: NormalizedTaskVariablesResponse
+      description: 'Envelope returned by ``GET /api/task_variables/normalized``.
+
+
+        ``kind`` distinguishes the variable shape (``"variables"``) from the
+
+        tabular finding shape (``"tables"``). ``columns`` is the canonical
+
+        column order for the requested kind. Every row is guaranteed to
+
+        contain every column key (filled with ``None`` where the source row
+
+        omitted it) so kernel-side clients can build their native table
+
+        type without each language re-encoding the empty-schema fallback.'
+    JsonValue: {}
+    TrackedVariablesResponse:
+      properties:
+        variables:
+          items:
+            $ref: '#/components/schemas/TrackedVariable'
+          type: array
+          title: Variables
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      type: object
+      title: TrackedVariablesResponse
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
+      type: object
+      required:
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable
+    JsonObject:
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     TaskResponse:
       properties:
         task_id:
@@ -405,76 +525,6 @@ components:
       - created_at
       - updated_at
       title: TaskResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TrackedVariablesResponse:
-      properties:
-        variables:
-          items:
-            $ref: '#/components/schemas/TrackedVariable'
-          type: array
-          title: Variables
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-      type: object
-      title: TrackedVariablesResponse
-    NormalizedTaskVariablesResponse:
-      properties:
-        kind:
-          type: string
-          title: Kind
-        columns:
-          items:
-            type: string
-          type: array
-          title: Columns
-        rows:
-          items:
-            $ref: '#/components/schemas/JsonObject'
-          type: array
-          title: Rows
-      type: object
-      required:
-      - kind
-      - columns
-      - rows
-      title: NormalizedTaskVariablesResponse
-      description: 'Envelope returned by ``GET /api/task_variables/normalized``.
-
-
-        ``kind`` distinguishes the variable shape (``"variables"``) from the
-
-        tabular finding shape (``"tables"``). ``columns`` is the canonical
-
-        column order for the requested kind. Every row is guaranteed to
-
-        contain every column key (filled with ``None`` where the source row
-
-        omitted it) so kernel-side clients can build their native table
-
-        type without each language re-encoding the empty-schema fallback.'
     ProjectResponse:
       properties:
         project_id:
@@ -507,53 +557,3 @@ components:
       - created_at
       - updated_at
       title: ProjectResponse
-    TrackedVariable:
-      properties:
-        name:
-          type: string
-          title: Name
-        expected_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Expected Type
-        task_id:
-          type: string
-          title: Task Id
-      type: object
-      required:
-      - name
-      - expected_type
-      - task_id
-      title: TrackedVariable
-    SessionTasksResponse:
-      properties:
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-        tasks:
-          items:
-            $ref: '#/components/schemas/JsonObject'
-          type: array
-          title: Tasks
-      type: object
-      required:
-      - project_id
-      - tasks
-      title: SessionTasksResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    JsonObject:
-      additionalProperties:
-        $ref: '#/components/schemas/JsonValue'
-      type: object
-    JsonValue: {}

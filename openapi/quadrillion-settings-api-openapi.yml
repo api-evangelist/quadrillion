@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quadrillion Cloud account settings API
+  title: Quadrillion Cloud Settings API
   description: Public cloud API service for cloud-safe backend endpoints
   version: 0.1.0
 tags:
-- name: settings
+- name: Settings
 paths:
   /api/settings/update:
     post:
       tags:
-      - settings
+      - Settings
       summary: Update Single Setting Handler
       description: Update a single setting.
       operationId: update_single_setting_handler_api_settings_update_post
@@ -34,7 +34,7 @@ paths:
   /api/settings/apply-model-family:
     post:
       tags:
-      - settings
+      - Settings
       summary: Apply Model Family Handler
       description: 'Apply a model family by fanning it out into the per-role model settings.
 
@@ -70,7 +70,7 @@ paths:
   /api/settings/values:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get All Settings Handler
       description: Get all setting values.
       operationId: get_all_settings_handler_api_settings_values_get
@@ -83,7 +83,7 @@ paths:
   /api/settings/base-path:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Base Path Handler
       description: Get the current base path for notebooks.
       operationId: get_base_path_handler_api_settings_base_path_get
@@ -96,7 +96,7 @@ paths:
   /api/workspace/switch:
     post:
       tags:
-      - settings
+      - Settings
       summary: Switch Workspace Handler
       operationId: switch_workspace_handler_api_workspace_switch_post
       requestBody:
@@ -120,7 +120,7 @@ paths:
   /api/settings/environment/status:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Environment Status Handler
       description: Return current environment profile metadata for stale-runtime UI.
       operationId: get_environment_status_handler_api_settings_environment_status_get
@@ -133,7 +133,7 @@ paths:
   /api/settings/environment/preparation-status:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Environment Preparation Status Handler
       operationId: get_environment_preparation_status_handler_api_settings_environment_preparation_status_get
       parameters:
@@ -179,7 +179,7 @@ paths:
   /api/settings/environment/prepare:
     post:
       tags:
-      - settings
+      - Settings
       summary: Prepare Environment Handler
       operationId: prepare_environment_handler_api_settings_environment_prepare_post
       requestBody:
@@ -203,7 +203,7 @@ paths:
   /api/settings/environment/cancel-prepare:
     post:
       tags:
-      - settings
+      - Settings
       summary: Cancel Prepare Environment Handler
       operationId: cancel_prepare_environment_handler_api_settings_environment_cancel_prepare_post
       requestBody:
@@ -227,7 +227,7 @@ paths:
   /api/settings/environment/cleanup-prepared:
     post:
       tags:
-      - settings
+      - Settings
       summary: Cleanup Prepared Environment Handler
       operationId: cleanup_prepared_environment_handler_api_settings_environment_cleanup_prepared_post
       responses:
@@ -239,7 +239,7 @@ paths:
   /api/settings/environment/config:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Environment Config Handler
       operationId: get_environment_config_handler_api_settings_environment_config_get
       responses:
@@ -250,7 +250,7 @@ paths:
               schema: {}
     put:
       tags:
-      - settings
+      - Settings
       summary: Update Environment Config Handler
       operationId: update_environment_config_handler_api_settings_environment_config_put
       requestBody:
@@ -274,7 +274,7 @@ paths:
   /api/settings/environment/private-values:
     put:
       tags:
-      - settings
+      - Settings
       summary: Update Environment Private Values Handler
       operationId: update_environment_private_values_handler_api_settings_environment_private_values_put
       requestBody:
@@ -298,7 +298,7 @@ paths:
   /api/python-environments/check-venv:
     get:
       tags:
-      - settings
+      - Settings
       summary: Check Venv Handler
       description: Check if .venv exists in the provided directory.
       operationId: check_venv_handler_api_python_environments_check_venv_get
@@ -326,7 +326,7 @@ paths:
   /api/python-environments/create-location:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Create Environment Location Handler
       description: Get the default location where .venv will be created.
       operationId: get_create_environment_location_handler_api_python_environments_create_location_get
@@ -339,7 +339,7 @@ paths:
   /api/settings/slack/configured:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Slack Configured Handler
       description: Check whether Slack settings are configured.
       operationId: get_slack_configured_handler_api_settings_slack_configured_get
@@ -352,7 +352,7 @@ paths:
   /api/settings/slack/install:
     post:
       tags:
-      - settings
+      - Settings
       summary: Slack Oauth Init Handler
       description: Proxy POST request to Slack OAuth initiation endpoint.
       operationId: slack_oauth_init_handler_api_settings_slack_install_post
@@ -377,14 +377,14 @@ paths:
   /api/settings/slack/oauth-callback:
     post:
       tags:
-      - settings
+      - Settings
       summary: Slack Oauth Callback Handler
       description: 'Receive OAuth tokens from the website via browser auto-submit form.
 
 
         The website returns an HTML form that auto-POSTs tokens to this endpoint
 
-        through the user''s browser.  On success the tokens are persisted to
+        through the user''s browser. On success the tokens are persisted to
 
         settings and the browser is redirected to the success page on the website.'
       operationId: slack_oauth_callback_handler_api_settings_slack_oauth_callback_post
@@ -397,7 +397,7 @@ paths:
   /api/settings/github/configured:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Github Configured Handler
       description: Return whether a GitHub OAuth token is stored and the flow is enabled.
       operationId: get_github_configured_handler_api_settings_github_configured_get
@@ -410,7 +410,7 @@ paths:
   /api/settings/github/install:
     post:
       tags:
-      - settings
+      - Settings
       summary: Github Oauth Init Handler
       description: Proxy POST request to GitHub OAuth initiation endpoint.
       operationId: github_oauth_init_handler_api_settings_github_install_post
@@ -435,7 +435,7 @@ paths:
   /api/settings/github/oauth-callback:
     post:
       tags:
-      - settings
+      - Settings
       summary: Github Oauth Callback Handler
       description: Receive OAuth token from the website via browser auto-submit form.
       operationId: github_oauth_callback_handler_api_settings_github_oauth_callback_post
@@ -448,7 +448,7 @@ paths:
   /api/settings/validate-kernel:
     get:
       tags:
-      - settings
+      - Settings
       summary: Validate Kernel Setting Handler
       description: Validate that DEFAULT_KERNEL setting is valid.
       operationId: validate_kernel_setting_handler_api_settings_validate_kernel_get
@@ -461,7 +461,7 @@ paths:
   /api/kernel-discovery/paths:
     get:
       tags:
-      - settings
+      - Settings
       summary: List Kernel Discovery Paths Handler
       operationId: list_kernel_discovery_paths_handler_api_kernel_discovery_paths_get
       responses:
@@ -472,7 +472,7 @@ paths:
               schema: {}
     post:
       tags:
-      - settings
+      - Settings
       summary: Add Kernel Discovery Path Handler
       operationId: add_kernel_discovery_path_handler_api_kernel_discovery_paths_post
       requestBody:
@@ -496,7 +496,7 @@ paths:
   /api/kernel-discovery/paths/preview:
     post:
       tags:
-      - settings
+      - Settings
       summary: Preview Kernel Discovery Path Handler
       operationId: preview_kernel_discovery_path_handler_api_kernel_discovery_paths_preview_post
       requestBody:
@@ -520,7 +520,7 @@ paths:
   /api/kernel-discovery/paths/{path_id}/enabled:
     post:
       tags:
-      - settings
+      - Settings
       summary: Set Kernel Discovery Path Enabled Handler
       operationId: set_kernel_discovery_path_enabled_handler_api_kernel_discovery_paths__path_id__enabled_post
       parameters:
@@ -551,7 +551,7 @@ paths:
   /api/kernel-discovery/paths/{path_id}:
     delete:
       tags:
-      - settings
+      - Settings
       summary: Remove Kernel Discovery Path Handler
       operationId: remove_kernel_discovery_path_handler_api_kernel_discovery_paths__path_id__delete
       parameters:
@@ -576,7 +576,7 @@ paths:
   /api/python-environments/select:
     post:
       tags:
-      - settings
+      - Settings
       summary: Select Python Environment Handler
       description: Select a Python environment and create kernel spec for it.
       operationId: select_python_environment_handler_api_python_environments_select_post
@@ -601,7 +601,7 @@ paths:
   /api/julia-environments/select:
     post:
       tags:
-      - settings
+      - Settings
       summary: Select Julia Environment Handler
       description: Select a Julia installation and create kernel spec for it.
       operationId: select_julia_environment_handler_api_julia_environments_select_post
@@ -626,7 +626,7 @@ paths:
   /api/r-environments/select:
     post:
       tags:
-      - settings
+      - Settings
       summary: Select R Environment Handler
       description: Select an R installation and create kernel spec for it.
       operationId: select_r_environment_handler_api_r_environments_select_post
@@ -651,7 +651,7 @@ paths:
   /api/python-environments/create-status:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Create Environment Status
       description: Get status for an environment creation job.
       operationId: get_create_environment_status_api_python_environments_create_status_get
@@ -677,7 +677,7 @@ paths:
   /api/python-environments/create:
     post:
       tags:
-      - settings
+      - Settings
       summary: Create Python Environment Handler
       description: Create a new .venv virtual environment using stdlib venv.
       operationId: create_python_environment_handler_api_python_environments_create_post
@@ -702,7 +702,7 @@ paths:
   /api/python-environments/workspace-venv:
     delete:
       tags:
-      - settings
+      - Settings
       summary: Delete Python Environment Handler
       operationId: delete_python_environment_handler_api_python_environments_workspace_venv_delete
       requestBody:
@@ -726,7 +726,7 @@ paths:
   /api/settings/matplotlibrc:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Matplotlibrc Handler
       description: Get current matplotlibrc settings.
       operationId: get_matplotlibrc_handler_api_settings_matplotlibrc_get
@@ -738,7 +738,7 @@ paths:
               schema: {}
     post:
       tags:
-      - settings
+      - Settings
       summary: Update Matplotlibrc Handler
       description: Update matplotlibrc settings.
       operationId: update_matplotlibrc_handler_api_settings_matplotlibrc_post
@@ -763,7 +763,7 @@ paths:
   /api/settings/matplotlibrc/path:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Matplotlibrc Path Handler
       description: Get the path to the matplotlibrc file.
       operationId: get_matplotlibrc_path_handler_api_settings_matplotlibrc_path_get
@@ -776,7 +776,7 @@ paths:
   /api/settings/matplotlibrc/color-cycles:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Color Cycle Schemes Handler
       description: Get available color cycle schemes.
       operationId: get_color_cycle_schemes_handler_api_settings_matplotlibrc_color_cycles_get
@@ -789,7 +789,7 @@ paths:
   /api/settings/matplotlibrc/color-cycles/custom:
     post:
       tags:
-      - settings
+      - Settings
       summary: Save Custom Color Scheme Handler
       description: Save a custom color scheme.
       operationId: save_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom_post
@@ -814,7 +814,7 @@ paths:
   /api/settings/matplotlibrc/color-cycles/custom/{scheme_id}:
     delete:
       tags:
-      - settings
+      - Settings
       summary: Delete Custom Color Scheme Handler
       description: Delete a custom color scheme.
       operationId: delete_custom_color_scheme_handler_api_settings_matplotlibrc_color_cycles_custom__scheme_id__delete
@@ -840,7 +840,7 @@ paths:
   /api/settings/matplotlibrc/colormaps:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Colormap Preview Handler
       description: Get colormap preview data for all available colormaps.
       operationId: get_colormap_preview_handler_api_settings_matplotlibrc_colormaps_get
@@ -853,7 +853,7 @@ paths:
   /api/settings/bash-allowlist:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Bash Allowlist Handler
       description: Return the user-managed bash command allowlist.
       operationId: get_bash_allowlist_handler_api_settings_bash_allowlist_get
@@ -865,7 +865,7 @@ paths:
               schema: {}
     post:
       tags:
-      - settings
+      - Settings
       summary: Add Bash Allowlist Handler
       description: 'Add a command to the user bash allowlist.
 
@@ -896,7 +896,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - settings
+      - Settings
       summary: Clear Bash Allowlist Handler
       description: Remove all user-added bash command allowlist entries.
       operationId: clear_bash_allowlist_handler_api_settings_bash_allowlist_delete
@@ -909,7 +909,7 @@ paths:
   /api/settings/bash-allowlist/{command}:
     delete:
       tags:
-      - settings
+      - Settings
       summary: Remove Bash Allowlist Handler
       description: Remove a single command token from the user bash allowlist.
       operationId: remove_bash_allowlist_handler_api_settings_bash_allowlist__command__delete
@@ -935,7 +935,7 @@ paths:
   /api/settings/sandbox:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Sandbox Settings Handler
       description: Return the current sandbox configuration.
       operationId: get_sandbox_settings_handler_api_settings_sandbox_get
@@ -947,7 +947,7 @@ paths:
               schema: {}
     post:
       tags:
-      - settings
+      - Settings
       summary: Update Sandbox Settings Handler
       description: Update sandbox settings (partial update). Returns the full new settings payload.
       operationId: update_sandbox_settings_handler_api_settings_sandbox_post
@@ -972,7 +972,7 @@ paths:
   /api/settings/sandbox/status:
     get:
       tags:
-      - settings
+      - Settings
       summary: Get Sandbox Status Handler
       description: Return platform sandbox availability details.
       operationId: get_sandbox_status_handler_api_settings_sandbox_status_get
@@ -984,27 +984,69 @@ paths:
               schema: {}
 components:
   schemas:
-    ValidationError:
+    _SelectREnvironmentRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        r_path:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: R Path
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - r_path
+      title: _SelectREnvironmentRequest
+    _GithubOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _GithubOAuthInitRequest
+    _ApplyModelFamilyRequest:
+      properties:
+        family:
+          type: string
+          title: Family
+      type: object
+      required:
+      - family
+      title: _ApplyModelFamilyRequest
+    _EnvironmentPrivateValuesRequest:
+      properties:
+        values:
+          additionalProperties:
+            type: string
+          type: object
+          title: Values
+      type: object
+      required:
+      - values
+      title: _EnvironmentPrivateValuesRequest
+    _KernelDiscoveryPathRequest:
+      properties:
+        kind:
+          $ref: '#/components/schemas/KernelDiscoveryPathKind'
+        path:
+          type: string
+          title: Path
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+      type: object
+      required:
+      - kind
+      - path
+      title: _KernelDiscoveryPathRequest
+    _KernelDiscoveryPathEnabledRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: _KernelDiscoveryPathEnabledRequest
     _BashAllowlistAddRequest:
       properties:
         command:
@@ -1040,6 +1082,15 @@ components:
       - name
       - colors
       title: _SaveCustomColorSchemeRequest
+    _CreatePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _CreatePythonEnvironmentRequest
     HTTPValidationError:
       properties:
         detail:
@@ -1049,30 +1100,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    _WorkspaceSwitchRequest:
-      properties:
-        path:
-          type: string
-          minLength: 1
-          title: Path
-        initiator_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Initiator Id
-      type: object
-      required:
-      - path
-      title: _WorkspaceSwitchRequest
-    _SelectPythonEnvironmentRequest:
-      properties:
-        python_path:
-          type: string
-          title: Python Path
-      type: object
-      required:
-      - python_path
-      title: _SelectPythonEnvironmentRequest
     _EnvironmentPrepareRequest:
       properties:
         profile_name:
@@ -1090,52 +1117,6 @@ components:
           default: python
       type: object
       title: _EnvironmentPrepareRequest
-    _EnvironmentPrivateValuesRequest:
-      properties:
-        values:
-          additionalProperties:
-            type: string
-          type: object
-          title: Values
-      type: object
-      required:
-      - values
-      title: _EnvironmentPrivateValuesRequest
-    _SandboxSettingsUpdateRequest:
-      properties:
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-        auto_approve:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Auto Approve
-        extra_writable_paths:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Writable Paths
-        excluded_commands:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Excluded Commands
-        extra_deny_write:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Deny Write
-      type: object
-      title: _SandboxSettingsUpdateRequest
     _SlackOAuthInitRequest:
       properties:
         request_id:
@@ -1145,12 +1126,6 @@ components:
           title: Request Id
       type: object
       title: _SlackOAuthInitRequest
-    KernelDiscoveryPathKind:
-      type: string
-      enum:
-      - kernelspec_root
-      - scan_root
-      title: KernelDiscoveryPathKind
     _SettingUpdateRequest:
       properties:
         settings_key:
@@ -1164,6 +1139,76 @@ components:
       - settings_key
       - value
       title: _SettingUpdateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    _EnvironmentConfigUpdateRequest:
+      properties:
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - config
+      title: _EnvironmentConfigUpdateRequest
+    _DeletePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _DeletePythonEnvironmentRequest
+    KernelDiscoveryPathKind:
+      type: string
+      enum:
+      - kernelspec_root
+      - scan_root
+      title: KernelDiscoveryPathKind
+    _WorkspaceSwitchRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+        initiator_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Initiator Id
+      type: object
+      required:
+      - path
+      title: _WorkspaceSwitchRequest
+    _SelectJuliaEnvironmentRequest:
+      properties:
+        julia_path:
+          type: string
+          title: Julia Path
+      type: object
+      required:
+      - julia_path
+      title: _SelectJuliaEnvironmentRequest
     _MatplotlibrcUpdateRequest:
       properties:
         dpi:
@@ -1223,92 +1268,47 @@ components:
       - figsize
       - colormap
       title: _MatplotlibrcUpdateRequest
-    _SelectJuliaEnvironmentRequest:
+    _SelectPythonEnvironmentRequest:
       properties:
-        julia_path:
+        python_path:
           type: string
-          title: Julia Path
+          title: Python Path
       type: object
       required:
-      - julia_path
-      title: _SelectJuliaEnvironmentRequest
-    _CreatePythonEnvironmentRequest:
-      properties:
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-      type: object
-      title: _CreatePythonEnvironmentRequest
-    _GithubOAuthInitRequest:
-      properties:
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      title: _GithubOAuthInitRequest
-    _ApplyModelFamilyRequest:
-      properties:
-        family:
-          type: string
-          title: Family
-      type: object
-      required:
-      - family
-      title: _ApplyModelFamilyRequest
-    _KernelDiscoveryPathEnabledRequest:
+      - python_path
+      title: _SelectPythonEnvironmentRequest
+    _SandboxSettingsUpdateRequest:
       properties:
         enabled:
-          type: boolean
-          title: Enabled
-      type: object
-      required:
-      - enabled
-      title: _KernelDiscoveryPathEnabledRequest
-    _DeletePythonEnvironmentRequest:
-      properties:
-        location:
           anyOf:
-          - type: string
+          - type: boolean
           - type: 'null'
-          title: Location
-      type: object
-      title: _DeletePythonEnvironmentRequest
-    _SelectREnvironmentRequest:
-      properties:
-        r_path:
-          type: string
-          title: R Path
-      type: object
-      required:
-      - r_path
-      title: _SelectREnvironmentRequest
-    _EnvironmentConfigUpdateRequest:
-      properties:
-        config:
-          additionalProperties: true
-          type: object
-          title: Config
-      type: object
-      required:
-      - config
-      title: _EnvironmentConfigUpdateRequest
-    _KernelDiscoveryPathRequest:
-      properties:
-        kind:
-          $ref: '#/components/schemas/KernelDiscoveryPathKind'
-        path:
-          type: string
-          title: Path
-        enabled:
-          type: boolean
           title: Enabled
-          default: true
+        auto_approve:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Auto Approve
+        extra_writable_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Writable Paths
+        excluded_commands:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Excluded Commands
+        extra_deny_write:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Deny Write
       type: object
-      required:
-      - kind
-      - path
-      title: _KernelDiscoveryPathRequest
+      title: _SandboxSettingsUpdateRequest
