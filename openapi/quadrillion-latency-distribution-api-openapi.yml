@@ -163,6 +163,19 @@ components:
       - count
       title: LatencyPercentiles
       description: Percentile values for a latency metric (in milliseconds).
+    LatencyDistributionResponse:
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/LatencyDistributionBucket'
+          type: array
+          title: Buckets
+          description: Latency distributions by day and model
+      type: object
+      required:
+      - buckets
+      title: LatencyDistributionResponse
+      description: Response model for latency distribution query.
     ValidationError:
       properties:
         loc:
@@ -184,19 +197,15 @@ components:
       - msg
       - type
       title: ValidationError
-    LatencyDistributionResponse:
+    HTTPValidationError:
       properties:
-        buckets:
+        detail:
           items:
-            $ref: '#/components/schemas/LatencyDistributionBucket'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Buckets
-          description: Latency distributions by day and model
+          title: Detail
       type: object
-      required:
-      - buckets
-      title: LatencyDistributionResponse
-      description: Response model for latency distribution query.
+      title: HTTPValidationError
     LatencyDistributionBucket:
       properties:
         date:
@@ -223,12 +232,3 @@ components:
       - ttft_latency
       title: LatencyDistributionBucket
       description: Latency distribution for a model on a specific day.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

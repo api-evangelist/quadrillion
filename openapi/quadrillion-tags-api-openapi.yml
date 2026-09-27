@@ -96,6 +96,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    _TagDeleteRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - display_name
+      title: _TagDeleteRequest
     ValidationError:
       properties:
         loc:
@@ -117,15 +126,6 @@ components:
       - msg
       - type
       title: ValidationError
-    _TagDeleteRequest:
-      properties:
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - display_name
-      title: _TagDeleteRequest
     _TagUpdateRequest:
       properties:
         display_name:

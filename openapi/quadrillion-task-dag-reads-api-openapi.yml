@@ -292,59 +292,39 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DagResponse:
+    TrackedVariablesResponse:
       properties:
-        project_id:
-          type: string
-          title: Project Id
-        tasks:
+        variables:
           items:
-            $ref: '#/components/schemas/TaskResponse'
+            $ref: '#/components/schemas/TrackedVariable'
           type: array
-          title: Tasks
-      type: object
-      required:
-      - project_id
-      - tasks
-      title: DagResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SessionTasksResponse:
-      properties:
+          title: Variables
         project_id:
           anyOf:
           - type: string
           - type: 'null'
           title: Project Id
-        tasks:
-          items:
-            $ref: '#/components/schemas/JsonObject'
-          type: array
-          title: Tasks
+      type: object
+      title: TrackedVariablesResponse
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
       type: object
       required:
-      - project_id
-      - tasks
-      title: SessionTasksResponse
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable
     NormalizedTaskVariablesResponse:
       properties:
         kind:
@@ -380,53 +360,10 @@ components:
         omitted it) so kernel-side clients can build their native table
 
         type without each language re-encoding the empty-schema fallback.'
-    JsonValue: {}
-    TrackedVariablesResponse:
-      properties:
-        variables:
-          items:
-            $ref: '#/components/schemas/TrackedVariable'
-          type: array
-          title: Variables
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-      type: object
-      title: TrackedVariablesResponse
-    TrackedVariable:
-      properties:
-        name:
-          type: string
-          title: Name
-        expected_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Expected Type
-        task_id:
-          type: string
-          title: Task Id
-      type: object
-      required:
-      - name
-      - expected_type
-      - task_id
-      title: TrackedVariable
     JsonObject:
       additionalProperties:
         $ref: '#/components/schemas/JsonValue'
       type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     TaskResponse:
       properties:
         task_id:
@@ -525,6 +462,69 @@ components:
       - created_at
       - updated_at
       title: TaskResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DagResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskResponse'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: DagResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JsonValue: {}
+    SessionTasksResponse:
+      properties:
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: SessionTasksResponse
     ProjectResponse:
       properties:
         project_id:

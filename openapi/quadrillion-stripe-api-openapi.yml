@@ -191,27 +191,26 @@ paths:
                 title: Response Stripe Webhook Api Stripe Webhook Post
 components:
   schemas:
-    ValidationError:
+    CheckoutSessionResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        url:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Url
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - url
+      title: CheckoutSessionResponse
+      description: Response with checkout session URL.
+    PortalSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: PortalSessionResponse
+      description: Response with portal session URL.
     CheckoutSessionRequest:
       properties:
         plan:
@@ -237,16 +236,27 @@ components:
       - plan
       title: CheckoutSessionRequest
       description: Request body for creating a checkout session.
-    CheckoutSessionResponse:
+    ValidationError:
       properties:
-        url:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Url
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - url
-      title: CheckoutSessionResponse
-      description: Response with checkout session URL.
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -256,16 +266,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    PortalSessionResponse:
-      properties:
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: PortalSessionResponse
-      description: Response with portal session URL.
     OverageCeilingRequest:
       properties:
         overage_limit_usd:

@@ -199,16 +199,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidateKeyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-      type: object
-      required:
-      - valid
-      title: ValidateKeyResponse
-      description: Response model for API key validation.
     ValidationError:
       properties:
         loc:
@@ -230,32 +220,6 @@ components:
       - msg
       - type
       title: ValidationError
-    CreateKeyResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        created_at:
-          type: string
-          title: Created At
-        warning:
-          type: string
-          title: Warning
-          default: Save this key now. You won't be able to see it again!
-      type: object
-      required:
-      - id
-      - key
-      - name
-      - created_at
-      title: CreateKeyResponse
-      description: Response model for created API key.
     ListKeyResponse:
       properties:
         id:
@@ -288,6 +252,16 @@ components:
       - revoked
       title: ListKeyResponse
       description: Response model for listing API keys.
+    ValidateKeyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+      type: object
+      required:
+      - valid
+      title: ValidateKeyResponse
+      description: Response model for API key validation.
     HTTPValidationError:
       properties:
         detail:
@@ -297,6 +271,32 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    CreateKeyResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        warning:
+          type: string
+          title: Warning
+          default: Save this key now. You won't be able to see it again!
+      type: object
+      required:
+      - id
+      - key
+      - name
+      - created_at
+      title: CreateKeyResponse
+      description: Response model for created API key.
     ValidateKeyRequest:
       properties:
         key:

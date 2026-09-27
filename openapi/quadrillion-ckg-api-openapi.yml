@@ -544,16 +544,165 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FetchUrlRequest:
+    ReviewClaimRequest:
       properties:
-        url:
+        project_id:
           type: string
-          minLength: 1
-          title: Url
+          title: Project Id
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
       type: object
       required:
-      - url
-      title: FetchUrlRequest
+      - project_id
+      - decision
+      title: ReviewClaimRequest
+    AddEvidenceRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+          description: Notebook the value was produced in.
+        description:
+          type: string
+          title: Description
+          description: Brief narrative of what the value shows.
+        variable_name:
+          type: string
+          title: Variable Name
+          description: Notebook variable name.
+        value:
+          title: Value
+          description: The value to record. Same shape as qualia.submit_variable.
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+          description: Producing cell id when known; cited as the source.
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+          description: Optional task to associate the evidence claim with.
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          description: If true, broadcasts this claim to all agents.
+          default: false
+      type: object
+      required:
+      - notebook_id
+      - description
+      - variable_name
+      - value
+      title: AddEvidenceRequest
+      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
+
+        variable as a notebook-captured claim).'
+    ClaimsListResponse:
+      properties:
+        claims:
+          items:
+            $ref: '#/components/schemas/ClaimResponse'
+          type: array
+          title: Claims
+        related:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Related
+      type: object
+      required:
+      - claims
+      title: ClaimsListResponse
+    AssociatedTaskResponse:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        title:
+          type: string
+          title: Title
+        status:
+          type: string
+          title: Status
+        assigned_to_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assigned To Session Id
+      type: object
+      required:
+      - task_id
+      - title
+      - status
+      title: AssociatedTaskResponse
+    ClaimSourceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        claim_id:
+          type: string
+          title: Claim Id
+        source_type:
+          type: string
+          title: Source Type
+        source_claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Claim Id
+        source_notebook_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Id
+        source_notebook_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Notebook Path
+        source_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Cell Id
+        source_file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source File Path
+        source_section_heading:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Section Heading
+      type: object
+      required:
+      - id
+      - claim_id
+      - source_type
+      title: ClaimSourceResponse
+    AddEvidenceResponse:
+      properties:
+        claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Id
+          description: Created claim id, or null when the request was rejected.
+        rejected_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rejected Reason
+          description: Why the request was rejected, when ``claim_id`` is null.
+      type: object
+      title: AddEvidenceResponse
+      description: Response for ``POST /api/evidence``.
     ReviewClaimsBulkResponse:
       properties:
         affected:
@@ -568,6 +717,153 @@ components:
       - affected
       - decision
       title: ReviewClaimsBulkResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReviewClaimsBulkRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        claim_ids:
+          items:
+            type: string
+          type: array
+          title: Claim Ids
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - project_id
+      - claim_ids
+      - decision
+      title: ReviewClaimsBulkRequest
+    ImportSourceResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        import_id:
+          type: string
+          title: Import Id
+        project_id:
+          type: string
+          title: Project Id
+        source_type:
+          type: string
+          title: Source Type
+        label:
+          type: string
+          title: Label
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        status:
+          type: string
+          title: Status
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        claim_count:
+          type: integer
+          title: Claim Count
+          default: 0
+        batch_status:
+          type: string
+          title: Batch Status
+        batch_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Summary
+        batch_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Error
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - id
+      - import_id
+      - project_id
+      - source_type
+      - label
+      - status
+      - batch_status
+      - created_at
+      - updated_at
+      title: ImportSourceResponse
+    ImportSourceRequest:
+      properties:
+        source_type:
+          type: string
+          enum:
+          - text
+          - file
+          - url
+          title: Source Type
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - source_type
+      title: ImportSourceRequest
     ClaimResponse:
       properties:
         claim_id:
@@ -662,161 +958,15 @@ components:
       - created_at
       - updated_at
       title: ClaimResponse
-    ImportSourceRequest:
+    HTTPValidationError:
       properties:
-        source_type:
-          type: string
-          enum:
-          - text
-          - file
-          - url
-          title: Source Type
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        blob_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Blob Uuid
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - source_type
-      title: ImportSourceRequest
-    AssociatedNotebookResponse:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Path
-      type: object
-      required:
-      - notebook_id
-      title: AssociatedNotebookResponse
-    AddEvidenceResponse:
-      properties:
-        claim_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Claim Id
-          description: Created claim id, or null when the request was rejected.
-        rejected_reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rejected Reason
-          description: Why the request was rejected, when ``claim_id`` is null.
-      type: object
-      title: AddEvidenceResponse
-      description: Response for ``POST /api/evidence``.
-    ClaimSourceResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        claim_id:
-          type: string
-          title: Claim Id
-        source_type:
-          type: string
-          title: Source Type
-        source_claim_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Claim Id
-        source_notebook_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Notebook Id
-        source_notebook_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Notebook Path
-        source_cell_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Cell Id
-        source_file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source File Path
-        source_section_heading:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Section Heading
-      type: object
-      required:
-      - id
-      - claim_id
-      - source_type
-      title: ClaimSourceResponse
-    KnowledgeSummaryClaimResponse:
-      properties:
-        claim_id:
-          type: string
-          title: Claim Id
-        claim_type:
-          $ref: '#/components/schemas/ClaimType'
-        label:
-          type: string
-          title: Label
-        review_status:
-          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
-          default: accepted
-        created_at:
-          type: string
-          title: Created At
-      type: object
-      required:
-      - claim_id
-      - claim_type
-      - label
-      - created_at
-      title: KnowledgeSummaryClaimResponse
-    FetchUrlResponse:
-      properties:
-        blob_uuid:
-          type: string
-          title: Blob Uuid
-        mime_type:
-          type: string
-          title: Mime Type
-        size:
-          type: integer
-          title: Size
-        preview:
-          type: string
-          title: Preview
-      type: object
-      required:
-      - blob_uuid
-      - mime_type
-      - size
-      - preview
-      title: FetchUrlResponse
+      title: HTTPValidationError
     KnowledgeSummaryResponse:
       properties:
         counts:
@@ -833,132 +983,6 @@ components:
       required:
       - counts
       title: KnowledgeSummaryResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AddEvidenceRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-          description: Notebook the value was produced in.
-        description:
-          type: string
-          title: Description
-          description: Brief narrative of what the value shows.
-        variable_name:
-          type: string
-          title: Variable Name
-          description: Notebook variable name.
-        value:
-          title: Value
-          description: The value to record. Same shape as qualia.submit_variable.
-        cell_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cell Id
-          description: Producing cell id when known; cited as the source.
-        task_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Task Id
-          description: Optional task to associate the evidence claim with.
-        is_high_level:
-          type: boolean
-          title: Is High Level
-          description: If true, broadcasts this claim to all agents.
-          default: false
-      type: object
-      required:
-      - notebook_id
-      - description
-      - variable_name
-      - value
-      title: AddEvidenceRequest
-      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
-
-        variable as a notebook-captured claim).'
-    KnowledgeSummaryClaimReviewStatus:
-      type: string
-      enum:
-      - pending
-      - accepted
-      title: KnowledgeSummaryClaimReviewStatus
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ReviewDecision:
-      type: string
-      enum:
-      - pending
-      - accepted
-      - rejected
-    ReviewClaimsBulkRequest:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-        claim_ids:
-          items:
-            type: string
-          type: array
-          title: Claim Ids
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
-      type: object
-      required:
-      - project_id
-      - claim_ids
-      - decision
-      title: ReviewClaimsBulkRequest
-    AssociatedTaskResponse:
-      properties:
-        task_id:
-          type: string
-          title: Task Id
-        title:
-          type: string
-          title: Title
-        status:
-          type: string
-          title: Status
-        assigned_to_session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Assigned To Session Id
-      type: object
-      required:
-      - task_id
-      - title
-      - status
-      title: AssociatedTaskResponse
     ClaimType:
       type: string
       enum:
@@ -987,120 +1011,35 @@ components:
 
 
         Figure claims link to chart/visualization outputs captured from notebook cells.'
-    TabularSortRequest:
+    KnowledgeSummaryClaimReviewStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      title: KnowledgeSummaryClaimReviewStatus
+    KnowledgeSummaryClaimResponse:
       properties:
-        sort:
-          additionalProperties: true
-          type: object
-          title: Sort
-      type: object
-      required:
-      - sort
-      title: TabularSortRequest
-    ClaimsListResponse:
-      properties:
-        claims:
-          items:
-            $ref: '#/components/schemas/ClaimResponse'
-          type: array
-          title: Claims
-        related:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Related
-      type: object
-      required:
-      - claims
-      title: ClaimsListResponse
-    ReviewClaimRequest:
-      properties:
-        project_id:
+        claim_id:
           type: string
-          title: Project Id
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
-      type: object
-      required:
-      - project_id
-      - decision
-      title: ReviewClaimRequest
-    ImportSourceResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-        import_id:
-          type: string
-          title: Import Id
-        project_id:
-          type: string
-          title: Project Id
-        source_type:
-          type: string
-          title: Source Type
+          title: Claim Id
+        claim_type:
+          $ref: '#/components/schemas/ClaimType'
         label:
           type: string
           title: Label
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-        blob_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Blob Uuid
-        status:
-          type: string
-          title: Status
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-        claim_count:
-          type: integer
-          title: Claim Count
-          default: 0
-        batch_status:
-          type: string
-          title: Batch Status
-        batch_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Summary
-        batch_error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Error
+        review_status:
+          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
+          default: accepted
         created_at:
           type: string
           title: Created At
-        updated_at:
-          type: string
-          title: Updated At
       type: object
       required:
-      - id
-      - import_id
-      - project_id
-      - source_type
+      - claim_id
+      - claim_type
       - label
-      - status
-      - batch_status
       - created_at
-      - updated_at
-      title: ImportSourceResponse
+      title: KnowledgeSummaryClaimResponse
     ImportKnowledgeRequest:
       properties:
         sources:
@@ -1113,3 +1052,64 @@ components:
       required:
       - sources
       title: ImportKnowledgeRequest
+    TabularSortRequest:
+      properties:
+        sort:
+          additionalProperties: true
+          type: object
+          title: Sort
+      type: object
+      required:
+      - sort
+      title: TabularSortRequest
+    FetchUrlRequest:
+      properties:
+        url:
+          type: string
+          minLength: 1
+          title: Url
+      type: object
+      required:
+      - url
+      title: FetchUrlRequest
+    ReviewDecision:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    AssociatedNotebookResponse:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      title: AssociatedNotebookResponse
+    FetchUrlResponse:
+      properties:
+        blob_uuid:
+          type: string
+          title: Blob Uuid
+        mime_type:
+          type: string
+          title: Mime Type
+        size:
+          type: integer
+          title: Size
+        preview:
+          type: string
+          title: Preview
+      type: object
+      required:
+      - blob_uuid
+      - mime_type
+      - size
+      - preview
+      title: FetchUrlResponse

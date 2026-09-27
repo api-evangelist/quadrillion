@@ -121,6 +121,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SupportedPlatformsResponse:
+      properties:
+        supported:
+          items:
+            type: string
+            enum:
+            - macos-intel
+            - macos-apple-silicon
+            - windows-x64
+            - windows-arm64
+            - linux-x64
+            - linux-arm64
+          type: array
+          title: Supported
+      type: object
+      required:
+      - supported
+      title: SupportedPlatformsResponse
+      description: Response model for supported platforms endpoint.
     HTTPValidationError:
       properties:
         detail:
@@ -151,22 +170,3 @@ components:
       - msg
       - type
       title: ValidationError
-    SupportedPlatformsResponse:
-      properties:
-        supported:
-          items:
-            type: string
-            enum:
-            - macos-intel
-            - macos-apple-silicon
-            - windows-x64
-            - windows-arm64
-            - linux-x64
-            - linux-arm64
-          type: array
-          title: Supported
-      type: object
-      required:
-      - supported
-      title: SupportedPlatformsResponse
-      description: Response model for supported platforms endpoint.

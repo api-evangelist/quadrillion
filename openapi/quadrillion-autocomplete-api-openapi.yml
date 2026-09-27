@@ -47,45 +47,36 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AutocompleteRequest:
+    SerializedOutput:
       properties:
-        notebook_id:
+        type:
           type: string
-          minLength: 1
-          title: Notebook Id
-        notebook_path:
-          type: string
-          minLength: 1
-          title: Notebook Path
-        cursor_position:
-          type: integer
-          minimum: 0.0
-          title: Cursor Position
-        current_cell_content:
-          type: string
-          title: Current Cell Content
-        current_cell_id:
-          type: string
-          minLength: 1
-          title: Current Cell Id
-        language:
-          type: string
-          minLength: 1
-          title: Language
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
       type: object
       required:
-      - notebook_id
-      - notebook_path
-      - cursor_position
-      - current_cell_content
-      - current_cell_id
-      - language
-      title: AutocompleteRequest
+      - type
+      - content
+      title: SerializedOutput
+    AutocompleteModelInfo:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - key
+      - name
+      title: AutocompleteModelInfo
     ValidationError:
       properties:
         loc:
@@ -107,36 +98,6 @@ components:
       - msg
       - type
       title: ValidationError
-    AutocompleteModelInfo:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - key
-      - name
-      title: AutocompleteModelInfo
-    SerializedOutput:
-      properties:
-        type:
-          type: string
-          title: Type
-        content:
-          title: Content
-        execution_time_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Execution Time Ms
-      type: object
-      required:
-      - type
-      - content
-      title: SerializedOutput
     Cell:
       properties:
         type:
@@ -176,6 +137,15 @@ components:
       type: object
       title: Cell
       description: Strongly typed representation of a notebook cell.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AutocompleteModelsResponse:
       properties:
         models:
@@ -194,12 +164,42 @@ components:
       - markdown
       - raw
       title: CellType
-    HTTPValidationError:
+    AutocompleteRequest:
       properties:
-        detail:
+        notebook_id:
+          type: string
+          minLength: 1
+          title: Notebook Id
+        notebook_path:
+          type: string
+          minLength: 1
+          title: Notebook Path
+        cursor_position:
+          type: integer
+          minimum: 0.0
+          title: Cursor Position
+        current_cell_content:
+          type: string
+          title: Current Cell Content
+        current_cell_id:
+          type: string
+          minLength: 1
+          title: Current Cell Id
+        language:
+          type: string
+          minLength: 1
+          title: Language
+        cells:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/Cell'
           type: array
-          title: Detail
+          title: Cells
       type: object
-      title: HTTPValidationError
+      required:
+      - notebook_id
+      - notebook_path
+      - cursor_position
+      - current_cell_content
+      - current_cell_id
+      - language
+      title: AutocompleteRequest

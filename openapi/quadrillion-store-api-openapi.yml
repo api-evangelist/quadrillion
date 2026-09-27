@@ -962,139 +962,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SaveProjectArtifactRequest:
+    IngestProjectRowsRequest:
       properties:
-        artifact_id:
-          type: string
-          title: Artifact Id
-        project_id:
-          type: string
-          title: Project Id
-        source_chat_session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Chat Session Id
-        source_call_id:
-          type: string
-          title: Source Call Id
-        tool_name:
-          type: string
-          title: Tool Name
-        mime_type:
-          type: string
-          title: Mime Type
-        data_b64:
-          type: string
-          title: Data B64
-      type: object
-      required:
-      - artifact_id
-      - project_id
-      - source_call_id
-      - tool_name
-      - mime_type
-      - data_b64
-      title: SaveProjectArtifactRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ReorderPendingMessagesRequest:
-      properties:
-        ordered_pending_ids:
-          items:
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        mapping:
+          additionalProperties:
             type: string
-          type: array
-          title: Ordered Pending Ids
-        kind:
-          type: string
-          title: Kind
-          default: regular
+          type: object
+          title: Mapping
       type: object
       required:
-      - ordered_pending_ids
-      title: ReorderPendingMessagesRequest
-    ClaimOldestDrainablePendingMessageRequest:
-      properties:
-        kind:
-          type: string
-          title: Kind
-          default: regular
-        honor_hold:
-          type: boolean
-          title: Honor Hold
-          default: true
-      type: object
-      title: ClaimOldestDrainablePendingMessageRequest
-    SetPendingMessageHoldRequest:
-      properties:
-        pending_id:
-          type: string
-          title: Pending Id
-        held:
-          type: boolean
-          title: Held
-        token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Token
-        require_kind:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Require Kind
-      type: object
-      required:
-      - pending_id
-      - held
-      title: SetPendingMessageHoldRequest
-    ComputeTraits:
-      properties:
-        gpu_type:
-          anyOf:
-          - $ref: '#/components/schemas/GpuType'
-          - type: 'null'
-        gpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Gpu Count
-        cpu_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Cpu Count
-        memory_gb:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Memory Gb
-      additionalProperties: false
-      type: object
-      title: ComputeTraits
-      description: 'Abstract resource requirements for a task.
-
-
-        All fields are optional; omitted fields impose no constraint.'
+      - data
+      - mapping
+      title: IngestProjectRowsRequest
     UpdateChatSessionRequest:
       properties:
         title:
@@ -1140,6 +1023,83 @@ components:
           title: Last Seq At Api Call
       type: object
       title: UpdateChatSessionRequest
+    EnqueuePendingMessageRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        kind:
+          type: string
+          title: Kind
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+      type: object
+      required:
+      - pending_id
+      - kind
+      - payload
+      title: EnqueuePendingMessageRequest
+    SetPendingMessageHoldRequest:
+      properties:
+        pending_id:
+          type: string
+          title: Pending Id
+        held:
+          type: boolean
+          title: Held
+        token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
+        require_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Require Kind
+      type: object
+      required:
+      - pending_id
+      - held
+      title: SetPendingMessageHoldRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReorderPendingMessagesRequest:
+      properties:
+        ordered_pending_ids:
+          items:
+            type: string
+          type: array
+          title: Ordered Pending Ids
+        kind:
+          type: string
+          title: Kind
+          default: regular
+      type: object
+      required:
+      - ordered_pending_ids
+      title: ReorderPendingMessagesRequest
     ProjectArtifactMetadataRequest:
       properties:
         call_ids:
@@ -1190,6 +1150,15 @@ components:
           title: Project Id
       type: object
       title: CreateChatSessionRequest
+    GpuType:
+      type: string
+      enum:
+      - a10g
+      - l4
+      - a100
+      - h100
+      title: GpuType
+      description: Supported GPU families for compute requests.
     HTTPValidationError:
       properties:
         detail:
@@ -1199,31 +1168,40 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    IngestProjectRowsRequest:
+    SaveProjectArtifactRequest:
       properties:
-        data:
-          additionalProperties: true
-          type: object
-          title: Data
-        mapping:
-          additionalProperties:
-            type: string
-          type: object
-          title: Mapping
-      type: object
-      required:
-      - data
-      - mapping
-      title: IngestProjectRowsRequest
-    ReleasePendingMessageLeaseRequest:
-      properties:
-        pending_id:
+        artifact_id:
           type: string
-          title: Pending Id
+          title: Artifact Id
+        project_id:
+          type: string
+          title: Project Id
+        source_chat_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Chat Session Id
+        source_call_id:
+          type: string
+          title: Source Call Id
+        tool_name:
+          type: string
+          title: Tool Name
+        mime_type:
+          type: string
+          title: Mime Type
+        data_b64:
+          type: string
+          title: Data B64
       type: object
       required:
-      - pending_id
-      title: ReleasePendingMessageLeaseRequest
+      - artifact_id
+      - project_id
+      - source_call_id
+      - tool_name
+      - mime_type
+      - data_b64
+      title: SaveProjectArtifactRequest
     UpdatePendingMessagePayloadRequest:
       properties:
         pending_id:
@@ -1248,37 +1226,55 @@ components:
       - pending_id
       - payload
       title: UpdatePendingMessagePayloadRequest
-    AttachNotebookRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          type: string
-          title: Notebook Path
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      title: AttachNotebookRequest
-    EnqueuePendingMessageRequest:
+    ReleasePendingMessageLeaseRequest:
       properties:
         pending_id:
           type: string
           title: Pending Id
-        kind:
-          type: string
-          title: Kind
-        payload:
-          additionalProperties: true
-          type: object
-          title: Payload
       type: object
       required:
       - pending_id
-      - kind
-      - payload
-      title: EnqueuePendingMessageRequest
+      title: ReleasePendingMessageLeaseRequest
+    ClaimOldestDrainablePendingMessageRequest:
+      properties:
+        kind:
+          type: string
+          title: Kind
+          default: regular
+        honor_hold:
+          type: boolean
+          title: Honor Hold
+          default: true
+      type: object
+      title: ClaimOldestDrainablePendingMessageRequest
+    ComputeTraits:
+      properties:
+        gpu_type:
+          anyOf:
+          - $ref: '#/components/schemas/GpuType'
+          - type: 'null'
+        gpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gpu Count
+        cpu_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Cpu Count
+        memory_gb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Memory Gb
+      additionalProperties: false
+      type: object
+      title: ComputeTraits
+      description: 'Abstract resource requirements for a task.
+
+
+        All fields are optional; omitted fields impose no constraint.'
     UpsertExecutionStatusRequest:
       properties:
         execution_id:
@@ -1334,12 +1330,16 @@ components:
       - execution_id
       - execution_type
       title: UpsertExecutionStatusRequest
-    GpuType:
-      type: string
-      enum:
-      - a10g
-      - l4
-      - a100
-      - h100
-      title: GpuType
-      description: Supported GPU families for compute requests.
+    AttachNotebookRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      title: AttachNotebookRequest

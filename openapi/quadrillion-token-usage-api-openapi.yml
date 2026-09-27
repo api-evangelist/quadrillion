@@ -102,6 +102,15 @@ paths:
       - Token Usage
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AggregatedUsageResponse:
       properties:
         buckets:
@@ -219,15 +228,6 @@ components:
       - reasoning_tokens
       title: AggregatedUsageBucket
       description: Token usage aggregated into 15-minute time buckets by user and model.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

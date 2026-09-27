@@ -194,19 +194,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TerminalResizeRequest:
+    TerminalWriteRequest:
       properties:
-        cols:
-          type: integer
-          title: Cols
-        rows:
-          type: integer
-          title: Rows
+        data:
+          type: string
+          title: Data
       type: object
       required:
-      - cols
-      - rows
-      title: TerminalResizeRequest
+      - data
+      title: TerminalWriteRequest
+    QualiaCommandRequest:
+      properties:
+        file_path:
+          type: string
+          title: File Path
+      type: object
+      required:
+      - file_path
+      title: QualiaCommandRequest
     ValidationError:
       properties:
         loc:
@@ -228,6 +233,28 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TerminalResizeRequest:
+      properties:
+        cols:
+          type: integer
+          title: Cols
+        rows:
+          type: integer
+          title: Rows
+      type: object
+      required:
+      - cols
+      - rows
+      title: TerminalResizeRequest
     TerminalCreateRequest:
       properties:
         shell:
@@ -250,30 +277,3 @@ components:
           title: Cwd
       type: object
       title: TerminalCreateRequest
-    TerminalWriteRequest:
-      properties:
-        data:
-          type: string
-          title: Data
-      type: object
-      required:
-      - data
-      title: TerminalWriteRequest
-    QualiaCommandRequest:
-      properties:
-        file_path:
-          type: string
-          title: File Path
-      type: object
-      required:
-      - file_path
-      title: QualiaCommandRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

@@ -57,7 +57,7 @@ tags:
 - Notebooks
 - LLM
 - Developer Tools
-- Machine-Learning
+- Machine Learning
 tags_raw:
 - Company
 - Artificial Intelligence
@@ -68,9 +68,10 @@ tags_raw:
 - LLM
 - Developer Tools
 - Machine Learning
+- Machine-Learning
 apis:
 - aid: quadrillion:quadrillion-account-api
-  name: Quadrillion account API
+  name: Quadrillion Account API
   description: The account API from Quadrillion — 3 operation(s) for account.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -82,7 +83,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-account-api-openapi.yml
 - aid: quadrillion:quadrillion-admin-api
-  name: Quadrillion admin API
+  name: Quadrillion Admin API
   description: The admin API from Quadrillion — 13 operation(s) for admin.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -94,7 +95,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-admin-api-openapi.yml
 - aid: quadrillion:quadrillion-api-keys-api
-  name: Quadrillion api-keys API
+  name: Quadrillion API Keys API
   description: The api-keys API from Quadrillion — 3 operation(s) for api-keys.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -106,7 +107,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-api-keys-api-openapi.yml
 - aid: quadrillion:quadrillion-auth-api
-  name: Quadrillion auth API
+  name: Quadrillion Auth API
   description: The auth API from Quadrillion — 8 operation(s) for auth.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -118,7 +119,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-auth-api-openapi.yml
 - aid: quadrillion:quadrillion-autocomplete-api
-  name: Quadrillion autocomplete API
+  name: Quadrillion Autocomplete API
   description: The autocomplete API from Quadrillion — 2 operation(s) for autocomplete.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -130,7 +131,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-autocomplete-api-openapi.yml
 - aid: quadrillion:quadrillion-blobs-api
-  name: Quadrillion blobs API
+  name: Quadrillion Blobs API
   description: The blobs API from Quadrillion — 4 operation(s) for blobs.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -152,7 +153,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-cerebras-api-openapi.yml
 - aid: quadrillion:quadrillion-ckg-api
-  name: Quadrillion ckg API
+  name: Quadrillion Ckg API
   description: The ckg API from Quadrillion — 12 operation(s) for ckg.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -162,7 +163,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-ckg-api-openapi.yml
 - aid: quadrillion:quadrillion-compute-api
-  name: Quadrillion compute API
+  name: Quadrillion Compute API
   description: The compute API from Quadrillion — 2 operation(s) for compute.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -174,7 +175,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-compute-api-openapi.yml
 - aid: quadrillion:quadrillion-credentials-api
-  name: Quadrillion credentials API
+  name: Quadrillion Credentials API
   description: The credentials API from Quadrillion — 2 operation(s) for credentials.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -186,7 +187,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-credentials-api-openapi.yml
 - aid: quadrillion:quadrillion-execution-api
-  name: Quadrillion execution API
+  name: Quadrillion Execution API
   description: The execution API from Quadrillion — 2 operation(s) for execution.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -198,7 +199,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-execution-api-openapi.yml
 - aid: quadrillion:quadrillion-files-api
-  name: Quadrillion files API
+  name: Quadrillion Files API
   description: The files API from Quadrillion — 10 operation(s) for files.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -210,7 +211,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-files-api-openapi.yml
 - aid: quadrillion:quadrillion-filesystems-api
-  name: Quadrillion filesystems API
+  name: Quadrillion Filesystems API
   description: The filesystems API from Quadrillion — 3 operation(s) for filesystems.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -242,7 +243,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-health-api-openapi.yml
 - aid: quadrillion:quadrillion-integration-relay-api
-  name: Quadrillion integration-relay API
+  name: Quadrillion Integration Relay API
   description: The integration-relay API from Quadrillion — 4 operation(s) for integration-relay.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -252,7 +253,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-integration-relay-api-openapi.yml
 - aid: quadrillion:quadrillion-kernel-api
-  name: Quadrillion kernel API
+  name: Quadrillion Kernel API
   description: The kernel API from Quadrillion — 18 operation(s) for kernel.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -274,7 +275,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-latency-distribution-api-openapi.yml
 - aid: quadrillion:quadrillion-linear-api
-  name: Quadrillion linear API
+  name: Quadrillion Linear API
   description: The linear API from Quadrillion — 1 operation(s) for linear.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -298,7 +299,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-messages-api-openapi.yml
 - aid: quadrillion:quadrillion-modal-files-api
-  name: Quadrillion modal-files API
+  name: Quadrillion Modal Files API
   description: The modal-files API from Quadrillion — 8 operation(s) for modal-files.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -308,7 +309,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-modal-files-api-openapi.yml
 - aid: quadrillion:quadrillion-modal-filewatcher-api
-  name: Quadrillion modal-filewatcher API
+  name: Quadrillion Modal Filewatcher API
   description: The modal-filewatcher API from Quadrillion — 2 operation(s) for modal-filewatcher.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -318,7 +319,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-modal-filewatcher-api-openapi.yml
 - aid: quadrillion:quadrillion-modal-terminal-api
-  name: Quadrillion modal-terminal API
+  name: Quadrillion Modal Terminal API
   description: The modal-terminal API from Quadrillion — 4 operation(s) for modal-terminal.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -328,7 +329,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-modal-terminal-api-openapi.yml
 - aid: quadrillion:quadrillion-notebook-api
-  name: Quadrillion notebook API
+  name: Quadrillion Notebook API
   description: The notebook API from Quadrillion — 29 operation(s) for notebook.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -340,7 +341,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-notebook-api-openapi.yml
 - aid: quadrillion:quadrillion-onboarding-api
-  name: Quadrillion onboarding API
+  name: Quadrillion Onboarding API
   description: The onboarding API from Quadrillion — 2 operation(s) for onboarding.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -352,7 +353,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-onboarding-api-openapi.yml
 - aid: quadrillion:quadrillion-org-api
-  name: Quadrillion org API
+  name: Quadrillion Org API
   description: The org API from Quadrillion — 8 operation(s) for org.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -364,7 +365,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-org-api-openapi.yml
 - aid: quadrillion:quadrillion-project-api
-  name: Quadrillion project API
+  name: Quadrillion Project API
   description: The project API from Quadrillion — 2 operation(s) for project.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -387,7 +388,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-quadrillion-cloud-api-api-openapi.yml
 - aid: quadrillion:quadrillion-releases-api
-  name: Quadrillion releases API
+  name: Quadrillion Releases API
   description: The releases API from Quadrillion — 2 operation(s) for releases.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -409,7 +410,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-responses-api-openapi.yml
 - aid: quadrillion:quadrillion-rules-api
-  name: Quadrillion rules API
+  name: Quadrillion Rules API
   description: The rules API from Quadrillion — 8 operation(s) for rules.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -421,7 +422,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-rules-api-openapi.yml
 - aid: quadrillion:quadrillion-runtime-mutations-api
-  name: Quadrillion runtime_mutations API
+  name: Quadrillion Runtime Mutations API
   description: The runtime_mutations API from Quadrillion — 131 operation(s) for runtime_mutations.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -432,7 +433,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-runtime-mutations-api-openapi.yml
 - aid: quadrillion:quadrillion-runtime-session-api
-  name: Quadrillion runtime-session API
+  name: Quadrillion Runtime Session API
   description: The runtime-session API from Quadrillion — 2 operation(s) for runtime-session.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -442,7 +443,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-runtime-session-api-openapi.yml
 - aid: quadrillion:quadrillion-settings-api
-  name: Quadrillion settings API
+  name: Quadrillion Settings API
   description: The settings API from Quadrillion — 41 operation(s) for settings.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -454,7 +455,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-settings-api-openapi.yml
 - aid: quadrillion:quadrillion-slack-api
-  name: Quadrillion slack API
+  name: Quadrillion Slack API
   description: The slack API from Quadrillion — 5 operation(s) for slack.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -466,7 +467,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-slack-api-openapi.yml
 - aid: quadrillion:quadrillion-slack-webhooks-api
-  name: Quadrillion slack-webhooks API
+  name: Quadrillion Slack Webhooks API
   description: The slack-webhooks API from Quadrillion — 2 operation(s) for slack-webhooks.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -476,7 +477,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-slack-webhooks-api-openapi.yml
 - aid: quadrillion:quadrillion-store-api
-  name: Quadrillion store API
+  name: Quadrillion Store API
   description: The store API from Quadrillion — 30 operation(s) for store.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -488,7 +489,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-store-api-openapi.yml
 - aid: quadrillion:quadrillion-stripe-api
-  name: Quadrillion stripe API
+  name: Quadrillion Stripe API
   description: The stripe API from Quadrillion — 5 operation(s) for stripe.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -500,7 +501,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-stripe-api-openapi.yml
 - aid: quadrillion:quadrillion-tags-api
-  name: Quadrillion tags API
+  name: Quadrillion Tags API
   description: The tags API from Quadrillion — 4 operation(s) for tags.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -512,7 +513,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-tags-api-openapi.yml
 - aid: quadrillion:quadrillion-task-dag-mutations-api
-  name: Quadrillion task_dag_mutations API
+  name: Quadrillion Task Dag Mutations API
   description: The task_dag_mutations API from Quadrillion — 6 operation(s) for task_dag_mutations.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -523,7 +524,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-task-dag-mutations-api-openapi.yml
 - aid: quadrillion:quadrillion-task-dag-reads-api
-  name: Quadrillion task_dag_reads API
+  name: Quadrillion Task Dag Reads API
   description: The task_dag_reads API from Quadrillion — 9 operation(s) for task_dag_reads.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -534,7 +535,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-task-dag-reads-api-openapi.yml
 - aid: quadrillion:quadrillion-terminal-api
-  name: Quadrillion terminal API
+  name: Quadrillion Terminal API
   description: The terminal API from Quadrillion — 7 operation(s) for terminal.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -556,7 +557,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-token-usage-api-openapi.yml
 - aid: quadrillion:quadrillion-tool-results-api
-  name: Quadrillion tool_results API
+  name: Quadrillion Tool Results API
   description: The tool_results API from Quadrillion — 2 operation(s) for tool_results.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -567,7 +568,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-tool-results-api-openapi.yml
 - aid: quadrillion:quadrillion-user-api
-  name: Quadrillion user API
+  name: Quadrillion User API
   description: The user API from Quadrillion — 1 operation(s) for user.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -589,7 +590,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-v1beta-api-openapi.yml
 - aid: quadrillion:quadrillion-workos-api
-  name: Quadrillion workos API
+  name: Quadrillion Workos API
   description: The workos API from Quadrillion — 4 operation(s) for workos.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io
@@ -599,7 +600,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-workos-api-openapi.yml
 - aid: quadrillion:quadrillion-workspace-credentials-api
-  name: Quadrillion workspace-credentials API
+  name: Quadrillion Workspace Credentials API
   description: >-
     The workspace-credentials API from Quadrillion — 1 operation(s) for workspace-credentials.
   humanURL: https://docs.quadrillion.io
@@ -610,7 +611,7 @@ apis:
   - type: OpenAPI
     url: openapi/quadrillion-workspace-credentials-api-openapi.yml
 - aid: quadrillion:quadrillion-writeup-api
-  name: Quadrillion writeup API
+  name: Quadrillion Writeup API
   description: The writeup API from Quadrillion — 3 operation(s) for writeup.
   humanURL: https://docs.quadrillion.io
   baseURL: https://api.quadrillion.io

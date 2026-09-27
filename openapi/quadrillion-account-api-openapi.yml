@@ -109,6 +109,87 @@ paths:
                 $ref: '#/components/schemas/SubscriptionResponse'
 components:
   schemas:
+    SubscriptionResponse:
+      properties:
+        plan_tier:
+          type: string
+          title: Plan Tier
+        status:
+          type: string
+          title: Status
+        cancel_at_period_end:
+          type: boolean
+          title: Cancel At Period End
+          default: false
+        current_period_start:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period Start
+        current_period_end:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Period End
+        usage_percentage:
+          type: number
+          title: Usage Percentage
+        is_limited:
+          type: boolean
+          title: Is Limited
+        overage_eligible:
+          type: boolean
+          title: Overage Eligible
+          default: false
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        overage_spend_usd:
+          type: number
+          title: Overage Spend Usd
+        overage_percentage:
+          type: number
+          title: Overage Percentage
+        is_in_overage:
+          type: boolean
+          title: Is In Overage
+        is_org_member:
+          type: boolean
+          title: Is Org Member
+        is_admin_managed:
+          type: boolean
+          title: Is Admin Managed
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/OrgInfoResponse'
+          - type: 'null'
+      type: object
+      required:
+      - plan_tier
+      - status
+      - usage_percentage
+      - is_limited
+      - overage_enabled
+      - overage_limit_usd
+      - overage_spend_usd
+      - overage_percentage
+      - is_in_overage
+      - is_org_member
+      - is_admin_managed
+      title: SubscriptionResponse
+      description: 'Response model for subscription info.
+
+
+        Base usage is percentage-only — internal compute credit limits are not
+
+        exposed as USD to avoid revealing plan economics.  Overage amounts are
+
+        in USD because users are directly billed for them.'
     ValidationError:
       properties:
         loc:
@@ -130,6 +211,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AccountFeaturesResponse:
       properties:
         is_admin:
@@ -213,93 +303,3 @@ components:
       - role
       title: OrgInfoResponse
       description: Organization context returned in the subscription response.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SubscriptionResponse:
-      properties:
-        plan_tier:
-          type: string
-          title: Plan Tier
-        status:
-          type: string
-          title: Status
-        cancel_at_period_end:
-          type: boolean
-          title: Cancel At Period End
-          default: false
-        current_period_start:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Period Start
-        current_period_end:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Period End
-        usage_percentage:
-          type: number
-          title: Usage Percentage
-        is_limited:
-          type: boolean
-          title: Is Limited
-        overage_eligible:
-          type: boolean
-          title: Overage Eligible
-          default: false
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-        overage_spend_usd:
-          type: number
-          title: Overage Spend Usd
-        overage_percentage:
-          type: number
-          title: Overage Percentage
-        is_in_overage:
-          type: boolean
-          title: Is In Overage
-        is_org_member:
-          type: boolean
-          title: Is Org Member
-        is_admin_managed:
-          type: boolean
-          title: Is Admin Managed
-        organization:
-          anyOf:
-          - $ref: '#/components/schemas/OrgInfoResponse'
-          - type: 'null'
-      type: object
-      required:
-      - plan_tier
-      - status
-      - usage_percentage
-      - is_limited
-      - overage_enabled
-      - overage_limit_usd
-      - overage_spend_usd
-      - overage_percentage
-      - is_in_overage
-      - is_org_member
-      - is_admin_managed
-      title: SubscriptionResponse
-      description: 'Response model for subscription info.
-
-
-        Base usage is percentage-only — internal compute credit limits are not
-
-        exposed as USD to avoid revealing plan economics.  Overage amounts are
-
-        in USD because users are directly billed for them.'

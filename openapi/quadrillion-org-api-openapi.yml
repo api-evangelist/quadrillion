@@ -296,41 +296,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OrgSubscriptionResponse:
-      properties:
-        plan:
-          type: string
-          title: Plan
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-        seat_price_cents:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seat Price Cents
-        billing_interval:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Billing Interval
-      type: object
-      required:
-      - plan
-      - usage_limit_override_usd
-      - overage_enabled
-      - overage_limit_usd
-      title: OrgSubscriptionResponse
     OrgInvitationResponse:
       properties:
         id:
@@ -381,6 +346,127 @@ components:
       - msg
       - type
       title: ValidationError
+    OrgSubscriptionResponse:
+      properties:
+        plan:
+          type: string
+          title: Plan
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        seat_price_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seat Price Cents
+        billing_interval:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Billing Interval
+      type: object
+      required:
+      - plan
+      - usage_limit_override_usd
+      - overage_enabled
+      - overage_limit_usd
+      title: OrgSubscriptionResponse
+    WorkosPortalLinkResponse:
+      properties:
+        portal_link:
+          type: string
+          title: Portal Link
+        workos_organization_id:
+          type: string
+          title: Workos Organization Id
+      type: object
+      required:
+      - portal_link
+      - workos_organization_id
+      title: WorkosPortalLinkResponse
+    UpdateMemberRequest:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_limit_override_usd:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Overage Limit Override Usd
+      type: object
+      title: UpdateMemberRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrgMemberResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        email:
+          type: string
+          title: Email
+        name:
+          type: string
+          title: Name
+        role:
+          type: string
+          title: Role
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Override Usd
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - user_id
+      - email
+      - name
+      - role
+      - usage_limit_override_usd
+      - overage_limit_override_usd
+      - created_at
+      title: OrgMemberResponse
+    WorkosPortalLinkRequest:
+      properties:
+        intent:
+          type: string
+          title: Intent
+          default: sso
+      type: object
+      title: WorkosPortalLinkRequest
     SetupLinkResponse:
       properties:
         setup_url:
@@ -390,6 +476,19 @@ components:
       required:
       - setup_url
       title: SetupLinkResponse
+    AddMemberRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+        role:
+          type: string
+          title: Role
+          default: member
+      type: object
+      required:
+      - email
+      title: AddMemberRequest
     OrgDetailResponse:
       properties:
         id:
@@ -475,102 +574,3 @@ components:
       - subscription
       - members
       title: OrgDetailResponse
-    WorkosPortalLinkRequest:
-      properties:
-        intent:
-          type: string
-          title: Intent
-          default: sso
-      type: object
-      title: WorkosPortalLinkRequest
-    UpdateMemberRequest:
-      properties:
-        role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_limit_override_usd:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Overage Limit Override Usd
-      type: object
-      title: UpdateMemberRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AddMemberRequest:
-      properties:
-        email:
-          type: string
-          title: Email
-        role:
-          type: string
-          title: Role
-          default: member
-      type: object
-      required:
-      - email
-      title: AddMemberRequest
-    OrgMemberResponse:
-      properties:
-        user_id:
-          type: integer
-          title: User Id
-        email:
-          type: string
-          title: Email
-        name:
-          type: string
-          title: Name
-        role:
-          type: string
-          title: Role
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Override Usd
-        created_at:
-          type: string
-          title: Created At
-      type: object
-      required:
-      - user_id
-      - email
-      - name
-      - role
-      - usage_limit_override_usd
-      - overage_limit_override_usd
-      - created_at
-      title: OrgMemberResponse
-    WorkosPortalLinkResponse:
-      properties:
-        portal_link:
-          type: string
-          title: Portal Link
-        workos_organization_id:
-          type: string
-          title: Workos Organization Id
-      type: object
-      required:
-      - portal_link
-      - workos_organization_id
-      title: WorkosPortalLinkResponse

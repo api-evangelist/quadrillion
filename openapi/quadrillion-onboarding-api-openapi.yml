@@ -70,16 +70,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OnboardingStatusResponse:
-      properties:
-        onboarding_completed:
-          type: boolean
-          title: Onboarding Completed
-      type: object
-      required:
-      - onboarding_completed
-      title: OnboardingStatusResponse
-      description: Response for onboarding status check.
     ValidationError:
       properties:
         loc:
@@ -101,20 +91,6 @@ components:
       - msg
       - type
       title: ValidationError
-    OnboardingCompleteResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - message
-      title: OnboardingCompleteResponse
-      description: Response after completing onboarding.
     OnboardingCompleteRequest:
       properties:
         name:
@@ -144,3 +120,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    OnboardingCompleteResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: OnboardingCompleteResponse
+      description: Response after completing onboarding.
+    OnboardingStatusResponse:
+      properties:
+        onboarding_completed:
+          type: boolean
+          title: Onboarding Completed
+      type: object
+      required:
+      - onboarding_completed
+      title: OnboardingStatusResponse
+      description: Response for onboarding status check.

@@ -106,63 +106,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TerminalSessionResponse:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-        token:
-          type: string
-          title: Token
-        ws_url:
-          type: string
-          title: Ws Url
-      additionalProperties: false
-      type: object
-      required:
-      - session_id
-      - token
-      - ws_url
-      title: TerminalSessionResponse
-      description: Response containing the session credentials and WebSocket URL.
-    TerminalReconnectResponse:
-      properties:
-        token:
-          type: string
-          title: Token
-      additionalProperties: false
-      type: object
-      required:
-      - token
-      title: TerminalReconnectResponse
-      description: Response containing a fresh session token for reconnection.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TerminalSessionRequest:
-      properties: {}
-      additionalProperties: false
-      type: object
-      title: TerminalSessionRequest
-      description: Request to create a new terminal session.
     TerminalActivityRequest:
       properties:
         session_id:
@@ -191,6 +134,57 @@ components:
       - proxy_node
       title: TerminalActivityRequest
       description: Proxy callback reporting coalesced terminal input or output activity.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TerminalReconnectResponse:
+      properties:
+        token:
+          type: string
+          title: Token
+      additionalProperties: false
+      type: object
+      required:
+      - token
+      title: TerminalReconnectResponse
+      description: Response containing a fresh session token for reconnection.
+    TerminalSessionResponse:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+        token:
+          type: string
+          title: Token
+        ws_url:
+          type: string
+          title: Ws Url
+      additionalProperties: false
+      type: object
+      required:
+      - session_id
+      - token
+      - ws_url
+      title: TerminalSessionResponse
+      description: Response containing the session credentials and WebSocket URL.
     HTTPValidationError:
       properties:
         detail:
@@ -200,3 +194,9 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TerminalSessionRequest:
+      properties: {}
+      additionalProperties: false
+      type: object
+      title: TerminalSessionRequest
+      description: Request to create a new terminal session.

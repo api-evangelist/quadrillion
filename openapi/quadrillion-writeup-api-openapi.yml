@@ -105,30 +105,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    _WriteupSaveRequest:
-      properties:
-        writeup_id:
-          type: string
-          title: Writeup Id
-        path:
-          type: string
-          title: Path
-        title:
-          type: string
-          title: Title
-        content:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Content
-      type: object
-      required:
-      - writeup_id
-      - path
-      - title
-      - content
-      title: _WriteupSaveRequest
     HTTPValidationError:
       properties:
         detail:
@@ -159,3 +135,27 @@ components:
       - msg
       - type
       title: ValidationError
+    _WriteupSaveRequest:
+      properties:
+        writeup_id:
+          type: string
+          title: Writeup Id
+        path:
+          type: string
+          title: Path
+        title:
+          type: string
+          title: Title
+        content:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Content
+      type: object
+      required:
+      - writeup_id
+      - path
+      - title
+      - content
+      title: _WriteupSaveRequest
