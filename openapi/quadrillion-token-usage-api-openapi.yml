@@ -111,47 +111,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    AggregatedUsageResponse:
+    ValidationError:
       properties:
-        buckets:
+        loc:
           items:
-            $ref: '#/components/schemas/AggregatedUsageBucket'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Buckets
-          description: Usage in 15-minute buckets
-        total_input_tokens:
-          type: integer
-          title: Total Input Tokens
-        total_cached_tokens:
-          type: integer
-          title: Total Cached Tokens
-        total_cache_write_tokens:
-          type: integer
-          title: Total Cache Write Tokens
-        total_new_input_tokens:
-          type: integer
-          title: Total New Input Tokens
-        total_output_tokens:
-          type: integer
-          title: Total Output Tokens
-        total_reasoning_tokens:
-          type: integer
-          title: Total Reasoning Tokens
-        total_cost_usd:
-          type: number
-          title: Total Cost Usd
-          default: 0.0
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - buckets
-      - total_input_tokens
-      - total_cached_tokens
-      - total_cache_write_tokens
-      - total_new_input_tokens
-      - total_output_tokens
-      - total_reasoning_tokens
-      title: AggregatedUsageResponse
-      description: Response model for time-bucketed aggregated token usage.
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AggregatedUsageBucket:
       properties:
         time_bucket:
@@ -228,24 +208,44 @@ components:
       - reasoning_tokens
       title: AggregatedUsageBucket
       description: Token usage aggregated into 15-minute time buckets by user and model.
-    ValidationError:
+    AggregatedUsageResponse:
       properties:
-        loc:
+        buckets:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/AggregatedUsageBucket'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Buckets
+          description: Usage in 15-minute buckets
+        total_input_tokens:
+          type: integer
+          title: Total Input Tokens
+        total_cached_tokens:
+          type: integer
+          title: Total Cached Tokens
+        total_cache_write_tokens:
+          type: integer
+          title: Total Cache Write Tokens
+        total_new_input_tokens:
+          type: integer
+          title: Total New Input Tokens
+        total_output_tokens:
+          type: integer
+          title: Total Output Tokens
+        total_reasoning_tokens:
+          type: integer
+          title: Total Reasoning Tokens
+        total_cost_usd:
+          type: number
+          title: Total Cost Usd
+          default: 0.0
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - buckets
+      - total_input_tokens
+      - total_cached_tokens
+      - total_cache_write_tokens
+      - total_new_input_tokens
+      - total_output_tokens
+      - total_reasoning_tokens
+      title: AggregatedUsageResponse
+      description: Response model for time-bucketed aggregated token usage.

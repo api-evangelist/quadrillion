@@ -374,23 +374,6 @@ paths:
               schema: {}
 components:
   schemas:
-    DiscoverResponse:
-      properties:
-        org_slug:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Org Slug
-        login_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Login Url
-      type: object
-      required:
-      - org_slug
-      - login_url
-      title: DiscoverResponse
     HTTPValidationError:
       properties:
         detail:
@@ -421,3 +404,20 @@ components:
       - msg
       - type
       title: ValidationError
+    DiscoverResponse:
+      properties:
+        org_slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org Slug
+        login_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Login Url
+      type: object
+      required:
+      - org_slug
+      - login_url
+      title: DiscoverResponse

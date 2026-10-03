@@ -47,23 +47,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SerializedOutput:
-      properties:
-        type:
-          type: string
-          title: Type
-        content:
-          title: Content
-        execution_time_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Execution Time Ms
-      type: object
-      required:
-      - type
-      - content
-      title: SerializedOutput
     AutocompleteModelInfo:
       properties:
         key:
@@ -77,6 +60,33 @@ components:
       - key
       - name
       title: AutocompleteModelInfo
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    AutocompleteModelsResponse:
+      properties:
+        models:
+          items:
+            $ref: '#/components/schemas/AutocompleteModelInfo'
+          type: array
+          title: Models
+      type: object
+      required:
+      - models
+      title: AutocompleteModelsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -98,72 +108,23 @@ components:
       - msg
       - type
       title: ValidationError
-    Cell:
+    SerializedOutput:
       properties:
         type:
-          $ref: '#/components/schemas/CellType'
-          default: code
+          type: string
+          title: Type
         content:
-          type: string
           title: Content
-          default: ''
-        outputs:
-          items:
-            $ref: '#/components/schemas/SerializedOutput'
-          type: array
-          title: Outputs
-        cellId:
-          type: string
-          title: Cellid
-        executionCount:
+        execution_time_ms:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Executioncount
-        executionTimeMs:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Executiontimems
-        executedAtMs:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Executedatms
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-      type: object
-      title: Cell
-      description: Strongly typed representation of a notebook cell.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AutocompleteModelsResponse:
-      properties:
-        models:
-          items:
-            $ref: '#/components/schemas/AutocompleteModelInfo'
-          type: array
-          title: Models
+          title: Execution Time Ms
       type: object
       required:
-      - models
-      title: AutocompleteModelsResponse
-    CellType:
-      type: string
-      enum:
-      - code
-      - markdown
-      - raw
-      title: CellType
+      - type
+      - content
+      title: SerializedOutput
     AutocompleteRequest:
       properties:
         notebook_id:
@@ -203,3 +164,42 @@ components:
       - current_cell_id
       - language
       title: AutocompleteRequest
+    Cell:
+      properties:
+        type:
+          $ref: '#/components/schemas/CellType'
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        outputs:
+          items:
+            $ref: '#/components/schemas/SerializedOutput'
+          type: array
+          title: Outputs
+        cellId:
+          type: string
+          title: Cellid
+        executionCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executioncount
+        executionTimeMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executiontimems
+        executedAtMs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Executedatms
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      title: Cell
+      description: Strongly typed representation of a notebook cell.

@@ -229,36 +229,69 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RuleKind:
+    _CreateRuleRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        content:
+          type: string
+          title: Content
+          default: ''
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+          default: manual
+        globs:
+          items:
+            type: string
+          type: array
+          title: Globs
+          default: []
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        kind:
+          $ref: '#/components/schemas/RuleKind'
+          default: rule
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      required:
+      - name
+      title: _CreateRuleRequest
+    RuleType:
       type: string
       enum:
-      - rule
-      - file-path
-      title: RuleKind
-      description: 'Discriminator for which UI/dialog should render a rule.
-
-
-        ``rule`` (default) is a free-form natural-language rule. ``file_path``
-
-        is a structured rule whose body is generated from its path. The
-
-        injected prompt content is the same for both — kind only affects the
-
-        editor that opens for the rule.'
-    _ImportFileRequest:
+      - always
+      - manual
+      title: RuleType
+    _ActivatePersonaRequest:
       properties:
-        path:
-          type: string
-          title: Path
         name:
           anyOf:
           - type: string
           - type: 'null'
           title: Name
       type: object
-      required:
-      - path
-      title: _ImportFileRequest
+      title: _ActivatePersonaRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -280,30 +313,31 @@ components:
       - msg
       - type
       title: ValidationError
-    RuleType:
+    RuleKind:
       type: string
       enum:
-      - always
-      - manual
-      title: RuleType
-    HTTPValidationError:
+      - rule
+      - file-path
+      title: RuleKind
+      description: 'Discriminator for which UI/dialog should render a rule.
+
+
+        ``rule`` (default) is a free-form natural-language rule. ``file_path``
+
+        is a structured rule whose body is generated from its path. The
+
+        injected prompt content is the same for both — kind only affects the
+
+        editor that opens for the rule.'
+    _ImportClaudeCodeRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    _ActivatePersonaRequest:
-      properties:
-        name:
+        project_path:
           anyOf:
           - type: string
           - type: 'null'
-          title: Name
+          title: Project Path
       type: object
-      title: _ActivatePersonaRequest
+      title: _ImportClaudeCodeRequest
     _UpdateRuleRequest:
       properties:
         name:
@@ -344,51 +378,17 @@ components:
           title: File Path
       type: object
       title: _UpdateRuleRequest
-    _ImportClaudeCodeRequest:
+    _ImportFileRequest:
       properties:
-        project_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Path
-      type: object
-      title: _ImportClaudeCodeRequest
-    _CreateRuleRequest:
-      properties:
+        path:
+          type: string
+          title: Path
         name:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        content:
-          type: string
-          title: Content
-          default: ''
-        rule_type:
-          $ref: '#/components/schemas/RuleType'
-          default: manual
-        globs:
-          items:
-            type: string
-          type: array
-          title: Globs
-          default: []
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-        kind:
-          $ref: '#/components/schemas/RuleKind'
-          default: rule
-        file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Path
       type: object
       required:
-      - name
-      title: _CreateRuleRequest
+      - path
+      title: _ImportFileRequest

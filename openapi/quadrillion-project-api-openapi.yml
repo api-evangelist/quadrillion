@@ -85,16 +85,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_import_project_endpoint_api_projects_import_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_import_project_endpoint_api_projects_import_post
     ValidationError:
       properties:
         loc:
@@ -116,3 +106,13 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_import_project_endpoint_api_projects_import_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_import_project_endpoint_api_projects_import_post

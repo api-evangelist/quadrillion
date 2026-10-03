@@ -94,21 +94,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ToolResultsListResponse:
-      properties:
-        chat_session_id:
-          type: string
-          title: Chat Session Id
-        entries:
-          items:
-            $ref: '#/components/schemas/ToolResultEntry'
-          type: array
-          title: Entries
-      type: object
-      required:
-      - chat_session_id
-      - entries
-      title: ToolResultsListResponse
     ValidationError:
       properties:
         loc:
@@ -130,6 +115,21 @@ components:
       - msg
       - type
       title: ValidationError
+    ToolResultsListResponse:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+        entries:
+          items:
+            $ref: '#/components/schemas/ToolResultEntry'
+          type: array
+          title: Entries
+      type: object
+      required:
+      - chat_session_id
+      - entries
+      title: ToolResultsListResponse
     ToolResultEntry:
       properties:
         call_id:

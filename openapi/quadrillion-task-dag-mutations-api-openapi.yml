@@ -301,30 +301,7 @@ paths:
       deprecated: true
 components:
   schemas:
-    TrackedVariable:
-      properties:
-        name:
-          type: string
-          title: Name
-        expected_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Expected Type
-        task_id:
-          type: string
-          title: Task Id
-      type: object
-      required:
-      - name
-      - expected_type
-      - task_id
-      title: TrackedVariable
-    JsonObject:
-      additionalProperties:
-        $ref: '#/components/schemas/JsonValue'
-      type: object
-    KernelPostRunRequest:
+    SerializeAndSubmitRequest:
       properties:
         notebook_id:
           type: string
@@ -333,12 +310,6 @@ components:
           additionalProperties: true
           type: object
           title: Variables
-        namespace:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Namespace
         cell_id:
           anyOf:
           - type: string
@@ -347,122 +318,20 @@ components:
       type: object
       required:
       - notebook_id
-      title: KernelPostRunRequest
-      description: 'Full post-run snapshot pushed from a kernel: evidence values plus the
+      - variables
+      title: SerializeAndSubmitRequest
+      description: 'Raw values pushed from a kernel post-run hook.
 
-        namespace inventory rendered for the frontend variables panel.
 
+        Clients send the JSON-decoded value as-is; the server is the source
 
-        Mirrors ``handlers.task_dag.KernelPostRunRequest`` so the local and cloud
+        of truth for type classification (see
 
-        ``/api/kernel/post_run`` adapters accept an identical JSON shape.'
-    SerializeAndSubmitResponse:
-      properties:
-        accepted:
-          items:
-            type: string
-          type: array
-          title: Accepted
-        rejected:
-          additionalProperties:
-            type: string
-          type: object
-          title: Rejected
-        tracked:
-          items:
-            $ref: '#/components/schemas/TrackedVariable'
-          type: array
-          title: Tracked
-      type: object
-      title: SerializeAndSubmitResponse
-    CreateProjectRequest:
-      properties:
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-          description: Optional project title
-      type: object
-      title: CreateProjectRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ReassignTaskRequest:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-          description: Chat session ID of the agent to assign to
-        chat_session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chat Session Id
-          description: Optional. Caller's active chat session; used to route task_dag_updated to the client performing the drag.
-      type: object
-      required:
-      - session_id
-      title: ReassignTaskRequest
-    AddRequiredVariableRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Variable name
-        type:
-          type: string
-          title: Type
-          description: 'Expected type: float, int, str, bool, list[float], list[int], list[str], or any'
-          default: any
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Optional human-readable description of the variable
-      type: object
-      required:
-      - name
-      title: AddRequiredVariableRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    JsonValue: {}
-    DeleteTaskRequest:
-      properties:
-        chat_session_id:
-          type: string
-          title: Chat Session Id
-          description: Chat session ID of the caller (must be assignee or creator)
-      type: object
-      required:
-      - chat_session_id
-      title: DeleteTaskRequest
+        ``quadrillion.services.value_classifier``). This keeps Python, R,
+
+        and Julia Q_VARS clients in lockstep regardless of how each language
+
+        natively represents numeric literals.'
     ProjectResponse:
       properties:
         project_id:
@@ -495,22 +364,86 @@ components:
       - created_at
       - updated_at
       title: ProjectResponse
-    UpdateProjectTitleRequest:
+    JsonValue: {}
+    AddRequiredVariableRequest:
       properties:
-        title:
+        name:
           type: string
-          title: Title
-          description: New project title
+          title: Name
+          description: Variable name
+        type:
+          type: string
+          title: Type
+          description: 'Expected type: float, int, str, bool, list[float], list[int], list[str], or any'
+          default: any
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Optional human-readable description of the variable
+      type: object
+      required:
+      - name
+      title: AddRequiredVariableRequest
+    ReassignTaskRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+          description: Chat session ID of the agent to assign to
         chat_session_id:
           anyOf:
           - type: string
           - type: 'null'
           title: Chat Session Id
-          description: Optional; used to route task_dag_updated for project selector refresh
+          description: Optional. Caller's active chat session; used to route task_dag_updated to the client performing the drag.
       type: object
       required:
-      - title
-      title: UpdateProjectTitleRequest
+      - session_id
+      title: ReassignTaskRequest
+    DeleteTaskRequest:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+          description: Chat session ID of the caller (must be assignee or creator)
+      type: object
+      required:
+      - chat_session_id
+      title: DeleteTaskRequest
+    KernelPostRunRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        variables:
+          additionalProperties: true
+          type: object
+          title: Variables
+        namespace:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Namespace
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+      type: object
+      required:
+      - notebook_id
+      title: KernelPostRunRequest
+      description: 'Full post-run snapshot pushed from a kernel: evidence values plus the
+
+        namespace inventory rendered for the frontend variables panel.
+
+
+        Mirrors ``handlers.task_dag.KernelPostRunRequest`` so the local and cloud
+
+        ``/api/kernel/post_run`` adapters accept an identical JSON shape.'
     UpdateTaskRequest:
       properties:
         chat_session_id:
@@ -601,34 +534,101 @@ components:
       required:
       - chat_session_id
       title: UpdateTaskRequest
-    SerializeAndSubmitRequest:
+    SerializeAndSubmitResponse:
       properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        variables:
-          additionalProperties: true
+        accepted:
+          items:
+            type: string
+          type: array
+          title: Accepted
+        rejected:
+          additionalProperties:
+            type: string
           type: object
-          title: Variables
-        cell_id:
+          title: Rejected
+        tracked:
+          items:
+            $ref: '#/components/schemas/TrackedVariable'
+          type: array
+          title: Tracked
+      type: object
+      title: SerializeAndSubmitResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UpdateProjectTitleRequest:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: New project title
+        chat_session_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Cell Id
+          title: Chat Session Id
+          description: Optional; used to route task_dag_updated for project selector refresh
       type: object
       required:
-      - notebook_id
-      - variables
-      title: SerializeAndSubmitRequest
-      description: 'Raw values pushed from a kernel post-run hook.
-
-
-        Clients send the JSON-decoded value as-is; the server is the source
-
-        of truth for type classification (see
-
-        ``quadrillion.services.value_classifier``). This keeps Python, R,
-
-        and Julia Q_VARS clients in lockstep regardless of how each language
-
-        natively represents numeric literals.'
+      - title
+      title: UpdateProjectTitleRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateProjectRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Optional project title
+      type: object
+      title: CreateProjectRequest
+    JsonObject:
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      type: object
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
+      type: object
+      required:
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable

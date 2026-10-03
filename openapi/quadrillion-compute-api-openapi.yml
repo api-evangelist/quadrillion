@@ -48,132 +48,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ComputeCapabilitiesResponse:
-      properties:
-        env_present:
-          type: boolean
-          title: Env Present
-        capabilities:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Capabilities
-        capabilities_version:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Capabilities Version
-      type: object
-      required:
-      - env_present
-      - capabilities
-      title: ComputeCapabilitiesResponse
-      description: Response model for effective partition capabilities.
-    ComputeResolveRequest:
-      properties:
-        compute_traits:
-          anyOf:
-          - $ref: '#/components/schemas/ComputeTraits'
-          - type: 'null'
-        count:
-          type: integer
-          minimum: 1.0
-          title: Count
-          default: 1
-        mode:
-          type: string
-          enum:
-          - single
-          - batch
-          title: Mode
-          default: single
-      additionalProperties: false
-      type: object
-      title: ComputeResolveRequest
-      description: Request model for compute partition resolution.
-    GpuType:
-      type: string
-      enum:
-      - a10g
-      - l4
-      - a100
-      - h100
-      title: GpuType
-      description: Supported GPU families for compute requests.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ComputeResolveResponse:
-      properties:
-        partition:
-          type: string
-          title: Partition
-        decision:
-          $ref: '#/components/schemas/ComputeResolveDecision'
-        capabilities_version:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Capabilities Version
-        warnings:
-          items:
-            type: string
-          type: array
-          title: Warnings
-      type: object
-      required:
-      - partition
-      - decision
-      title: ComputeResolveResponse
-      description: Response model for compute partition resolution.
-    ComputeResolveDecision:
-      properties:
-        policy:
-          type: string
-          title: Policy
-        matched_capability:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Matched Capability
-        fallback_used:
-          type: boolean
-          title: Fallback Used
-          default: false
-      type: object
-      required:
-      - policy
-      title: ComputeResolveDecision
-      description: Decision metadata for partition resolution.
     ComputeTraits:
       properties:
         gpu_type:
@@ -202,3 +76,129 @@ components:
 
 
         All fields are optional; omitted fields impose no constraint.'
+    ComputeResolveDecision:
+      properties:
+        policy:
+          type: string
+          title: Policy
+        matched_capability:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Matched Capability
+        fallback_used:
+          type: boolean
+          title: Fallback Used
+          default: false
+      type: object
+      required:
+      - policy
+      title: ComputeResolveDecision
+      description: Decision metadata for partition resolution.
+    GpuType:
+      type: string
+      enum:
+      - a10g
+      - l4
+      - a100
+      - h100
+      title: GpuType
+      description: Supported GPU families for compute requests.
+    ComputeResolveResponse:
+      properties:
+        partition:
+          type: string
+          title: Partition
+        decision:
+          $ref: '#/components/schemas/ComputeResolveDecision'
+        capabilities_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Capabilities Version
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+      type: object
+      required:
+      - partition
+      - decision
+      title: ComputeResolveResponse
+      description: Response model for compute partition resolution.
+    ComputeCapabilitiesResponse:
+      properties:
+        env_present:
+          type: boolean
+          title: Env Present
+        capabilities:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Capabilities
+        capabilities_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Capabilities Version
+      type: object
+      required:
+      - env_present
+      - capabilities
+      title: ComputeCapabilitiesResponse
+      description: Response model for effective partition capabilities.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComputeResolveRequest:
+      properties:
+        compute_traits:
+          anyOf:
+          - $ref: '#/components/schemas/ComputeTraits'
+          - type: 'null'
+        count:
+          type: integer
+          minimum: 1.0
+          title: Count
+          default: 1
+        mode:
+          type: string
+          enum:
+          - single
+          - batch
+          title: Mode
+          default: single
+      additionalProperties: false
+      type: object
+      title: ComputeResolveRequest
+      description: Request model for compute partition resolution.

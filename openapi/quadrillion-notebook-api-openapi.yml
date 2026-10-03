@@ -882,36 +882,209 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    _CellAddRequest:
+    _FileDeleteRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        recursive:
+          type: boolean
+          title: Recursive
+          default: true
+      type: object
+      required:
+      - path
+      title: _FileDeleteRequest
+    _ExportNotebookContentRequest:
+      properties:
+        notebook:
+          additionalProperties: true
+          type: object
+          title: Notebook
+          description: The notebook JSON content to export
+      type: object
+      required:
+      - notebook
+      title: _ExportNotebookContentRequest
+    _DraftOperationsRequest:
       properties:
         notebook_id:
           type: string
           title: Notebook Id
         notebook_path:
-          type: string
-          title: Notebook Path
-        cell_id:
-          type: string
-          title: Cell Id
-        cell_type:
-          type: string
-          title: Cell Type
-          default: code
-        content:
-          type: string
-          title: Content
-          default: ''
-        after_cell_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: After Cell Id
+          title: Notebook Path
+        operations:
+          items:
+            $ref: '#/components/schemas/_DraftOperation'
+          type: array
+          title: Operations
       type: object
       required:
       - notebook_id
-      - notebook_path
+      title: _DraftOperationsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _RevealPathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _RevealPathRequest
+    _FileRenameRequest:
+      properties:
+        old_path:
+          type: string
+          title: Old Path
+        new_path:
+          type: string
+          title: New Path
+      type: object
+      required:
+      - old_path
+      - new_path
+      title: _FileRenameRequest
+    _ExportFolderRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the folder containing notebooks to export
+      type: object
+      required:
+      - path
+      title: _ExportFolderRequest
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    _FileSaveRequest:
+      properties:
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      required:
+      - path
+      title: _FileSaveRequest
+    _DuplicatePathRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _DuplicatePathRequest
+    _DraftSaveRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - notebook_id
+      - path
+      title: _DraftSaveRequest
+    _FileCreateRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - path
+      title: _FileCreateRequest
+    _PendingUserEdit:
+      properties:
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
       - cell_id
-      title: _CellAddRequest
+      - content
+      title: _PendingUserEdit
+      description: A debounced user content edit not yet emitted via socket.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     _DraftOperation:
       properties:
         base_backend_checkpoint:
@@ -950,295 +1123,6 @@ components:
       - operation_id
       - kind
       title: _DraftOperation
-    _DraftManifestRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-      type: object
-      required:
-      - notebook_id
-      title: _DraftManifestRequest
-    _ExportStandaloneRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-          description: Path to the notebook to export
-      type: object
-      required:
-      - path
-      title: _ExportStandaloneRequest
-    _DraftCellsRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        cell_ids:
-          items:
-            type: string
-          type: array
-          title: Cell Ids
-      type: object
-      required:
-      - notebook_id
-      title: _DraftCellsRequest
-    _DraftSaveToCanonicalRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        force:
-          type: boolean
-          title: Force
-          default: false
-        pending_user_edits:
-          items:
-            $ref: '#/components/schemas/_PendingUserEdit'
-          type: array
-          title: Pending User Edits
-      type: object
-      required:
-      - notebook_id
-      title: _DraftSaveToCanonicalRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SerializedOutput:
-      properties:
-        type:
-          type: string
-          title: Type
-        content:
-          title: Content
-        execution_time_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Execution Time Ms
-      type: object
-      required:
-      - type
-      - content
-      title: SerializedOutput
-    _FileCreateRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-      type: object
-      required:
-      - path
-      title: _FileCreateRequest
-    _DraftOperationsRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notebook Path
-        operations:
-          items:
-            $ref: '#/components/schemas/_DraftOperation'
-          type: array
-          title: Operations
-      type: object
-      required:
-      - notebook_id
-      title: _DraftOperationsRequest
-    _CellPatchRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        notebook_path:
-          type: string
-          title: Notebook Path
-        cell_id:
-          type: string
-          title: Cell Id
-        content:
-          type: string
-          title: Content
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cell_id
-      - content
-      title: _CellPatchRequest
-    _DuplicatePathRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _DuplicatePathRequest
-    _FileDeleteRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-        recursive:
-          type: boolean
-          title: Recursive
-          default: true
-      type: object
-      required:
-      - path
-      title: _FileDeleteRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    _NotebookReadRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _NotebookReadRequest
-    _FileRenameRequest:
-      properties:
-        old_path:
-          type: string
-          title: Old Path
-        new_path:
-          type: string
-          title: New Path
-      type: object
-      required:
-      - old_path
-      - new_path
-      title: _FileRenameRequest
-    _OpenWithDefaultRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _OpenWithDefaultRequest
-    _ExportNotebookContentRequest:
-      properties:
-        notebook:
-          additionalProperties: true
-          type: object
-          title: Notebook
-          description: The notebook JSON content to export
-      type: object
-      required:
-      - notebook
-      title: _ExportNotebookContentRequest
-    _ExportFolderRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-          description: Path to the folder containing notebooks to export
-      type: object
-      required:
-      - path
-      title: _ExportFolderRequest
-    _DraftSaveRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - notebook_id
-      - path
-      title: _DraftSaveRequest
-    _FileSaveRequest:
-      properties:
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-        path:
-          type: string
-          title: Path
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-      type: object
-      required:
-      - path
-      title: _FileSaveRequest
-    _RevealPathRequest:
-      properties:
-        path:
-          type: string
-          title: Path
-      type: object
-      required:
-      - path
-      title: _RevealPathRequest
     Cell:
       properties:
         type:
@@ -1278,27 +1162,15 @@ components:
       type: object
       title: Cell
       description: Strongly typed representation of a notebook cell.
-    _PendingUserEdit:
+    _DraftManifestRequest:
       properties:
-        cell_id:
+        notebook_id:
           type: string
-          title: Cell Id
-        content:
-          type: string
-          title: Content
+          title: Notebook Id
       type: object
       required:
-      - cell_id
-      - content
-      title: _PendingUserEdit
-      description: A debounced user content edit not yet emitted via socket.
-    CellType:
-      type: string
-      enum:
-      - code
-      - markdown
-      - raw
-      title: CellType
+      - notebook_id
+      title: _DraftManifestRequest
     _FolderCreateRequest:
       properties:
         path:
@@ -1312,6 +1184,60 @@ components:
       - path
       - name
       title: _FolderCreateRequest
+    _NotebookReadRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _NotebookReadRequest
+    _ExportStandaloneRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Path to the notebook to export
+      type: object
+      required:
+      - path
+      title: _ExportStandaloneRequest
+    _DraftCellsRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        cell_ids:
+          items:
+            type: string
+          type: array
+          title: Cell Ids
+      type: object
+      required:
+      - notebook_id
+      title: _DraftCellsRequest
+    _CellPatchRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      - content
+      title: _CellPatchRequest
     _DraftResetRequest:
       properties:
         notebook_id:
@@ -1326,3 +1252,77 @@ components:
       required:
       - notebook_id
       title: _DraftResetRequest
+    _OpenWithDefaultRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+      type: object
+      required:
+      - path
+      title: _OpenWithDefaultRequest
+    _DraftSaveToCanonicalRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        force:
+          type: boolean
+          title: Force
+          default: false
+        pending_user_edits:
+          items:
+            $ref: '#/components/schemas/_PendingUserEdit'
+          type: array
+          title: Pending User Edits
+      type: object
+      required:
+      - notebook_id
+      title: _DraftSaveToCanonicalRequest
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
+      type: object
+      required:
+      - type
+      - content
+      title: SerializedOutput
+    _CellAddRequest:
+      properties:
+        notebook_id:
+          type: string
+          title: Notebook Id
+        notebook_path:
+          type: string
+          title: Notebook Path
+        cell_id:
+          type: string
+          title: Cell Id
+        cell_type:
+          type: string
+          title: Cell Type
+          default: code
+        content:
+          type: string
+          title: Content
+          default: ''
+        after_cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: After Cell Id
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cell_id
+      title: _CellAddRequest

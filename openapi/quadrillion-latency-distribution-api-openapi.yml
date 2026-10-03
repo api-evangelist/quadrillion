@@ -163,6 +163,41 @@ components:
       - count
       title: LatencyPercentiles
       description: Percentile values for a latency metric (in milliseconds).
+    LatencyDistributionBucket:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+          description: The date for this bucket
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model name
+        proxy_latency:
+          $ref: '#/components/schemas/LatencyPercentiles'
+          description: Proxy latency percentiles (request to upstream)
+        ttft_latency:
+          $ref: '#/components/schemas/LatencyPercentiles'
+          description: TTFT latency percentiles (upstream to first byte)
+      type: object
+      required:
+      - date
+      - proxy_latency
+      - ttft_latency
+      title: LatencyDistributionBucket
+      description: Latency distribution for a model on a specific day.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     LatencyDistributionResponse:
       properties:
         buckets:
@@ -197,38 +232,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    LatencyDistributionBucket:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-          description: The date for this bucket
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-          description: Model name
-        proxy_latency:
-          $ref: '#/components/schemas/LatencyPercentiles'
-          description: Proxy latency percentiles (request to upstream)
-        ttft_latency:
-          $ref: '#/components/schemas/LatencyPercentiles'
-          description: TTFT latency percentiles (upstream to first byte)
-      type: object
-      required:
-      - date
-      - proxy_latency
-      - ttft_latency
-      title: LatencyDistributionBucket
-      description: Latency distribution for a model on a specific day.

@@ -70,6 +70,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    OnboardingStatusResponse:
+      properties:
+        onboarding_completed:
+          type: boolean
+          title: Onboarding Completed
+      type: object
+      required:
+      - onboarding_completed
+      title: OnboardingStatusResponse
+      description: Response for onboarding status check.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -91,6 +110,20 @@ components:
       - msg
       - type
       title: ValidationError
+    OnboardingCompleteResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - success
+      - message
+      title: OnboardingCompleteResponse
+      description: Response after completing onboarding.
     OnboardingCompleteRequest:
       properties:
         name:
@@ -111,36 +144,3 @@ components:
       - company_name
       title: OnboardingCompleteRequest
       description: Request body for completing onboarding.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OnboardingCompleteResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - success
-      - message
-      title: OnboardingCompleteResponse
-      description: Response after completing onboarding.
-    OnboardingStatusResponse:
-      properties:
-        onboarding_completed:
-          type: boolean
-          title: Onboarding Completed
-      type: object
-      required:
-      - onboarding_completed
-      title: OnboardingStatusResponse
-      description: Response for onboarding status check.

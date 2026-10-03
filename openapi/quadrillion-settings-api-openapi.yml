@@ -984,6 +984,34 @@ paths:
               schema: {}
 components:
   schemas:
+    _GithubOAuthInitRequest:
+      properties:
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      title: _GithubOAuthInitRequest
+    _CreatePythonEnvironmentRequest:
+      properties:
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+      type: object
+      title: _CreatePythonEnvironmentRequest
+    _EnvironmentConfigUpdateRequest:
+      properties:
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - config
+      title: _EnvironmentConfigUpdateRequest
     _BashAllowlistAddRequest:
       properties:
         command:
@@ -1000,59 +1028,31 @@ components:
       required:
       - command
       title: _BashAllowlistAddRequest
-    _CreatePythonEnvironmentRequest:
+    _KernelDiscoveryPathRequest:
       properties:
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-      type: object
-      title: _CreatePythonEnvironmentRequest
-    _SandboxSettingsUpdateRequest:
-      properties:
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-        auto_approve:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Auto Approve
-        extra_writable_paths:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Writable Paths
-        excluded_commands:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Excluded Commands
-        extra_deny_write:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Extra Deny Write
-      type: object
-      title: _SandboxSettingsUpdateRequest
-    _SelectJuliaEnvironmentRequest:
-      properties:
-        julia_path:
+        kind:
+          $ref: '#/components/schemas/KernelDiscoveryPathKind'
+        path:
           type: string
-          title: Julia Path
+          title: Path
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
       type: object
       required:
-      - julia_path
-      title: _SelectJuliaEnvironmentRequest
+      - kind
+      - path
+      title: _KernelDiscoveryPathRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     _MatplotlibrcUpdateRequest:
       properties:
         dpi:
@@ -1112,26 +1112,69 @@ components:
       - figsize
       - colormap
       title: _MatplotlibrcUpdateRequest
-    _GithubOAuthInitRequest:
+    _SaveCustomColorSchemeRequest:
       properties:
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      title: _GithubOAuthInitRequest
-    _EnvironmentPrivateValuesRequest:
-      properties:
-        values:
-          additionalProperties:
+        scheme_id:
+          type: string
+          title: Scheme Id
+        name:
+          type: string
+          title: Name
+        colors:
+          items:
             type: string
-          type: object
-          title: Values
+          type: array
+          title: Colors
       type: object
       required:
-      - values
-      title: _EnvironmentPrivateValuesRequest
+      - scheme_id
+      - name
+      - colors
+      title: _SaveCustomColorSchemeRequest
+    _KernelDiscoveryPathEnabledRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: _KernelDiscoveryPathEnabledRequest
+    _SandboxSettingsUpdateRequest:
+      properties:
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+        auto_approve:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Auto Approve
+        extra_writable_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Writable Paths
+        excluded_commands:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Excluded Commands
+        extra_deny_write:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Extra Deny Write
+      type: object
+      title: _SandboxSettingsUpdateRequest
     ValidationError:
       properties:
         loc:
@@ -1153,21 +1196,30 @@ components:
       - msg
       - type
       title: ValidationError
-    KernelDiscoveryPathKind:
-      type: string
-      enum:
-      - kernelspec_root
-      - scan_root
-      title: KernelDiscoveryPathKind
-    _ApplyModelFamilyRequest:
+    _SelectJuliaEnvironmentRequest:
       properties:
-        family:
+        julia_path:
           type: string
-          title: Family
+          title: Julia Path
       type: object
       required:
-      - family
-      title: _ApplyModelFamilyRequest
+      - julia_path
+      title: _SelectJuliaEnvironmentRequest
+    _WorkspaceSwitchRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+        initiator_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Initiator Id
+      type: object
+      required:
+      - path
+      title: _WorkspaceSwitchRequest
     _EnvironmentPrepareRequest:
       properties:
         profile_name:
@@ -1185,15 +1237,21 @@ components:
           default: python
       type: object
       title: _EnvironmentPrepareRequest
-    HTTPValidationError:
+    KernelDiscoveryPathKind:
+      type: string
+      enum:
+      - kernelspec_root
+      - scan_root
+      title: KernelDiscoveryPathKind
+    _SelectREnvironmentRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        r_path:
+          type: string
+          title: R Path
       type: object
-      title: HTTPValidationError
+      required:
+      - r_path
+      title: _SelectREnvironmentRequest
     _SlackOAuthInitRequest:
       properties:
         request_id:
@@ -1203,21 +1261,44 @@ components:
           title: Request Id
       type: object
       title: _SlackOAuthInitRequest
-    _WorkspaceSwitchRequest:
+    _DeletePythonEnvironmentRequest:
       properties:
-        path:
-          type: string
-          minLength: 1
-          title: Path
-        initiator_id:
+        location:
           anyOf:
           - type: string
           - type: 'null'
-          title: Initiator Id
+          title: Location
+      type: object
+      title: _DeletePythonEnvironmentRequest
+    _EnvironmentPrivateValuesRequest:
+      properties:
+        values:
+          additionalProperties:
+            type: string
+          type: object
+          title: Values
       type: object
       required:
-      - path
-      title: _WorkspaceSwitchRequest
+      - values
+      title: _EnvironmentPrivateValuesRequest
+    _SelectPythonEnvironmentRequest:
+      properties:
+        python_path:
+          type: string
+          title: Python Path
+      type: object
+      required:
+      - python_path
+      title: _SelectPythonEnvironmentRequest
+    _ApplyModelFamilyRequest:
+      properties:
+        family:
+          type: string
+          title: Family
+      type: object
+      required:
+      - family
+      title: _ApplyModelFamilyRequest
     _SettingUpdateRequest:
       properties:
         settings_key:
@@ -1231,84 +1312,3 @@ components:
       - settings_key
       - value
       title: _SettingUpdateRequest
-    _SelectPythonEnvironmentRequest:
-      properties:
-        python_path:
-          type: string
-          title: Python Path
-      type: object
-      required:
-      - python_path
-      title: _SelectPythonEnvironmentRequest
-    _DeletePythonEnvironmentRequest:
-      properties:
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-      type: object
-      title: _DeletePythonEnvironmentRequest
-    _KernelDiscoveryPathEnabledRequest:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-      type: object
-      required:
-      - enabled
-      title: _KernelDiscoveryPathEnabledRequest
-    _EnvironmentConfigUpdateRequest:
-      properties:
-        config:
-          additionalProperties: true
-          type: object
-          title: Config
-      type: object
-      required:
-      - config
-      title: _EnvironmentConfigUpdateRequest
-    _SaveCustomColorSchemeRequest:
-      properties:
-        scheme_id:
-          type: string
-          title: Scheme Id
-        name:
-          type: string
-          title: Name
-        colors:
-          items:
-            type: string
-          type: array
-          title: Colors
-      type: object
-      required:
-      - scheme_id
-      - name
-      - colors
-      title: _SaveCustomColorSchemeRequest
-    _SelectREnvironmentRequest:
-      properties:
-        r_path:
-          type: string
-          title: R Path
-      type: object
-      required:
-      - r_path
-      title: _SelectREnvironmentRequest
-    _KernelDiscoveryPathRequest:
-      properties:
-        kind:
-          $ref: '#/components/schemas/KernelDiscoveryPathKind'
-        path:
-          type: string
-          title: Path
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-      type: object
-      required:
-      - kind
-      - path
-      title: _KernelDiscoveryPathRequest

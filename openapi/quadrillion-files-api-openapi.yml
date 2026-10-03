@@ -177,6 +177,24 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Body_upload_file_files_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        dest_dir:
+          type: string
+          title: Dest Dir
+          default: ''
+        overwrite:
+          type: boolean
+          title: Overwrite
+          default: false
+      type: object
+      required:
+      - file
+      title: Body_upload_file_files_upload_post
     ValidationError:
       properties:
         loc:
@@ -198,21 +216,3 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_upload_file_files_upload_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        dest_dir:
-          type: string
-          title: Dest Dir
-          default: ''
-        overwrite:
-          type: boolean
-          title: Overwrite
-          default: false
-      type: object
-      required:
-      - file
-      title: Body_upload_file_files_upload_post

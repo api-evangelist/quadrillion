@@ -109,6 +109,98 @@ paths:
                 $ref: '#/components/schemas/SubscriptionResponse'
 components:
   schemas:
+    OrgInfoResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        role:
+          type: string
+          title: Role
+      type: object
+      required:
+      - name
+      - slug
+      - role
+      title: OrgInfoResponse
+      description: Organization context returned in the subscription response.
+    AccountFeaturesResponse:
+      properties:
+        is_admin:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Admin
+        ollama:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ollama
+        max_parallel_agents:
+          type: integer
+          title: Max Parallel Agents
+          default: 2
+        gpu_access:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Gpu Access
+        autonomous_runs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Autonomous Runs
+        slack_integration:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Slack Integration
+        overage_eligible:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Overage Eligible
+        byok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Byok
+        github_oauth:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Github Oauth
+        eap_access:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Eap Access
+      type: object
+      title: AccountFeaturesResponse
+      description: 'Response model for account feature flags.
+
+
+        Only includes feature keys the user is eligible for.
+
+        Omitted keys mean the feature is not available (except max_parallel_agents
+
+        which always has a value).'
+      examples:
+      - is_admin: true
+        max_parallel_agents: 8
+      - max_parallel_agents: 2
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SubscriptionResponse:
       properties:
         plan_tier:
@@ -211,95 +303,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AccountFeaturesResponse:
-      properties:
-        is_admin:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Admin
-        ollama:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Ollama
-        max_parallel_agents:
-          type: integer
-          title: Max Parallel Agents
-          default: 2
-        gpu_access:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Gpu Access
-        autonomous_runs:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Autonomous Runs
-        slack_integration:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Slack Integration
-        overage_eligible:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Overage Eligible
-        byok:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Byok
-        github_oauth:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Github Oauth
-        eap_access:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Eap Access
-      type: object
-      title: AccountFeaturesResponse
-      description: 'Response model for account feature flags.
-
-
-        Only includes feature keys the user is eligible for.
-
-        Omitted keys mean the feature is not available (except max_parallel_agents
-
-        which always has a value).'
-      examples:
-      - is_admin: true
-        max_parallel_agents: 8
-      - max_parallel_agents: 2
-    OrgInfoResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        role:
-          type: string
-          title: Role
-      type: object
-      required:
-      - name
-      - slug
-      - role
-      title: OrgInfoResponse
-      description: Organization context returned in the subscription response.

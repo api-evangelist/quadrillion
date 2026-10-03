@@ -148,6 +148,25 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Body_upload_blob_blobs_upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_blob_blobs_upload_post
+    SaveBlobAsFileRequest:
+      properties:
+        filename:
+          type: string
+          title: Filename
+      type: object
+      required:
+      - filename
+      title: SaveBlobAsFileRequest
     ValidationError:
       properties:
         loc:
@@ -169,22 +188,3 @@ components:
       - msg
       - type
       title: ValidationError
-    SaveBlobAsFileRequest:
-      properties:
-        filename:
-          type: string
-          title: Filename
-      type: object
-      required:
-      - filename
-      title: SaveBlobAsFileRequest
-    Body_upload_blob_blobs_upload_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_blob_blobs_upload_post

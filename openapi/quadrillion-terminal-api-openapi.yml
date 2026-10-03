@@ -194,15 +194,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TerminalWriteRequest:
-      properties:
-        data:
-          type: string
-          title: Data
-      type: object
-      required:
-      - data
-      title: TerminalWriteRequest
     QualiaCommandRequest:
       properties:
         file_path:
@@ -212,27 +203,6 @@ components:
       required:
       - file_path
       title: QualiaCommandRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -242,19 +212,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    TerminalResizeRequest:
-      properties:
-        cols:
-          type: integer
-          title: Cols
-        rows:
-          type: integer
-          title: Rows
-      type: object
-      required:
-      - cols
-      - rows
-      title: TerminalResizeRequest
     TerminalCreateRequest:
       properties:
         shell:
@@ -277,3 +234,46 @@ components:
           title: Cwd
       type: object
       title: TerminalCreateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TerminalResizeRequest:
+      properties:
+        cols:
+          type: integer
+          title: Cols
+        rows:
+          type: integer
+          title: Rows
+      type: object
+      required:
+      - cols
+      - rows
+      title: TerminalResizeRequest
+    TerminalWriteRequest:
+      properties:
+        data:
+          type: string
+          title: Data
+      type: object
+      required:
+      - data
+      title: TerminalWriteRequest

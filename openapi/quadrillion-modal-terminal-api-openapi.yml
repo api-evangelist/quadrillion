@@ -106,66 +106,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TerminalActivityRequest:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-        sandbox_alias:
-          type: string
-          title: Sandbox Alias
-        proxy_node:
-          type: string
-          title: Proxy Node
-        connection_id:
-          type: string
-          title: Connection Id
-          default: ''
-        frames:
-          type: integer
-          minimum: 1.0
-          title: Frames
-          default: 1
-      additionalProperties: false
-      type: object
-      required:
-      - session_id
-      - sandbox_alias
-      - proxy_node
-      title: TerminalActivityRequest
-      description: Proxy callback reporting coalesced terminal input or output activity.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TerminalReconnectResponse:
-      properties:
-        token:
-          type: string
-          title: Token
-      additionalProperties: false
-      type: object
-      required:
-      - token
-      title: TerminalReconnectResponse
-      description: Response containing a fresh session token for reconnection.
     TerminalSessionResponse:
       properties:
         session_id:
@@ -194,9 +134,69 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TerminalReconnectResponse:
+      properties:
+        token:
+          type: string
+          title: Token
+      additionalProperties: false
+      type: object
+      required:
+      - token
+      title: TerminalReconnectResponse
+      description: Response containing a fresh session token for reconnection.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     TerminalSessionRequest:
       properties: {}
       additionalProperties: false
       type: object
       title: TerminalSessionRequest
       description: Request to create a new terminal session.
+    TerminalActivityRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+        sandbox_alias:
+          type: string
+          title: Sandbox Alias
+        proxy_node:
+          type: string
+          title: Proxy Node
+        connection_id:
+          type: string
+          title: Connection Id
+          default: ''
+        frames:
+          type: integer
+          minimum: 1.0
+          title: Frames
+          default: 1
+      additionalProperties: false
+      type: object
+      required:
+      - session_id
+      - sandbox_alias
+      - proxy_node
+      title: TerminalActivityRequest
+      description: Proxy callback reporting coalesced terminal input or output activity.

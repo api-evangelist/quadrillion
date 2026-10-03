@@ -199,27 +199,52 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    CreateKeyResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        id:
+          type: integer
+          title: Id
+        key:
           type: string
-          title: Message
-        type:
+          title: Key
+        name:
           type: string
-          title: Error Type
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        warning:
+          type: string
+          title: Warning
+          default: Save this key now. You won't be able to see it again!
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - id
+      - key
+      - name
+      - created_at
+      title: CreateKeyResponse
+      description: Response model for created API key.
+    ValidateKeyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+      type: object
+      required:
+      - valid
+      title: ValidateKeyResponse
+      description: Response model for API key validation.
+    CreateKeyRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateKeyRequest
+      description: Request model for creating an API key.
     ListKeyResponse:
       properties:
         id:
@@ -252,16 +277,6 @@ components:
       - revoked
       title: ListKeyResponse
       description: Response model for listing API keys.
-    ValidateKeyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-      type: object
-      required:
-      - valid
-      title: ValidateKeyResponse
-      description: Response model for API key validation.
     HTTPValidationError:
       properties:
         detail:
@@ -271,32 +286,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    CreateKeyResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        created_at:
-          type: string
-          title: Created At
-        warning:
-          type: string
-          title: Warning
-          default: Save this key now. You won't be able to see it again!
-      type: object
-      required:
-      - id
-      - key
-      - name
-      - created_at
-      title: CreateKeyResponse
-      description: Response model for created API key.
     ValidateKeyRequest:
       properties:
         key:
@@ -307,13 +296,24 @@ components:
       - key
       title: ValidateKeyRequest
       description: Request model for validating an API key.
-    CreateKeyRequest:
+    ValidationError:
       properties:
-        name:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Name
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - name
-      title: CreateKeyRequest
-      description: Request model for creating an API key.
+      - loc
+      - msg
+      - type
+      title: ValidationError
