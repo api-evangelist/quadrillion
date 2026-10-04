@@ -95,18 +95,6 @@ paths:
           description: Successful Response
 components:
   schemas:
-    ExecutionModeBody:
-      properties:
-        mode:
-          type: string
-          enum:
-          - cloud
-          - local
-          title: Mode
-      type: object
-      required:
-      - mode
-      title: ExecutionModeBody
     InstallResponse:
       properties:
         oauth_url:
@@ -120,15 +108,6 @@ components:
       - oauth_url
       - request_id
       title: InstallResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -181,3 +160,24 @@ components:
       required:
       - connected
       title: InstallationStatus
+    ExecutionModeBody:
+      properties:
+        mode:
+          type: string
+          enum:
+          - cloud
+          - local
+          title: Mode
+      type: object
+      required:
+      - mode
+      title: ExecutionModeBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

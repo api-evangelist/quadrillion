@@ -199,6 +199,16 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidateKeyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+      type: object
+      required:
+      - valid
+      title: ValidateKeyResponse
+      description: Response model for API key validation.
     CreateKeyResponse:
       properties:
         id:
@@ -225,16 +235,6 @@ components:
       - created_at
       title: CreateKeyResponse
       description: Response model for created API key.
-    ValidateKeyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-      type: object
-      required:
-      - valid
-      title: ValidateKeyResponse
-      description: Response model for API key validation.
     CreateKeyRequest:
       properties:
         name:
@@ -245,6 +245,37 @@ components:
       - name
       title: CreateKeyRequest
       description: Request model for creating an API key.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValidateKeyRequest:
+      properties:
+        key:
+          type: string
+          title: Key
+      type: object
+      required:
+      - key
+      title: ValidateKeyRequest
+      description: Request model for validating an API key.
     ListKeyResponse:
       properties:
         id:
@@ -286,34 +317,3 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidateKeyRequest:
-      properties:
-        key:
-          type: string
-          title: Key
-      type: object
-      required:
-      - key
-      title: ValidateKeyRequest
-      description: Request model for validating an API key.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

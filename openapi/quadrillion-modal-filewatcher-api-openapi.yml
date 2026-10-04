@@ -52,6 +52,30 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    FSStalePayload:
+      properties:
+        reason:
+          type: string
+          title: Reason
+        sandbox_id:
+          type: string
+          title: Sandbox Id
+        sandbox_alias:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sandbox Alias
+        workspace_id:
+          type: string
+          title: Workspace Id
+      additionalProperties: false
+      type: object
+      required:
+      - reason
+      - sandbox_id
+      - workspace_id
+      title: FSStalePayload
+      description: Payload emitted on the ``fs_stale`` Socket.IO event.
     RawFileEvent:
       properties:
         path:
@@ -89,39 +113,6 @@ components:
       - timestamp_ns
       title: RawFileEvent
       description: A single filesystem event forwarded by the proxy.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    FSStalePayload:
-      properties:
-        reason:
-          type: string
-          title: Reason
-        sandbox_id:
-          type: string
-          title: Sandbox Id
-        sandbox_alias:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sandbox Alias
-        workspace_id:
-          type: string
-          title: Workspace Id
-      additionalProperties: false
-      type: object
-      required:
-      - reason
-      - sandbox_id
-      - workspace_id
-      title: FSStalePayload
-      description: Payload emitted on the ``fs_stale`` Socket.IO event.
     ValidationError:
       properties:
         loc:
@@ -177,3 +168,12 @@ components:
       - events
       title: FileSystemEventsRequest
       description: Batch of filesystem events from the proxy to FastAPI.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

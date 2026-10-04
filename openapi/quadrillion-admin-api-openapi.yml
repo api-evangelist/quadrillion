@@ -583,6 +583,536 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    AdminActiveUsersResponse:
+      properties:
+        days:
+          type: integer
+          title: Days
+        exclude_admins:
+          type: boolean
+          title: Exclude Admins
+        total:
+          type: integer
+          title: Total
+        users:
+          items:
+            $ref: '#/components/schemas/ActiveUserRow'
+          type: array
+          title: Users
+      type: object
+      required:
+      - days
+      - exclude_admins
+      - total
+      - users
+      title: AdminActiveUsersResponse
+      description: The exact distinct users active in the trailing ``days`` window.
+    AdminUsersListResponse:
+      properties:
+        users:
+          items:
+            $ref: '#/components/schemas/AdminUserResponse'
+          type: array
+          title: Users
+        total_count:
+          type: integer
+          title: Total Count
+      type: object
+      required:
+      - users
+      - total_count
+      title: AdminUsersListResponse
+    UpdateSubscriptionRequest:
+      properties:
+        plan:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Plan
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Overage Limit Usd
+      type: object
+      title: UpdateSubscriptionRequest
+    OrgSubscriptionResponse:
+      properties:
+        plan:
+          type: string
+          title: Plan
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        seat_price_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seat Price Cents
+        billing_interval:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Billing Interval
+      type: object
+      required:
+      - plan
+      - usage_limit_override_usd
+      - overage_enabled
+      - overage_limit_usd
+      title: OrgSubscriptionResponse
+    UpdateSubscriptionResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        plan:
+          type: string
+          title: Plan
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+      type: object
+      required:
+      - user_id
+      - plan
+      - usage_limit_override_usd
+      - overage_enabled
+      - overage_limit_usd
+      title: UpdateSubscriptionResponse
+    OrgMemberResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        email:
+          type: string
+          title: Email
+        name:
+          type: string
+          title: Name
+        role:
+          type: string
+          title: Role
+        usage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Override Usd
+        overage_limit_override_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Override Usd
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - user_id
+      - email
+      - name
+      - role
+      - usage_limit_override_usd
+      - overage_limit_override_usd
+      - created_at
+      title: OrgMemberResponse
+    ActiveUserRow:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        email:
+          type: string
+          title: Email
+        last_active:
+          type: string
+          format: date-time
+          title: Last Active
+        active_days:
+          type: integer
+          title: Active Days
+      type: object
+      required:
+      - id
+      - name
+      - email
+      - last_active
+      - active_days
+      title: ActiveUserRow
+      description: A single distinct user counted as active within a metric's window.
+    FeatureOverrideMutationRequest:
+      properties:
+        feature:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Feature
+        subject_type:
+          $ref: '#/components/schemas/FeatureEntitlementSubjectType'
+        subject:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Subject
+        note:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Note
+      additionalProperties: false
+      type: object
+      required:
+      - feature
+      - subject_type
+      - subject
+      title: FeatureOverrideMutationRequest
+    AdminUserStatsResponse:
+      properties:
+        total_users:
+          type: integer
+          title: Total Users
+        range_days:
+          type: integer
+          title: Range Days
+        daily_active_users:
+          items:
+            $ref: '#/components/schemas/DailyActiveUsers'
+          type: array
+          title: Daily Active Users
+        average_dau:
+          type: number
+          title: Average Dau
+        average_dau_days:
+          type: integer
+          title: Average Dau Days
+        wau:
+          type: integer
+          title: Wau
+        mau:
+          type: integer
+          title: Mau
+        stickiness:
+          type: number
+          title: Stickiness
+      type: object
+      required:
+      - total_users
+      - range_days
+      - daily_active_users
+      - average_dau
+      - average_dau_days
+      - wau
+      - mau
+      - stickiness
+      title: AdminUserStatsResponse
+      description: "Platform user-activity rollup for the admin dashboard.\n\n\"Active\" is keyed on model usage (a ``token_usage`` row), not logins: a\nsession-bearing user who never runs the agent isn't active in any sense\nthat matters for this product.\n\nTwo families of numbers ship together:\n\n* Engagement KPIs (``average_dau``/``wau``/``mau``/``stickiness``). ``wau``\n  and ``mau`` are distinct active users in the trailing 7/30 days (the\n  standard Amplitude/Mixpanel definitions). ``average_dau`` is the mean\n  daily active users over the trailing ``average_dau_days`` window (a single\n  day is too noisy to headline). ``stickiness`` is always the trailing\n  30-day average DAU over ``mau``, regardless of ``average_dau_days``.\n* Trend data (``daily_active_users``) is the per-day distinct-user series\n  scoped to the caller-selected ``range_days`` lookback; it drives the\n  activity heatmap. The series is sparse (zero-activity days omitted), so\n  callers averaging it must divide by ``range_days``, not by its length."
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DailyActiveUsers:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+        active_users:
+          type: integer
+          title: Active Users
+      type: object
+      required:
+      - date
+      - active_users
+      title: DailyActiveUsers
+      description: Distinct model-active users on a single calendar day (UTC).
+    OrgSubscriptionInfo:
+      properties:
+        plan:
+          type: string
+          title: Plan
+        status:
+          type: string
+          title: Status
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+          default: false
+        overage_limit_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overage Limit Usd
+        usage_limit_per_user_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Per User Usd
+        seat_price_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seat Price Cents
+      type: object
+      required:
+      - plan
+      - status
+      title: OrgSubscriptionInfo
+      description: Subscription details surfaced in org responses.
+    CreateOrgRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        slug:
+          type: string
+          maxLength: 64
+          pattern: ^[a-z0-9]+(-[a-z0-9]+)*$
+          title: Slug
+        billing_email:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Billing Email
+        seat_price_cents:
+          type: integer
+          minimum: 0.0
+          title: Seat Price Cents
+        billing_interval:
+          type: string
+          title: Billing Interval
+          default: month
+        usage_limit_per_user_usd:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Usage Limit Per User Usd
+        overage_enabled:
+          type: boolean
+          title: Overage Enabled
+          default: false
+        overage_limit_per_user_usd:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Overage Limit Per User Usd
+        api_markup_rate:
+          anyOf:
+          - type: number
+            maximum: 10.0
+            minimum: 0.0
+          - type: 'null'
+          title: Api Markup Rate
+        admin_user_email:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Admin User Email
+        seat_price_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Seat Price Id
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - slug
+      - billing_email
+      - seat_price_cents
+      - usage_limit_per_user_usd
+      title: CreateOrgRequest
+    FeatureOverridesListResponse:
+      properties:
+        overrides:
+          items:
+            $ref: '#/components/schemas/FeatureOverrideResponse'
+          type: array
+          title: Overrides
+      type: object
+      required:
+      - overrides
+      title: FeatureOverridesListResponse
+    FeatureOverrideRevokeRequest:
+      properties:
+        feature:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Feature
+        subject_type:
+          $ref: '#/components/schemas/FeatureEntitlementSubjectType'
+        subject:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Subject
+      additionalProperties: false
+      type: object
+      required:
+      - feature
+      - subject_type
+      - subject
+      title: FeatureOverrideRevokeRequest
+    AdminUserTimeseriesResponse:
+      properties:
+        range_days:
+          type: integer
+          title: Range Days
+        points:
+          items:
+            $ref: '#/components/schemas/UserStatsTimeseriesPoint'
+          type: array
+          title: Points
+      type: object
+      required:
+      - range_days
+      - points
+      title: AdminUserTimeseriesResponse
+      description: 'Daily rolling engagement series over the selected ``range_days`` lookback.
+
+
+        Rolling windows are seeded with up to 29 days of history before the lookback
+
+        so the earliest points are fully populated rather than ramping up from zero.'
+    AdminOrgResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        stripe_customer_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Customer Id
+        billing_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Billing Email
+        api_markup_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Api Markup Rate
+        archived_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Archived At
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        member_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Member Count
+        payment_method_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Status
+        subscription:
+          anyOf:
+          - $ref: '#/components/schemas/OrgSubscriptionInfo'
+          - type: 'null'
+        next_steps:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Steps
+        stripe_customer_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Customer Url
+        stripe_subscription_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stripe Subscription Url
+        workos_organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workos Organization Id
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - stripe_customer_id
+      - billing_email
+      - api_markup_rate
+      - archived_at
+      - created_at
+      - updated_at
+      title: AdminOrgResponse
+      description: 'Platform-admin org response: adds Stripe Dashboard deep links.
+
+
+        These URLs are intentionally absent from ``OrgResponse`` so customer
+
+        org admins (who read ``/api/org/...`` endpoints) never see them.'
+    FeatureEntitlementSubjectType:
+      type: string
+      enum:
+      - email
+      - email_domain
+      - organization_slug
+      title: FeatureEntitlementSubjectType
     AdminUserResponse:
       properties:
         id:
@@ -649,83 +1179,40 @@ components:
       - created_at
       - last_login
       title: AdminUserResponse
-    DailyActiveUsers:
+    UserStatsTimeseriesPoint:
       properties:
         date:
           type: string
           format: date
           title: Date
-        active_users:
+        dau:
           type: integer
-          title: Active Users
+          title: Dau
+        wau:
+          type: integer
+          title: Wau
+        mau:
+          type: integer
+          title: Mau
+        stickiness:
+          type: number
+          title: Stickiness
       type: object
       required:
       - date
-      - active_users
-      title: DailyActiveUsers
-      description: Distinct model-active users on a single calendar day (UTC).
-    ActiveUserRow:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        email:
-          type: string
-          title: Email
-        last_active:
-          type: string
-          format: date-time
-          title: Last Active
-        active_days:
-          type: integer
-          title: Active Days
-      type: object
-      required:
-      - id
-      - name
-      - email
-      - last_active
-      - active_days
-      title: ActiveUserRow
-      description: A single distinct user counted as active within a metric's window.
-    OrgSubscriptionResponse:
-      properties:
-        plan:
-          type: string
-          title: Plan
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-        seat_price_cents:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seat Price Cents
-        billing_interval:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Billing Interval
-      type: object
-      required:
-      - plan
-      - usage_limit_override_usd
-      - overage_enabled
-      - overage_limit_usd
-      title: OrgSubscriptionResponse
+      - dau
+      - wau
+      - mau
+      - stickiness
+      title: UserStatsTimeseriesPoint
+      description: 'One UTC calendar day of rolling engagement metrics.
+
+
+        ``dau`` is that day''s distinct active users; ``wau``/``mau`` are distinct
+
+        active users across the trailing 7/30 days ending on that day; ``stickiness``
+
+        is the trailing-30-day average DAU over that day''s MAU.'
     AdminOrgDetailResponse:
       properties:
         id:
@@ -837,170 +1324,6 @@ components:
         Subclassing keeps the full ``members``/``invitations``/``subscription``
 
         shape in OpenAPI, which generated clients rely on.'
-    OrgInvitationResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        email:
-          type: string
-          title: Email
-        role:
-          type: string
-          title: Role
-        token:
-          type: string
-          title: Token
-        expires_at:
-          type: string
-          title: Expires At
-        created_at:
-          type: string
-          title: Created At
-      type: object
-      required:
-      - id
-      - email
-      - role
-      - token
-      - expires_at
-      - created_at
-      title: OrgInvitationResponse
-    AdminUserTimeseriesResponse:
-      properties:
-        range_days:
-          type: integer
-          title: Range Days
-        points:
-          items:
-            $ref: '#/components/schemas/UserStatsTimeseriesPoint'
-          type: array
-          title: Points
-      type: object
-      required:
-      - range_days
-      - points
-      title: AdminUserTimeseriesResponse
-      description: 'Daily rolling engagement series over the selected ``range_days`` lookback.
-
-
-        Rolling windows are seeded with up to 29 days of history before the lookback
-
-        so the earliest points are fully populated rather than ramping up from zero.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    FeatureEntitlementSubjectType:
-      type: string
-      enum:
-      - email
-      - email_domain
-      - organization_slug
-      title: FeatureEntitlementSubjectType
-    FeatureOverridesListResponse:
-      properties:
-        overrides:
-          items:
-            $ref: '#/components/schemas/FeatureOverrideResponse'
-          type: array
-          title: Overrides
-      type: object
-      required:
-      - overrides
-      title: FeatureOverridesListResponse
-    UpdateSubscriptionResponse:
-      properties:
-        user_id:
-          type: integer
-          title: User Id
-        plan:
-          type: string
-          title: Plan
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-      type: object
-      required:
-      - user_id
-      - plan
-      - usage_limit_override_usd
-      - overage_enabled
-      - overage_limit_usd
-      title: UpdateSubscriptionResponse
-    UserStatsTimeseriesPoint:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        dau:
-          type: integer
-          title: Dau
-        wau:
-          type: integer
-          title: Wau
-        mau:
-          type: integer
-          title: Mau
-        stickiness:
-          type: number
-          title: Stickiness
-      type: object
-      required:
-      - date
-      - dau
-      - wau
-      - mau
-      - stickiness
-      title: UserStatsTimeseriesPoint
-      description: 'One UTC calendar day of rolling engagement metrics.
-
-
-        ``dau`` is that day''s distinct active users; ``wau``/``mau`` are distinct
-
-        active users across the trailing 7/30 days ending on that day; ``stickiness``
-
-        is the trailing-30-day average DAU over that day''s MAU.'
-    AdminActiveUsersResponse:
-      properties:
-        days:
-          type: integer
-          title: Days
-        exclude_admins:
-          type: boolean
-          title: Exclude Admins
-        total:
-          type: integer
-          title: Total
-        users:
-          items:
-            $ref: '#/components/schemas/ActiveUserRow'
-          type: array
-          title: Users
-      type: object
-      required:
-      - days
-      - exclude_admins
-      - total
-      - users
-      title: AdminActiveUsersResponse
-      description: The exact distinct users active in the trailing ``days`` window.
     ValidationError:
       properties:
         loc:
@@ -1022,27 +1345,42 @@ components:
       - msg
       - type
       title: ValidationError
-    FeatureOverrideRevokeRequest:
+    FeatureOverrideResponse:
       properties:
-        feature:
+        feature_key:
           type: string
-          maxLength: 64
-          minLength: 1
-          title: Feature
+          title: Feature Key
         subject_type:
           $ref: '#/components/schemas/FeatureEntitlementSubjectType'
         subject:
           type: string
-          maxLength: 255
-          minLength: 1
           title: Subject
-      additionalProperties: false
+        enabled:
+          type: boolean
+          title: Enabled
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
       type: object
       required:
-      - feature
+      - feature_key
       - subject_type
       - subject
-      title: FeatureOverrideRevokeRequest
+      - enabled
+      - note
+      - created_at
+      - updated_at
+      title: FeatureOverrideResponse
     UpdateOrgRequest:
       properties:
         name:
@@ -1113,370 +1451,32 @@ components:
       - organizations
       - total_count
       title: AdminOrgsListResponse
-    AdminOrgResponse:
+    OrgInvitationResponse:
       properties:
         id:
           type: integer
           title: Id
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        stripe_customer_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Stripe Customer Id
-        billing_email:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Billing Email
-        api_markup_rate:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Api Markup Rate
-        archived_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Archived At
-        created_at:
-          type: string
-          title: Created At
-        updated_at:
-          type: string
-          title: Updated At
-        member_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Member Count
-        payment_method_status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Payment Method Status
-        subscription:
-          anyOf:
-          - $ref: '#/components/schemas/OrgSubscriptionInfo'
-          - type: 'null'
-        next_steps:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Steps
-        stripe_customer_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Stripe Customer Url
-        stripe_subscription_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Stripe Subscription Url
-        workos_organization_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Workos Organization Id
-      type: object
-      required:
-      - id
-      - name
-      - slug
-      - stripe_customer_id
-      - billing_email
-      - api_markup_rate
-      - archived_at
-      - created_at
-      - updated_at
-      title: AdminOrgResponse
-      description: 'Platform-admin org response: adds Stripe Dashboard deep links.
-
-
-        These URLs are intentionally absent from ``OrgResponse`` so customer
-
-        org admins (who read ``/api/org/...`` endpoints) never see them.'
-    FeatureOverrideMutationRequest:
-      properties:
-        feature:
-          type: string
-          maxLength: 64
-          minLength: 1
-          title: Feature
-        subject_type:
-          $ref: '#/components/schemas/FeatureEntitlementSubjectType'
-        subject:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Subject
-        note:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Note
-      additionalProperties: false
-      type: object
-      required:
-      - feature
-      - subject_type
-      - subject
-      title: FeatureOverrideMutationRequest
-    OrgSubscriptionInfo:
-      properties:
-        plan:
-          type: string
-          title: Plan
-        status:
-          type: string
-          title: Status
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-          default: false
-        overage_limit_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Usd
-        usage_limit_per_user_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Per User Usd
-        seat_price_cents:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seat Price Cents
-      type: object
-      required:
-      - plan
-      - status
-      title: OrgSubscriptionInfo
-      description: Subscription details surfaced in org responses.
-    OrgMemberResponse:
-      properties:
-        user_id:
-          type: integer
-          title: User Id
         email:
           type: string
           title: Email
-        name:
-          type: string
-          title: Name
         role:
           type: string
           title: Role
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overage Limit Override Usd
+        token:
+          type: string
+          title: Token
+        expires_at:
+          type: string
+          title: Expires At
         created_at:
           type: string
           title: Created At
       type: object
       required:
-      - user_id
+      - id
       - email
-      - name
       - role
-      - usage_limit_override_usd
-      - overage_limit_override_usd
+      - token
+      - expires_at
       - created_at
-      title: OrgMemberResponse
-    AdminUsersListResponse:
-      properties:
-        users:
-          items:
-            $ref: '#/components/schemas/AdminUserResponse'
-          type: array
-          title: Users
-        total_count:
-          type: integer
-          title: Total Count
-      type: object
-      required:
-      - users
-      - total_count
-      title: AdminUsersListResponse
-    AdminUserStatsResponse:
-      properties:
-        total_users:
-          type: integer
-          title: Total Users
-        range_days:
-          type: integer
-          title: Range Days
-        daily_active_users:
-          items:
-            $ref: '#/components/schemas/DailyActiveUsers'
-          type: array
-          title: Daily Active Users
-        average_dau:
-          type: number
-          title: Average Dau
-        average_dau_days:
-          type: integer
-          title: Average Dau Days
-        wau:
-          type: integer
-          title: Wau
-        mau:
-          type: integer
-          title: Mau
-        stickiness:
-          type: number
-          title: Stickiness
-      type: object
-      required:
-      - total_users
-      - range_days
-      - daily_active_users
-      - average_dau
-      - average_dau_days
-      - wau
-      - mau
-      - stickiness
-      title: AdminUserStatsResponse
-      description: "Platform user-activity rollup for the admin dashboard.\n\n\"Active\" is keyed on model usage (a ``token_usage`` row), not logins: a\nsession-bearing user who never runs the agent isn't active in any sense\nthat matters for this product.\n\nTwo families of numbers ship together:\n\n* Engagement KPIs (``average_dau``/``wau``/``mau``/``stickiness``). ``wau``\n  and ``mau`` are distinct active users in the trailing 7/30 days (the\n  standard Amplitude/Mixpanel definitions). ``average_dau`` is the mean\n  daily active users over the trailing ``average_dau_days`` window (a single\n  day is too noisy to headline). ``stickiness`` is always the trailing\n  30-day average DAU over ``mau``, regardless of ``average_dau_days``.\n* Trend data (``daily_active_users``) is the per-day distinct-user series\n  scoped to the caller-selected ``range_days`` lookback; it drives the\n  activity heatmap. The series is sparse (zero-activity days omitted), so\n  callers averaging it must divide by ``range_days``, not by its length."
-    FeatureOverrideResponse:
-      properties:
-        feature_key:
-          type: string
-          title: Feature Key
-        subject_type:
-          $ref: '#/components/schemas/FeatureEntitlementSubjectType'
-        subject:
-          type: string
-          title: Subject
-        enabled:
-          type: boolean
-          title: Enabled
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - feature_key
-      - subject_type
-      - subject
-      - enabled
-      - note
-      - created_at
-      - updated_at
-      title: FeatureOverrideResponse
-    CreateOrgRequest:
-      properties:
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        slug:
-          type: string
-          maxLength: 64
-          pattern: ^[a-z0-9]+(-[a-z0-9]+)*$
-          title: Slug
-        billing_email:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Billing Email
-        seat_price_cents:
-          type: integer
-          minimum: 0.0
-          title: Seat Price Cents
-        billing_interval:
-          type: string
-          title: Billing Interval
-          default: month
-        usage_limit_per_user_usd:
-          type: number
-          exclusiveMinimum: 0.0
-          title: Usage Limit Per User Usd
-        overage_enabled:
-          type: boolean
-          title: Overage Enabled
-          default: false
-        overage_limit_per_user_usd:
-          anyOf:
-          - type: integer
-            minimum: 0.0
-          - type: 'null'
-          title: Overage Limit Per User Usd
-        api_markup_rate:
-          anyOf:
-          - type: number
-            maximum: 10.0
-            minimum: 0.0
-          - type: 'null'
-          title: Api Markup Rate
-        admin_user_email:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Admin User Email
-        seat_price_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Seat Price Id
-      additionalProperties: false
-      type: object
-      required:
-      - name
-      - slug
-      - billing_email
-      - seat_price_cents
-      - usage_limit_per_user_usd
-      title: CreateOrgRequest
-    UpdateSubscriptionRequest:
-      properties:
-        plan:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Plan
-        usage_limit_override_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usage Limit Override Usd
-        overage_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Overage Enabled
-        overage_limit_usd:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Overage Limit Usd
-      type: object
-      title: UpdateSubscriptionRequest
+      title: OrgInvitationResponse

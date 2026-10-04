@@ -85,51 +85,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ToolResultsListResponse:
-      properties:
-        chat_session_id:
-          type: string
-          title: Chat Session Id
-        entries:
-          items:
-            $ref: '#/components/schemas/ToolResultEntry'
-          type: array
-          title: Entries
-      type: object
-      required:
-      - chat_session_id
-      - entries
-      title: ToolResultsListResponse
     ToolResultEntry:
       properties:
         call_id:
@@ -183,3 +138,48 @@ components:
       - ok
       - truncated
       title: ToolResultEntry
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ToolResultsListResponse:
+      properties:
+        chat_session_id:
+          type: string
+          title: Chat Session Id
+        entries:
+          items:
+            $ref: '#/components/schemas/ToolResultEntry'
+          type: array
+          title: Entries
+      type: object
+      required:
+      - chat_session_id
+      - entries
+      title: ToolResultsListResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

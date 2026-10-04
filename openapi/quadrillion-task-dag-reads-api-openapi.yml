@@ -292,39 +292,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ProjectResponse:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        stub_title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Stub Title
-        settings:
-          additionalProperties: true
-          type: object
-          title: Settings
-        created_at:
-          type: string
-          title: Created At
-        updated_at:
-          type: string
-          title: Updated At
-      type: object
-      required:
-      - project_id
-      - title
-      - created_at
-      - updated_at
-      title: ProjectResponse
-    JsonValue: {}
     SessionTasksResponse:
       properties:
         project_id:
@@ -342,123 +309,10 @@ components:
       - project_id
       - tasks
       title: SessionTasksResponse
-    NormalizedTaskVariablesResponse:
-      properties:
-        kind:
-          type: string
-          title: Kind
-        columns:
-          items:
-            type: string
-          type: array
-          title: Columns
-        rows:
-          items:
-            $ref: '#/components/schemas/JsonObject'
-          type: array
-          title: Rows
-      type: object
-      required:
-      - kind
-      - columns
-      - rows
-      title: NormalizedTaskVariablesResponse
-      description: 'Envelope returned by ``GET /api/task_variables/normalized``.
-
-
-        ``kind`` distinguishes the variable shape (``"variables"``) from the
-
-        tabular finding shape (``"tables"``). ``columns`` is the canonical
-
-        column order for the requested kind. Every row is guaranteed to
-
-        contain every column key (filled with ``None`` where the source row
-
-        omitted it) so kernel-side clients can build their native table
-
-        type without each language re-encoding the empty-schema fallback.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DagResponse:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-        tasks:
-          items:
-            $ref: '#/components/schemas/TaskResponse'
-          type: array
-          title: Tasks
-      type: object
-      required:
-      - project_id
-      - tasks
-      title: DagResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TrackedVariablesResponse:
-      properties:
-        variables:
-          items:
-            $ref: '#/components/schemas/TrackedVariable'
-          type: array
-          title: Variables
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-      type: object
-      title: TrackedVariablesResponse
     JsonObject:
       additionalProperties:
         $ref: '#/components/schemas/JsonValue'
       type: object
-    TrackedVariable:
-      properties:
-        name:
-          type: string
-          title: Name
-        expected_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Expected Type
-        task_id:
-          type: string
-          title: Task Id
-      type: object
-      required:
-      - name
-      - expected_type
-      - task_id
-      title: TrackedVariable
     TaskResponse:
       properties:
         task_id:
@@ -557,3 +411,149 @@ components:
       - created_at
       - updated_at
       title: TaskResponse
+    JsonValue: {}
+    NormalizedTaskVariablesResponse:
+      properties:
+        kind:
+          type: string
+          title: Kind
+        columns:
+          items:
+            type: string
+          type: array
+          title: Columns
+        rows:
+          items:
+            $ref: '#/components/schemas/JsonObject'
+          type: array
+          title: Rows
+      type: object
+      required:
+      - kind
+      - columns
+      - rows
+      title: NormalizedTaskVariablesResponse
+      description: 'Envelope returned by ``GET /api/task_variables/normalized``.
+
+
+        ``kind`` distinguishes the variable shape (``"variables"``) from the
+
+        tabular finding shape (``"tables"``). ``columns`` is the canonical
+
+        column order for the requested kind. Every row is guaranteed to
+
+        contain every column key (filled with ``None`` where the source row
+
+        omitted it) so kernel-side clients can build their native table
+
+        type without each language re-encoding the empty-schema fallback.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TrackedVariablesResponse:
+      properties:
+        variables:
+          items:
+            $ref: '#/components/schemas/TrackedVariable'
+          type: array
+          title: Variables
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+      type: object
+      title: TrackedVariablesResponse
+    ProjectResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        stub_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stub Title
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+      type: object
+      required:
+      - project_id
+      - title
+      - created_at
+      - updated_at
+      title: ProjectResponse
+    TrackedVariable:
+      properties:
+        name:
+          type: string
+          title: Name
+        expected_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expected Type
+        task_id:
+          type: string
+          title: Task Id
+      type: object
+      required:
+      - name
+      - expected_type
+      - task_id
+      title: TrackedVariable
+    DagResponse:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskResponse'
+          type: array
+          title: Tasks
+      type: object
+      required:
+      - project_id
+      - tasks
+      title: DagResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

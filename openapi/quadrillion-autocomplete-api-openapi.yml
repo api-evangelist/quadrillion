@@ -47,6 +47,17 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    AutocompleteModelsResponse:
+      properties:
+        models:
+          items:
+            $ref: '#/components/schemas/AutocompleteModelInfo'
+          type: array
+          title: Models
+      type: object
+      required:
+      - models
+      title: AutocompleteModelsResponse
     AutocompleteModelInfo:
       properties:
         key:
@@ -60,110 +71,6 @@ components:
       - key
       - name
       title: AutocompleteModelInfo
-    CellType:
-      type: string
-      enum:
-      - code
-      - markdown
-      - raw
-      title: CellType
-    AutocompleteModelsResponse:
-      properties:
-        models:
-          items:
-            $ref: '#/components/schemas/AutocompleteModelInfo'
-          type: array
-          title: Models
-      type: object
-      required:
-      - models
-      title: AutocompleteModelsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SerializedOutput:
-      properties:
-        type:
-          type: string
-          title: Type
-        content:
-          title: Content
-        execution_time_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Execution Time Ms
-      type: object
-      required:
-      - type
-      - content
-      title: SerializedOutput
-    AutocompleteRequest:
-      properties:
-        notebook_id:
-          type: string
-          minLength: 1
-          title: Notebook Id
-        notebook_path:
-          type: string
-          minLength: 1
-          title: Notebook Path
-        cursor_position:
-          type: integer
-          minimum: 0.0
-          title: Cursor Position
-        current_cell_content:
-          type: string
-          title: Current Cell Content
-        current_cell_id:
-          type: string
-          minLength: 1
-          title: Current Cell Id
-        language:
-          type: string
-          minLength: 1
-          title: Language
-        cells:
-          items:
-            $ref: '#/components/schemas/Cell'
-          type: array
-          title: Cells
-      type: object
-      required:
-      - notebook_id
-      - notebook_path
-      - cursor_position
-      - current_cell_content
-      - current_cell_id
-      - language
-      title: AutocompleteRequest
     Cell:
       properties:
         type:
@@ -203,3 +110,96 @@ components:
       type: object
       title: Cell
       description: Strongly typed representation of a notebook cell.
+    AutocompleteRequest:
+      properties:
+        notebook_id:
+          type: string
+          minLength: 1
+          title: Notebook Id
+        notebook_path:
+          type: string
+          minLength: 1
+          title: Notebook Path
+        cursor_position:
+          type: integer
+          minimum: 0.0
+          title: Cursor Position
+        current_cell_content:
+          type: string
+          title: Current Cell Content
+        current_cell_id:
+          type: string
+          minLength: 1
+          title: Current Cell Id
+        language:
+          type: string
+          minLength: 1
+          title: Language
+        cells:
+          items:
+            $ref: '#/components/schemas/Cell'
+          type: array
+          title: Cells
+      type: object
+      required:
+      - notebook_id
+      - notebook_path
+      - cursor_position
+      - current_cell_content
+      - current_cell_id
+      - language
+      title: AutocompleteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SerializedOutput:
+      properties:
+        type:
+          type: string
+          title: Type
+        content:
+          title: Content
+        execution_time_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Execution Time Ms
+      type: object
+      required:
+      - type
+      - content
+      title: SerializedOutput
+    CellType:
+      type: string
+      enum:
+      - code
+      - markdown
+      - raw
+      title: CellType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

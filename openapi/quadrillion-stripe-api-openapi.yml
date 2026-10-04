@@ -191,6 +191,16 @@ paths:
                 title: Response Stripe Webhook Api Stripe Webhook Post
 components:
   schemas:
+    PortalSessionResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: PortalSessionResponse
+      description: Response with portal session URL.
     CheckoutSessionRequest:
       properties:
         plan:
@@ -216,25 +226,16 @@ components:
       - plan
       title: CheckoutSessionRequest
       description: Request body for creating a checkout session.
-    OverageCeilingRequest:
+    CheckoutSessionResponse:
       properties:
-        overage_limit_usd:
-          type: integer
-          title: Overage Limit Usd
+        url:
+          type: string
+          title: Url
       type: object
       required:
-      - overage_limit_usd
-      title: OverageCeilingRequest
-      description: Request body for updating overage ceiling.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - url
+      title: CheckoutSessionResponse
+      description: Response with checkout session URL.
     ValidationError:
       properties:
         loc:
@@ -256,6 +257,25 @@ components:
       - msg
       - type
       title: ValidationError
+    OverageCeilingRequest:
+      properties:
+        overage_limit_usd:
+          type: integer
+          title: Overage Limit Usd
+      type: object
+      required:
+      - overage_limit_usd
+      title: OverageCeilingRequest
+      description: Request body for updating overage ceiling.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OverageRequest:
       properties:
         enabled:
@@ -271,23 +291,3 @@ components:
       - enabled
       title: OverageRequest
       description: Request body for toggling overage.
-    CheckoutSessionResponse:
-      properties:
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: CheckoutSessionResponse
-      description: Response with checkout session URL.
-    PortalSessionResponse:
-      properties:
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: PortalSessionResponse
-      description: Response with portal session URL.

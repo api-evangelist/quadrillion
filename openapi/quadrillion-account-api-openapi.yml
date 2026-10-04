@@ -192,15 +192,6 @@ components:
       - is_admin: true
         max_parallel_agents: 8
       - max_parallel_agents: 2
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SubscriptionResponse:
       properties:
         plan_tier:
@@ -303,3 +294,12 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

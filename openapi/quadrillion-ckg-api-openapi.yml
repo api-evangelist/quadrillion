@@ -544,62 +544,18 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TabularSortRequest:
+    ImportKnowledgeRequest:
       properties:
-        sort:
-          additionalProperties: true
-          type: object
-          title: Sort
-      type: object
-      required:
-      - sort
-      title: TabularSortRequest
-    KnowledgeSummaryClaimReviewStatus:
-      type: string
-      enum:
-      - pending
-      - accepted
-      title: KnowledgeSummaryClaimReviewStatus
-    AssociatedNotebookResponse:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-        path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Path
-      type: object
-      required:
-      - notebook_id
-      title: AssociatedNotebookResponse
-    HTTPValidationError:
-      properties:
-        detail:
+        sources:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/ImportSourceRequest'
           type: array
-          title: Detail
+          minItems: 1
+          title: Sources
       type: object
-      title: HTTPValidationError
-    AddEvidenceResponse:
-      properties:
-        claim_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Claim Id
-          description: Created claim id, or null when the request was rejected.
-        rejected_reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rejected Reason
-          description: Why the request was rejected, when ``claim_id`` is null.
-      type: object
-      title: AddEvidenceResponse
-      description: Response for ``POST /api/evidence``.
+      required:
+      - sources
+      title: ImportKnowledgeRequest
     ReviewClaimsBulkRequest:
       properties:
         project_id:
@@ -618,49 +574,78 @@ components:
       - claim_ids
       - decision
       title: ReviewClaimsBulkRequest
-    AssociatedTaskResponse:
+    AssociatedNotebookResponse:
       properties:
-        task_id:
+        notebook_id:
           type: string
-          title: Task Id
-        title:
-          type: string
-          title: Title
-        status:
-          type: string
-          title: Status
-        assigned_to_session_id:
+          title: Notebook Id
+        path:
           anyOf:
           - type: string
           - type: 'null'
-          title: Assigned To Session Id
+          title: Path
       type: object
       required:
-      - task_id
-      - title
-      - status
-      title: AssociatedTaskResponse
-    ValidationError:
+      - notebook_id
+      title: AssociatedNotebookResponse
+    AddEvidenceRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        notebook_id:
           type: string
-          title: Message
-        type:
+          title: Notebook Id
+          description: Notebook the value was produced in.
+        description:
           type: string
-          title: Error Type
+          title: Description
+          description: Brief narrative of what the value shows.
+        variable_name:
+          type: string
+          title: Variable Name
+          description: Notebook variable name.
+        value:
+          title: Value
+          description: The value to record. Same shape as qualia.submit_variable.
+        cell_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cell Id
+          description: Producing cell id when known; cited as the source.
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+          description: Optional task to associate the evidence claim with.
+        is_high_level:
+          type: boolean
+          title: Is High Level
+          description: If true, broadcasts this claim to all agents.
+          default: false
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - notebook_id
+      - description
+      - variable_name
+      - value
+      title: AddEvidenceRequest
+      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
+
+        variable as a notebook-captured claim).'
+    ReviewClaimsBulkResponse:
+      properties:
+        affected:
+          items:
+            type: string
+          type: array
+          title: Affected
+        decision:
+          $ref: '#/components/schemas/ReviewDecision'
+      type: object
+      required:
+      - affected
+      - decision
+      title: ReviewClaimsBulkResponse
     ClaimSourceResponse:
       properties:
         id:
@@ -708,43 +693,175 @@ components:
       - claim_id
       - source_type
       title: ClaimSourceResponse
-    KnowledgeSummaryClaimResponse:
+    KnowledgeSummaryResponse:
       properties:
-        claim_id:
-          type: string
-          title: Claim Id
-        claim_type:
-          $ref: '#/components/schemas/ClaimType'
-        label:
-          type: string
-          title: Label
-        review_status:
-          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
-          default: accepted
-        created_at:
-          type: string
-          title: Created At
+        counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Counts
+        recent:
+          items:
+            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
+          type: array
+          title: Recent
       type: object
       required:
-      - claim_id
-      - claim_type
-      - label
-      - created_at
-      title: KnowledgeSummaryClaimResponse
-    ReviewClaimsBulkResponse:
+      - counts
+      title: KnowledgeSummaryResponse
+    FetchUrlRequest:
       properties:
-        affected:
+        url:
+          type: string
+          minLength: 1
+          title: Url
+      type: object
+      required:
+      - url
+      title: FetchUrlRequest
+    ImportSourceRequest:
+      properties:
+        source_type:
+          type: string
+          enum:
+          - text
+          - file
+          - url
+          title: Source Type
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        blob_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Blob Uuid
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - source_type
+      title: ImportSourceRequest
+    HTTPValidationError:
+      properties:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Affected
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ClaimsListResponse:
+      properties:
+        claims:
+          items:
+            $ref: '#/components/schemas/ClaimResponse'
+          type: array
+          title: Claims
+        related:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Related
+      type: object
+      required:
+      - claims
+      title: ClaimsListResponse
+    FetchUrlResponse:
+      properties:
+        blob_uuid:
+          type: string
+          title: Blob Uuid
+        mime_type:
+          type: string
+          title: Mime Type
+        size:
+          type: integer
+          title: Size
+        preview:
+          type: string
+          title: Preview
+      type: object
+      required:
+      - blob_uuid
+      - mime_type
+      - size
+      - preview
+      title: FetchUrlResponse
+    ReviewDecision:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    AssociatedTaskResponse:
+      properties:
+        task_id:
+          type: string
+          title: Task Id
+        title:
+          type: string
+          title: Title
+        status:
+          type: string
+          title: Status
+        assigned_to_session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assigned To Session Id
+      type: object
+      required:
+      - task_id
+      - title
+      - status
+      title: AssociatedTaskResponse
+    AddEvidenceResponse:
+      properties:
+        claim_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Id
+          description: Created claim id, or null when the request was rejected.
+        rejected_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rejected Reason
+          description: Why the request was rejected, when ``claim_id`` is null.
+      type: object
+      title: AddEvidenceResponse
+      description: Response for ``POST /api/evidence``.
+    KnowledgeSummaryClaimReviewStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      title: KnowledgeSummaryClaimReviewStatus
+    ReviewClaimRequest:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
         decision:
           $ref: '#/components/schemas/ReviewDecision'
       type: object
       required:
-      - affected
+      - project_id
       - decision
-      title: ReviewClaimsBulkResponse
+      title: ReviewClaimRequest
     ClaimResponse:
       properties:
         claim_id:
@@ -839,146 +956,60 @@ components:
       - created_at
       - updated_at
       title: ClaimResponse
-    ImportKnowledgeRequest:
+    KnowledgeSummaryClaimResponse:
       properties:
-        sources:
+        claim_id:
+          type: string
+          title: Claim Id
+        claim_type:
+          $ref: '#/components/schemas/ClaimType'
+        label:
+          type: string
+          title: Label
+        review_status:
+          $ref: '#/components/schemas/KnowledgeSummaryClaimReviewStatus'
+          default: accepted
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - claim_id
+      - claim_type
+      - label
+      - created_at
+      title: KnowledgeSummaryClaimResponse
+    ValidationError:
+      properties:
+        loc:
           items:
-            $ref: '#/components/schemas/ImportSourceRequest'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          minItems: 1
-          title: Sources
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - sources
-      title: ImportKnowledgeRequest
-    ReviewClaimRequest:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TabularSortRequest:
       properties:
-        project_id:
-          type: string
-          title: Project Id
-        decision:
-          $ref: '#/components/schemas/ReviewDecision'
+        sort:
+          additionalProperties: true
+          type: object
+          title: Sort
       type: object
       required:
-      - project_id
-      - decision
-      title: ReviewClaimRequest
-    ClaimType:
-      type: string
-      enum:
-      - notebook-captured
-      - synthesized
-      - tabular
-      - figure
-      - imported
-      title: ClaimType
-      description: 'Claim type constants.
-
-
-        Notebook-captured evidence is created automatically by the Q_VARS system when
-
-        agents assign values to Q_VARS variables in code cells. These are the primary
-
-        source of evidence in the knowledge graph.
-
-
-        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
-
-        interpret what the evidence means—not only restate source values.
-
-
-        Tabular claims store structured data matrices with per-cell source references.
-
-
-        Figure claims link to chart/visualization outputs captured from notebook cells.'
-    AddEvidenceRequest:
-      properties:
-        notebook_id:
-          type: string
-          title: Notebook Id
-          description: Notebook the value was produced in.
-        description:
-          type: string
-          title: Description
-          description: Brief narrative of what the value shows.
-        variable_name:
-          type: string
-          title: Variable Name
-          description: Notebook variable name.
-        value:
-          title: Value
-          description: The value to record. Same shape as qualia.submit_variable.
-        cell_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cell Id
-          description: Producing cell id when known; cited as the source.
-        task_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Task Id
-          description: Optional task to associate the evidence claim with.
-        is_high_level:
-          type: boolean
-          title: Is High Level
-          description: If true, broadcasts this claim to all agents.
-          default: false
-      type: object
-      required:
-      - notebook_id
-      - description
-      - variable_name
-      - value
-      title: AddEvidenceRequest
-      description: 'Payload for ``POST /api/evidence`` (records an untracked notebook
-
-        variable as a notebook-captured claim).'
-    ReviewDecision:
-      type: string
-      enum:
-      - pending
-      - accepted
-      - rejected
-    FetchUrlResponse:
-      properties:
-        blob_uuid:
-          type: string
-          title: Blob Uuid
-        mime_type:
-          type: string
-          title: Mime Type
-        size:
-          type: integer
-          title: Size
-        preview:
-          type: string
-          title: Preview
-      type: object
-      required:
-      - blob_uuid
-      - mime_type
-      - size
-      - preview
-      title: FetchUrlResponse
-    ClaimsListResponse:
-      properties:
-        claims:
-          items:
-            $ref: '#/components/schemas/ClaimResponse'
-          type: array
-          title: Claims
-        related:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Related
-      type: object
-      required:
-      - claims
-      title: ClaimsListResponse
+      - sort
+      title: TabularSortRequest
     ImportSourceResponse:
       properties:
         id:
@@ -1054,62 +1085,31 @@ components:
       - created_at
       - updated_at
       title: ImportSourceResponse
-    FetchUrlRequest:
-      properties:
-        url:
-          type: string
-          minLength: 1
-          title: Url
-      type: object
-      required:
-      - url
-      title: FetchUrlRequest
-    ImportSourceRequest:
-      properties:
-        source_type:
-          type: string
-          enum:
-          - text
-          - file
-          - url
-          title: Source Type
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        blob_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Blob Uuid
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - source_type
-      title: ImportSourceRequest
-    KnowledgeSummaryResponse:
-      properties:
-        counts:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Counts
-        recent:
-          items:
-            $ref: '#/components/schemas/KnowledgeSummaryClaimResponse'
-          type: array
-          title: Recent
-      type: object
-      required:
-      - counts
-      title: KnowledgeSummaryResponse
+    ClaimType:
+      type: string
+      enum:
+      - notebook-captured
+      - synthesized
+      - tabular
+      - figure
+      - imported
+      title: ClaimType
+      description: 'Claim type constants.
+
+
+        Notebook-captured evidence is created automatically by the Q_VARS system when
+
+        agents assign values to Q_VARS variables in code cells. These are the primary
+
+        source of evidence in the knowledge graph.
+
+
+        Findings (claim_type=''synthesized'' internally) combine 2+ existing claims into higher-order conclusions that
+
+        interpret what the evidence means—not only restate source values.
+
+
+        Tabular claims store structured data matrices with per-cell source references.
+
+
+        Figure claims link to chart/visualization outputs captured from notebook cells.'

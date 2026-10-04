@@ -163,6 +163,27 @@ components:
       - count
       title: LatencyPercentiles
       description: Percentile values for a latency metric (in milliseconds).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     LatencyDistributionBucket:
       properties:
         date:
@@ -211,24 +232,3 @@ components:
       - buckets
       title: LatencyDistributionResponse
       description: Response model for latency distribution query.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

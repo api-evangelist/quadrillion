@@ -229,6 +229,69 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    _ImportClaudeCodeRequest:
+      properties:
+        project_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Path
+      type: object
+      title: _ImportClaudeCodeRequest
+    _ImportFileRequest:
+      properties:
+        path:
+          type: string
+          title: Path
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - path
+      title: _ImportFileRequest
+    _UpdateRuleRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        globs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Globs
+        project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Project Id
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+      type: object
+      title: _UpdateRuleRequest
     _CreateRuleRequest:
       properties:
         name:
@@ -274,24 +337,6 @@ components:
       - always
       - manual
       title: RuleType
-    _ActivatePersonaRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-      type: object
-      title: _ActivatePersonaRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -329,66 +374,21 @@ components:
         injected prompt content is the same for both — kind only affects the
 
         editor that opens for the rule.'
-    _ImportClaudeCodeRequest:
-      properties:
-        project_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Path
-      type: object
-      title: _ImportClaudeCodeRequest
-    _UpdateRuleRequest:
+    _ActivatePersonaRequest:
       properties:
         name:
           anyOf:
           - type: string
           - type: 'null'
           title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        rule_type:
-          anyOf:
-          - $ref: '#/components/schemas/RuleType'
-          - type: 'null'
-        globs:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Globs
-        project_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Project Id
-        file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Path
       type: object
-      title: _UpdateRuleRequest
-    _ImportFileRequest:
+      title: _ActivatePersonaRequest
+    HTTPValidationError:
       properties:
-        path:
-          type: string
-          title: Path
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - path
-      title: _ImportFileRequest
+      title: HTTPValidationError

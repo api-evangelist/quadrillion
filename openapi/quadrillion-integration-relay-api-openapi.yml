@@ -95,48 +95,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AckBody:
-      properties:
-        relay_id:
-          type: string
-          title: Relay Id
-      type: object
-      required:
-      - relay_id
-      title: AckBody
-    BootstrapResponse:
-      properties:
-        active:
-          type: boolean
-          title: Active
-        bot_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Bot Token
-        bot_user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Bot User Id
-        team_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Team Id
-      type: object
-      required:
-      - active
-      title: BootstrapResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     RouteBody:
       properties:
         team_id:
@@ -179,3 +137,45 @@ components:
       - msg
       - type
       title: ValidationError
+    AckBody:
+      properties:
+        relay_id:
+          type: string
+          title: Relay Id
+      type: object
+      required:
+      - relay_id
+      title: AckBody
+    BootstrapResponse:
+      properties:
+        active:
+          type: boolean
+          title: Active
+        bot_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bot Token
+        bot_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bot User Id
+        team_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Id
+      type: object
+      required:
+      - active
+      title: BootstrapResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

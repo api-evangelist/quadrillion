@@ -203,58 +203,6 @@ components:
       required:
       - file_path
       title: QualiaCommandRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TerminalCreateRequest:
-      properties:
-        shell:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Shell
-        cols:
-          type: integer
-          title: Cols
-          default: 80
-        rows:
-          type: integer
-          title: Rows
-          default: 24
-        cwd:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cwd
-      type: object
-      title: TerminalCreateRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     TerminalResizeRequest:
       properties:
         cols:
@@ -277,3 +225,55 @@ components:
       required:
       - data
       title: TerminalWriteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TerminalCreateRequest:
+      properties:
+        shell:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Shell
+        cols:
+          type: integer
+          title: Cols
+          default: 80
+        rows:
+          type: integer
+          title: Rows
+          default: 24
+        cwd:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cwd
+      type: object
+      title: TerminalCreateRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

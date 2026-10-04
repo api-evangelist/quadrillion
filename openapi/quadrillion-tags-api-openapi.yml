@@ -96,41 +96,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    _TagUpdateRequest:
+    _TagDeleteRequest:
       properties:
         display_name:
           type: string
           title: Display Name
-        description:
-          type: string
-          title: Description
       type: object
       required:
       - display_name
-      - description
-      title: _TagUpdateRequest
-    _TagCreateRequest:
-      properties:
-        display_name:
-          type: string
-          title: Display Name
-        description:
-          type: string
-          title: Description
-      type: object
-      required:
-      - display_name
-      - description
-      title: _TagCreateRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: _TagDeleteRequest
     ValidationError:
       properties:
         loc:
@@ -152,12 +126,38 @@ components:
       - msg
       - type
       title: ValidationError
-    _TagDeleteRequest:
+    _TagCreateRequest:
       properties:
         display_name:
           type: string
           title: Display Name
+        description:
+          type: string
+          title: Description
       type: object
       required:
       - display_name
-      title: _TagDeleteRequest
+      - description
+      title: _TagCreateRequest
+    _TagUpdateRequest:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - display_name
+      - description
+      title: _TagUpdateRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
